@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="description" content="По миру вместе — маршруты, по которым мы уже ездили. Турция, Хайнань, Карелия, Петербург, Приморье, Сахалин." />
+
+  <title>По миру вместе</title>
+
+  <meta name="theme-color" content="#1a7568" />
+
+  <meta property="og:type" content="website" />
+
+  <meta property="og:title" content="По миру вместе — маршруты наших поездок" />
+
+  <meta property="og:description" content="Города, отели с адресами, кафе и карты по маршрутам, которые мы уже проехали." />
+
+  <meta property="og:locale" content="ru_RU" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='%231a7568'/%3E%3Cpath%20d='M16%207c-3.3%200-6%202.7-6%206%200%204.5%206%2012%206%2012s6-7.5%206-12c0-3.3-2.7-6-6-6zm0%208.2a2.2%202.2%200%201%201%200-4.4%202.2%202.2%200%200%201%200%204.4z'%20fill='%23fff'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script>document.documentElement.className += " js";</script>
+
+</head>
+
+<body>
+
+  <noscript>
+
+    <p class="noscript-note">Маршруты и карты подгружаются скриптом — включите JavaScript, чтобы посмотреть сайт.</p>
+
+  </noscript>
+
+  <header class="site-header">
+
+    <div class="container site-header__inner">
+
+      <button type="button" class="brand" data-nav="home">
+
+        <span class="brand__eyebrow">По миру вместе</span>
+
+        <span class="brand__title">Маршруты наших поездок</span>
+
+      </button>
+
+      <nav class="site-nav">
+
+        <button class="site-nav__link is-active" type="button" data-nav="home">Маршруты</button>
+
+        <button class="site-nav__link" type="button" data-nav="turkey-2026">Турция</button>
+
+        <button class="site-nav__link" type="button" data-nav="hainan-china">Хайнань</button>
+
+        <button class="site-nav__link" type="button" data-nav="karelia-yacht">Карелия · яхты</button>
+
+        <button class="site-nav__link" type="button" data-nav="karelia">Карелия · авто</button>
+
+        <button class="site-nav__link" type="button" data-nav="sergiev-posad">Сергиев Посад</button>
+
+        <button class="site-nav__link" type="button" data-nav="velo">Вело</button>
+
+        <button class="site-nav__link" type="button" data-nav="new-new-year">Зима · авто</button>
+
+        <button class="site-nav__link" type="button" data-nav="vladivostok">Приморье</button>
+
+        <button class="site-nav__link" type="button" data-nav="sakhalin">Сахалин</button>
+
+        <button class="site-nav__link" type="button" data-nav="stay">Жильё</button>
+
+        <button class="site-nav__link" type="button" data-nav="contact">Контакты</button>
+
+      </nav>
+
+    </div>
+
+  </header>
+
+
+
+  <div id="home-view">
+
+    <section class="hero">
+
+      <div class="container">
+
+        <p class="hero__eyebrow">Арина и Никита</p>
+
+        <h1 class="hero__title">Так мы уже путешествовали</h1>
+
+        <p class="hero__byline">Маршруты, отели и места, проверенные своими поездками</p>
+
+      </div>
+
+    </section>
+
+
+
+    <div class="main-content">
+
+      <section class="section" id="trips">
+
+        <div class="container">
+
+          <p class="section__eyebrow reveal">Наши поездки</p>
+
+          <h2 class="section__title reveal">Куда поехать</h2>
+
+          <p class="section__sub reveal">Турция · Хайнань · Сергиев Посад · зима · Карелия · Приморье · Сахалин</p>
+
+          <div class="filter-bar reveal" id="filter-bar"></div>
+
+          <div id="route-grid" class="route-grid"></div>
+
+        </div>
+
+      </section>
+
+      <section class="section section--velo" id="velo">
+
+        <div class="container">
+
+          <p class="section__eyebrow reveal">На велосипеде</p>
+
+          <h2 class="section__title reveal">Веломаршруты</h2>
+
+          <p class="section__sub reveal">Отдельные поездки на велосипедах — Подмосковье, Москва и Тверская область.</p>
+
+          <div id="velo-grid" class="route-grid"></div>
+
+        </div>
+
+      </section>
+
+      <section class="section section--stay" id="stay">
+
+        <div class="container">
+
+          <p class="section__eyebrow reveal">Проверено на себе</p>
+
+          <h2 class="section__title reveal">Где мы жили</h2>
+
+          <p class="section__sub reveal">Отели, апартаменты, коттеджи и базы с наших поездок — с адресами и ссылками на бронирование, где они есть. Кафе, рестораны и бары собраны в блоке «Куда сходить» на странице каждого маршрута.</p>
+
+          <div id="stay-grid" class="stay-grid"></div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </div>
+
+
+
+  <div id="route-pages"></div>
+
+
+
+  <section class="contact" id="contact">
+
+    <div class="container contact__inner">
+
+      <div>
+
+        <p class="contact__eyebrow">Кто мы</p>
+
+        <h2>Арина и Никита</h2>
+
+        <p>
+
+          Собираем маршруты по своим поездкам. Если едете туда же — пишите: расскажем, где жили, что успели и что стоит пропустить.
+
+        </p>
+
+        <p class="contact__note">Подбор жилья, трансфера или доработка маршрута — по договорённости.</p>
+
+        <a class="btn btn--gold" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Telegram</a>
+
+      </div>
+
+      <div class="contact__card">
+
+        <h3>На странице маршрута</h3>
+
+        <ul>
+
+          <li>Карта с нумерованными точками пути</li>
+
+          <li>Что посмотреть на каждой остановке</li>
+
+          <li>«Где остановиться» — адреса и ссылки на бронирование</li>
+
+          <li>«Куда сходить» — кафе, рестораны и бары, где были сами</li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <footer class="site-footer">
+
+    <div class="container">
+
+      <p>По миру вместе · Арина и Никита · <a href="https://t.me/arion_96" target="_blank" rel="noopener">Telegram</a></p>
+
+    </div>
+
+  </footer>
+
+
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+  <script src="routes.js"></script>
+
+  <script src="meta.js"></script>
+
+  <script src="app.js"></script>
+
+</body>
+
+</html>
+
+

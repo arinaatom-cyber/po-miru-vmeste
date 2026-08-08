@@ -1,0 +1,271 @@
+window.ROUTE_META = {
+  "karelia-yacht": {
+    transport: ["train", "yacht"],
+    transportLabel: "Поезд + яхта «Сила ветра»",
+    category: "russia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/%D0%A8%D1%85%D0%B5%D1%80%D1%8B%2C_%D0%9B%D0%B0%D0%B4%D0%BE%D0%B3%D0%B0%2C_%D1%81%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D1%87%D0%B0%D1%81%D1%82%D1%8C.jpg/1920px-%D0%A8%D1%85%D0%B5%D1%80%D1%8B%2C_%D0%9B%D0%B0%D0%B4%D0%BE%D0%B3%D0%B0%2C_%D1%81%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D1%87%D0%B0%D1%81%D1%82%D1%8C.jpg",
+    mapCenter: [59.5, 32.5],
+    mapZoom: 5,
+    stopCoords: {
+      Москва: [55.7558, 37.6173],
+      Сортавала: [61.7033, 30.6917],
+      "Ладога · Сила ветра": [61.55, 30.55],
+      "Санкт-Петербург": [59.9343, 30.3351],
+    },
+  },
+  "turkey-2026": {
+    transport: ["plane", "car"],
+    transportLabel: "Самолёт + авто",
+    category: "turkey",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/20101106_Galata_Tower_Istanbul_Turkey_Panorama.jpg/1920px-20101106_Galata_Tower_Istanbul_Turkey_Panorama.jpg",
+    mapCenter: [38.5, 30.5],
+    mapZoom: 6,
+    stopCoords: {
+      Анталия: [36.8969, 30.7133],
+      Демре: [36.244, 29.987],
+      Каш: [36.2, 29.637],
+      Фетхие: [36.621, 29.116],
+      Бодрум: [37.034, 27.43],
+      Эфес: [37.94, 27.341],
+      Бурса: [40.188, 29.061],
+      Стамбул: [41.0082, 28.9784],
+    },
+  },
+  "new-new-year": {
+    transport: ["car"],
+    transportLabel: "Авто",
+    category: "russia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Kazan_Kremlin_-_panoramio_%286%29.jpg/1920px-Kazan_Kremlin_-_panoramio_%286%29.jpg",
+    mapCenter: [54.5, 49.5],
+    mapZoom: 5,
+    stopCoords: {
+      Москва: [55.7558, 37.6173],
+      Владимир: [56.129, 40.4066],
+      Казань: [55.7887, 49.1221],
+      Самара: [53.1959, 50.1002],
+      Тольятти: [53.5303, 49.3461],
+    },
+  },
+  "hainan-china": {
+    transport: ["plane", "car"],
+    transportLabel: "Самолёт + транспорт на месте",
+    category: "asia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/%E4%B8%89%E4%BA%9A%E5%A4%A7%E5%B0%8F%E6%B4%9E%E5%A4%A9%E6%99%AF%E5%8C%BA%E9%A3%8E%E5%85%89_-_panoramio_%2820%29.jpg/1920px-%E4%B8%89%E4%BA%9A%E5%A4%A7%E5%B0%8F%E6%B4%9E%E5%A4%A9%E6%99%AF%E5%8C%BA%E9%A3%8E%E5%85%89_-_panoramio_%2820%29.jpg",
+    mapCenter: [18.25, 109.5],
+    mapZoom: 8,
+    stopCoords: {
+      Санья: [18.2528, 109.5119],
+      Наньшань: [18.288, 109.2],
+      Yanoda: [18.45, 109.65],
+      "Dong Tian": [18.3, 109.75],
+      Пляжи: [18.22, 109.45],
+    },
+  },
+  "sergiev-posad": {
+    transport: ["car"],
+    transportLabel: "Авто",
+    category: "russia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/8/8a/%D0%A1%D0%B5%D1%80%D0%B3%D0%B8%D0%B5%D0%B2_%D0%9F%D0%BE%D1%81%D0%B0%D0%B4._%D0%A2%D1%80%D0%BE%D0%B8%D1%86%D0%B5-%D0%A1%D0%B5%D1%80%D0%B3%D0%B8%D0%B5%D0%B2%D0%B0_%D0%BB%D0%B0%D0%B2%D1%80%D0%B0._1.jpg",
+    mapCenter: [56.3, 38.1],
+    mapZoom: 9,
+    stopCoords: {
+      Торбеево: [56.15, 38.0],
+      "Сергиев Посад": [56.306, 38.133],
+      Абрамцево: [56.233, 37.967],
+      "Гремучий ключ": [56.35, 38.2],
+      "Запасной план": [56.306, 38.133],
+    },
+  },
+  vladivostok: {
+    transport: ["plane", "car"],
+    transportLabel: "Самолёт + авто",
+    category: "russia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Views_of_Vladivostok_%28October_2024%29-0_3.jpg/1920px-Views_of_Vladivostok_%28October_2024%29-0_3.jpg",
+    mapCenter: [43.5, 132.5],
+    mapZoom: 7,
+    stopCoords: {
+      Владивосток: [43.1155, 131.8855],
+      "о. Русский": [43.02, 131.9],
+      "Уссурийский залив": [43.08, 131.92],
+      Дунай: [43.15, 132.0],
+      Находка: [42.824, 132.892],
+      "Бухта Ежовая": [42.95, 133.2],
+      "Южное Приморье": [43.35, 132.35],
+      Витязь: [42.9, 133.05],
+    },
+  },
+  karelia: {
+    transport: ["car"],
+    transportLabel: "На машине",
+    category: "russia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Kizhi_06-2017_img08_Pogost_view.jpg/1920px-Kizhi_06-2017_img08_Pogost_view.jpg",
+    mapCenter: [60.9, 32.8],
+    mapZoom: 6,
+    stopCoords: {
+      Петербург: [59.9343, 30.3351],
+      Ладога: [61.02, 29.84],
+      Онега: [61.78, 35.9],
+    },
+  },
+  "spb-karelia": {
+    transport: ["car"],
+    transportLabel: "На машине",
+    category: "russia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Kizhi_06-2017_img08_Pogost_view.jpg/1920px-Kizhi_06-2017_img08_Pogost_view.jpg",
+    mapCenter: [61.0, 32.0],
+    mapZoom: 6,
+    stopCoords: {
+      Петербург: [59.9343, 30.3351],
+      Ладога: [61.02, 29.84],
+      Онега: [61.78, 35.9],
+      Кижи: [62.066, 35.225],
+      Кинерма: [61.45, 33.65],
+    },
+  },
+  "turkey-ny-holidays": {
+    transport: ["car"],
+    transportLabel: "Авто",
+    category: "turkey",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/20101106_Galata_Tower_Istanbul_Turkey_Panorama.jpg/1920px-20101106_Galata_Tower_Istanbul_Turkey_Panorama.jpg",
+    mapCenter: [38.5, 30.5],
+    mapZoom: 6,
+    stopCoords: {
+      Демре: [36.244, 29.987],
+      Каш: [36.2, 29.637],
+      Фетхие: [36.621, 29.116],
+      Бодрум: [37.034, 27.43],
+      Эфес: [37.94, 27.341],
+      Джумалыкызык: [40.175, 29.155],
+      Стамбул: [41.0082, 28.9784],
+    },
+  },
+  sakhalin: {
+    transport: ["plane", "car"],
+    transportLabel: "Самолёт + авто",
+    category: "russia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Zametny_Island_and_Tikhaya_Bay.jpg/1920px-Zametny_Island_and_Tikhaya_Bay.jpg",
+    mapCenter: [47.0, 142.7],
+    mapZoom: 7,
+    stopCoords: {
+      "Южно-Сахалинск": [46.959, 142.738],
+      "Горные лыжи": [46.98, 142.7],
+      Невельск: [46.683, 141.867],
+      Корсаков: [46.634, 142.777],
+      "Бухта Тихая": [46.5, 142.0],
+    },
+  },
+  "spb-city": {
+    transport: ["plane", "train"],
+    transportLabel: "Самолёт / поезд",
+    category: "russia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Palace_Bridge_SPB_%28img2%29_Crop.jpg/1920px-Palace_Bridge_SPB_%28img2%29_Crop.jpg",
+    mapCenter: [59.93, 30.35],
+    mapZoom: 10,
+    stopCoords: {
+      Центр: [59.9343, 30.3351],
+      "Коломна (район Петербурга)": [59.923, 30.305],
+      Кронштадт: [59.991, 29.766],
+      Шлиссельбург: [59.944, 31.033],
+    },
+  },
+  "pack-essentials": {
+    transport: ["checklist"],
+    transportLabel: "Чек-лист",
+    category: "checklist",
+    image:
+      "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80",
+    mapCenter: [55.75, 37.62],
+    mapZoom: 4,
+    stopCoords: {},
+  },
+  "velo-yakhroma": {
+    transport: ["bike"],
+    transportLabel: "На велосипеде",
+    category: "velo",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%D0%AF%D1%85%D1%80%D0%BE%D0%BC%D0%B0._%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D0%BB%D0%B0_%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2%D0%B0.jpg/1920px-%D0%AF%D1%85%D1%80%D0%BE%D0%BC%D0%B0._%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D0%BB%D0%B0_%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2%D0%B0.jpg",
+    mapCenter: [56.2, 37.2],
+    mapZoom: 8,
+    stopCoords: {
+      Яхрома: [56.288, 37.487],
+      Дубна: [56.733, 37.167],
+      Москва: [55.7558, 37.6173],
+      Звенигород: [55.729, 36.856],
+    },
+  },
+  "velo-botsad-city": {
+    transport: ["bike"],
+    transportLabel: "На велосипеде",
+    category: "velo",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Moscow_%2852078730783%29.jpg/1920px-Moscow_%2852078730783%29.jpg",
+    mapCenter: [55.79, 37.57],
+    mapZoom: 11,
+    stopCoords: {
+      "Ботанический сад": [55.836, 37.601],
+      "Москва-Сити": [55.7497, 37.5372],
+    },
+  },
+  "velo-sergiev": {
+    transport: ["bike"],
+    transportLabel: "На велосипеде",
+    category: "velo",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Lavra%2C_aerial_view_4_-_Sergiyev_Posad%2C_Russia_-_panoramio.jpg/1920px-Lavra%2C_aerial_view_4_-_Sergiyev_Posad%2C_Russia_-_panoramio.jpg",
+    mapCenter: [56.03, 37.9],
+    mapZoom: 9,
+    stopCoords: {
+      Москва: [55.7558, 37.6173],
+      "Сергиев Посад": [56.306, 38.133],
+    },
+  },
+  "velo-konakovo": {
+    transport: ["bike"],
+    transportLabel: "На велосипеде",
+    category: "velo",
+    planned: true,
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/0/03/%D0%96%D0%B5%D0%BB%D0%B5%D0%B7%D0%BE%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BD%D1%8B%D0%B9_%D0%BC%D0%BE%D1%81%D1%82_%D1%87%D0%B5%D1%80%D0%B5%D0%B7_%D1%80%D0%B5%D0%BA%D1%83_%D0%94%D0%BE%D0%BD%D1%85%D0%BE%D0%B2%D0%BA%D1%83._%D0%9A%D0%BE%D0%BD%D0%B0%D0%BA%D0%BE%D0%B2%D0%BE%2C_%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%B0%D1%8F_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C%2C_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F.jpg",
+    mapCenter: [56.7, 36.76],
+    mapZoom: 10,
+    stopCoords: {
+      Конаково: [56.703, 36.762],
+    },
+  },
+  "velo-tver": {
+    transport: ["bike"],
+    transportLabel: "На велосипеде",
+    category: "velo",
+    planned: true,
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%D0%B0_%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%BE%D0%B3%D0%BE.jpg/1920px-%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%D0%B0_%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%BE%D0%B3%D0%BE.jpg",
+    mapCenter: [56.858, 35.917],
+    mapZoom: 11,
+    stopCoords: {
+      Тверь: [56.858, 35.917],
+    },
+  },
+};
+
+window.FILTER_LABELS = {
+  all: "Все направления",
+  turkey: "Турция",
+  russia: "Россия",
+  asia: "Азия",
+  car: "На авто",
+  yacht: "На яхте",
+  train: "На поезде",
+  plane: "На самолёте",
+  bike: "На велосипеде",
+};
