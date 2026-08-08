@@ -101,7 +101,7 @@ window.ROUTE_META = {
   },
   karelia: {
     transport: ["car"],
-    transportLabel: "На машине",
+    transportLabel: "Авто",
     category: "russia",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Kizhi_06-2017_img08_Pogost_view.jpg/1920px-Kizhi_06-2017_img08_Pogost_view.jpg",
