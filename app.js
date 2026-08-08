@@ -506,7 +506,7 @@
       zoomControl: true,
     }).setView(m.mapCenter, m.mapZoom);
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
       subdomains: "abcd",
       maxZoom: 19,
@@ -544,8 +544,8 @@
       var coords = getStopCoords(m, stop.name);
       if (!coords) return;
       var marker = L.circleMarker(coords, {
-        radius: 7,
-        color: "#14584f",
+        radius: 6,
+        color: "#14201c",
         weight: 2,
         fillColor: "#ffffff",
         fillOpacity: 1,
@@ -560,8 +560,8 @@
     if (pathLine.length > 1) {
       L.polyline(pathLine, {
         color: "#1a7568",
-        weight: 4,
-        opacity: 0.88,
+        weight: 3,
+        opacity: 0.9,
         lineJoin: "round",
         lineCap: "round",
       }).addTo(map);
@@ -781,8 +781,21 @@
       var known = routes.some(function (route) {
         return route.id === hash;
       });
-      if (known) showRoute(hash);
-      else if (!hash) showHome();
+      if (known) {
+        showRoute(hash);
+        return;
+      }
+      if (!hash) {
+        showHome();
+        return;
+      }
+      // Section anchors are only in place once the grids have rendered, so the
+      // browser's own jump on load lands in empty space — scroll again here.
+      var section = sectionNav[hash] && document.getElementById(hash);
+      if (section) {
+        setActiveNav(hash);
+        section.scrollIntoView();
+      }
     }
 
     var header = document.querySelector(".site-header");
