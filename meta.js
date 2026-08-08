@@ -1,7 +1,7 @@
 window.ROUTE_META = {
   "karelia-yacht": {
     transport: ["train", "yacht"],
-    transportLabel: "Поезд + яхта «Сила ветра»",
+    transportLabel: "Поезд + яхта",
     category: "russia",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/%D0%A8%D1%85%D0%B5%D1%80%D1%8B%2C_%D0%9B%D0%B0%D0%B4%D0%BE%D0%B3%D0%B0%2C_%D1%81%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D1%87%D0%B0%D1%81%D1%82%D1%8C.jpg/1920px-%D0%A8%D1%85%D0%B5%D1%80%D1%8B%2C_%D0%9B%D0%B0%D0%B4%D0%BE%D0%B3%D0%B0%2C_%D1%81%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D1%87%D0%B0%D1%81%D1%82%D1%8C.jpg",
@@ -10,7 +10,7 @@ window.ROUTE_META = {
     stopCoords: {
       Москва: [55.7558, 37.6173],
       Сортавала: [61.7033, 30.6917],
-      "Ладога · Сила ветра": [61.55, 30.55],
+      "Ладожские шхеры": [61.55, 30.55],
       "Санкт-Петербург": [59.9343, 30.3351],
     },
   },
@@ -47,11 +47,13 @@ window.ROUTE_META = {
       Казань: [55.7887, 49.1221],
       Самара: [53.1959, 50.1002],
       Тольятти: [53.5303, 49.3461],
+      Ульяновск: [54.3142, 48.4031],
+      Муром: [55.5731, 42.0516],
     },
   },
   "hainan-china": {
     transport: ["plane", "car"],
-    transportLabel: "Самолёт + транспорт на месте",
+    transportLabel: "Самолёт",
     category: "asia",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/%E4%B8%89%E4%BA%9A%E5%A4%A7%E5%B0%8F%E6%B4%9E%E5%A4%A9%E6%99%AF%E5%8C%BA%E9%A3%8E%E5%85%89_-_panoramio_%2820%29.jpg/1920px-%E4%B8%89%E4%BA%9A%E5%A4%A7%E5%B0%8F%E6%B4%9E%E5%A4%A9%E6%99%AF%E5%8C%BA%E9%A3%8E%E5%85%89_-_panoramio_%2820%29.jpg",
@@ -194,13 +196,13 @@ window.ROUTE_META = {
     category: "velo",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%D0%AF%D1%85%D1%80%D0%BE%D0%BC%D0%B0._%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D0%BB%D0%B0_%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2%D0%B0.jpg/1920px-%D0%AF%D1%85%D1%80%D0%BE%D0%BC%D0%B0._%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D0%BB%D0%B0_%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2%D0%B0.jpg",
-    mapCenter: [56.2, 37.2],
-    mapZoom: 8,
+    mapCenter: [56.51, 37.33],
+    mapZoom: 9,
     stopCoords: {
       Яхрома: [56.288, 37.487],
+      Дмитров: [56.3444, 37.5203],
+      Темпы: [56.6242, 37.1478],
       Дубна: [56.733, 37.167],
-      Москва: [55.7558, 37.6173],
-      Звенигород: [55.729, 36.856],
     },
   },
   "velo-botsad-city": {
@@ -213,6 +215,8 @@ window.ROUTE_META = {
     mapZoom: 11,
     stopCoords: {
       "Ботанический сад": [55.836, 37.601],
+      ВДНХ: [55.8264, 37.6376],
+      Останкино: [55.8213, 37.6122],
       "Москва-Сити": [55.7497, 37.5372],
     },
   },
@@ -226,7 +230,25 @@ window.ROUTE_META = {
     mapZoom: 9,
     stopCoords: {
       Москва: [55.7558, 37.6173],
-      "Сергиев Посад": [56.306, 38.133],
+      Мытищи: [55.9116, 37.7308],
+      Пушкино: [56.0106, 37.8471],
+      Хотьково: [56.2531, 37.9878],
+      "Сергиев Посад": [56.315, 38.136],
+    },
+  },
+  "velo-zvenigorod": {
+    transport: ["bike"],
+    transportLabel: "На велосипеде",
+    category: "velo",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/%D0%90%D0%BD%D1%81%D0%B0%D0%BC%D0%B1%D0%BB%D1%8C_%D0%A1%D0%B0%D0%B2%D0%B2%D0%B8%D0%BD%D0%BE-%D0%A1%D1%82%D0%BE%D1%80%D0%BE%D0%B6%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BC%D0%BE%D0%BD%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%8F_%D1%81_%D1%80%D0%B0%D0%B7%D0%BD%D1%8B%D1%85_%D1%81%D1%82%D0%BE%D1%80%D0%BE%D0%BD_2_%D0%A1%D0%B0%D0%B2%D0%B2%D0%B8%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B4%D0%B0%2C_%D0%97%D0%B2%D0%B5%D0%BD%D0%B8%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%2C_%D0%9C%D0%BE%D1%81%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C.jpg/1920px-%D0%90%D0%BD%D1%81%D0%B0%D0%BC%D0%B1%D0%BB%D1%8C_%D0%A1%D0%B0%D0%B2%D0%B2%D0%B8%D0%BD%D0%BE-%D0%A1%D1%82%D0%BE%D1%80%D0%BE%D0%B6%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BC%D0%BE%D0%BD%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%8F_%D1%81_%D1%80%D0%B0%D0%B7%D0%BD%D1%8B%D1%85_%D1%81%D1%82%D0%BE%D1%80%D0%BE%D0%BD_2_%D0%A1%D0%B0%D0%B2%D0%B2%D0%B8%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B4%D0%B0%2C_%D0%97%D0%B2%D0%B5%D0%BD%D0%B8%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%2C_%D0%9C%D0%BE%D1%81%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C.jpg",
+    mapCenter: [55.74, 37.25],
+    mapZoom: 10,
+    stopCoords: {
+      Москва: [55.7558, 37.6173],
+      Рублёво: [55.7752, 37.3633],
+      Успенское: [55.7192, 37.1072],
+      Звенигород: [55.729, 36.856],
     },
   },
   "velo-konakovo": {
