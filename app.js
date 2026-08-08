@@ -240,7 +240,6 @@
 
   function renderRouteCard(route) {
     var m = getMeta(route);
-    var fromTo = routeFromTo(route);
     var plannedBadge = m.planned
       ? '<span class="route-card__badge">Скоро</span>'
       : "";
@@ -251,16 +250,10 @@
       route.id +
       '">' +
       renderMediaImage(m.image, "route-card__media", route.title) +
-      '<div class="route-card__body">' +
       plannedBadge +
-      '<span class="route-card__transport">' +
+      '<div class="route-card__body">' +
+      '<span class="route-card__eyebrow">' +
       escapeHtml(m.transportLabel) +
-      "</span>" +
-      (fromTo
-        ? '<span class="route-card__fromto">' + escapeHtml(fromTo) + "</span>"
-        : "") +
-      '<span class="route-card__region">' +
-      escapeHtml(route.region) +
       "</span>" +
       '<h3 class="route-card__title">' +
       escapeHtml(route.title) +
@@ -271,7 +264,6 @@
       '<div class="route-card__path">' +
       renderPathCompact(route.path, 5) +
       "</div>" +
-      '<span class="route-card__cta">Смотреть маршрут</span>' +
       "</div></button>"
     );
   }
