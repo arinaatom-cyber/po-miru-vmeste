@@ -228,6 +228,28 @@ button {
   scroll-margin-top: calc(var(--header-h) + 1rem);
 }
 
+.section--credo {
+  padding-bottom: 0.5rem;
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+.credo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.credo-grid .info-card {
+  box-shadow: var(--shadow-sm);
+}
+
+.credo-grid .info-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
 .section__eyebrow {
   font-size: 0.72rem;
   font-weight: 700;
