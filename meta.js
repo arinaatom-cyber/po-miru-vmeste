@@ -19,7 +19,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт + авто",
     category: "turkey",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/20101106_Galata_Tower_Istanbul_Turkey_Panorama.jpg/1920px-20101106_Galata_Tower_Istanbul_Turkey_Panorama.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Istanbul_panorama_%2816293921746%29.jpg/1920px-Istanbul_panorama_%2816293921746%29.jpg",
     mapCenter: [38.5, 30.5],
     mapZoom: 6,
     stopCoords: {
@@ -67,12 +67,27 @@ window.ROUTE_META = {
       Пляжи: [18.22, 109.45],
     },
   },
+  singapore: {
+    transport: ["plane"],
+    transportLabel: "Самолёт",
+    category: "asia",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Puente_Helix%2C_Marina_Bay%2C_Singapur%2C_2023-08-16%2C_DD_144-146_HDR.jpg/1920px-Puente_Helix%2C_Marina_Bay%2C_Singapur%2C_2023-08-16%2C_DD_144-146_HDR.jpg",
+    mapCenter: [1.36, 103.82],
+    mapZoom: 11,
+    stopCoords: {
+      Сингапур: [1.2838, 103.8591],
+      Сентоза: [1.2494, 103.8303],
+      "Ночное сафари": [1.4025, 103.7889],
+      "Джохор-Бару": [1.4927, 103.7414],
+    },
+  },
   "sergiev-posad": {
     transport: ["car"],
     transportLabel: "Авто",
     category: "russia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/8/8a/%D0%A1%D0%B5%D1%80%D0%B3%D0%B8%D0%B5%D0%B2_%D0%9F%D0%BE%D1%81%D0%B0%D0%B4._%D0%A2%D1%80%D0%BE%D0%B8%D1%86%D0%B5-%D0%A1%D0%B5%D1%80%D0%B3%D0%B8%D0%B5%D0%B2%D0%B0_%D0%BB%D0%B0%D0%B2%D1%80%D0%B0._1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/%D0%A1%D0%B2%D1%8F%D1%82%D0%BE-%D0%A2%D1%80%D0%BE%D0%B8%D1%86%D0%BA%D0%B0%D1%8F_%D0%A1%D0%B5%D1%80%D0%B3%D0%B8%D0%B5%D0%B2%D0%B0_%D0%BB%D0%B0%D0%B2%D1%80%D0%B0_%D0%9E%D0%B1%D1%89%D0%B8%D0%B9_%D0%B2%D0%B8%D0%B4_%D0%9F%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0.jpg/1920px-%D0%A1%D0%B2%D1%8F%D1%82%D0%BE-%D0%A2%D1%80%D0%BE%D0%B8%D1%86%D0%BA%D0%B0%D1%8F_%D0%A1%D0%B5%D1%80%D0%B3%D0%B8%D0%B5%D0%B2%D0%B0_%D0%BB%D0%B0%D0%B2%D1%80%D0%B0_%D0%9E%D0%B1%D1%89%D0%B8%D0%B9_%D0%B2%D0%B8%D0%B4_%D0%9F%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0.jpg",
     mapCenter: [56.3, 38.1],
     mapZoom: 9,
     stopCoords: {
@@ -258,7 +273,7 @@ window.ROUTE_META = {
     category: "velo",
     planned: true,
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/0/03/%D0%96%D0%B5%D0%BB%D0%B5%D0%B7%D0%BE%D0%B1%D0%B5%D1%82%D0%BE%D0%BD%D0%BD%D1%8B%D0%B9_%D0%BC%D0%BE%D1%81%D1%82_%D1%87%D0%B5%D1%80%D0%B5%D0%B7_%D1%80%D0%B5%D0%BA%D1%83_%D0%94%D0%BE%D0%BD%D1%85%D0%BE%D0%B2%D0%BA%D1%83._%D0%9A%D0%BE%D0%BD%D0%B0%D0%BA%D0%BE%D0%B2%D0%BE%2C_%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%B0%D1%8F_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C%2C_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/G._Konakovo%2C_Tverskaya_oblast%27%2C_Russia_-_panoramio.jpg/1920px-G._Konakovo%2C_Tverskaya_oblast%27%2C_Russia_-_panoramio.jpg",
     mapCenter: [56.7, 36.76],
     mapZoom: 10,
     stopCoords: {
