@@ -227,23 +227,34 @@ button {
 }
 
 .hero__title {
-  font-size: clamp(2.1rem, 5.5vw, 3.75rem);
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
   font-weight: 800;
   letter-spacing: -0.045em;
-  line-height: 1.05;
-  max-width: 18ch;
+  line-height: 1;
+  max-width: 12ch;
   color: #fff;
+  text-transform: uppercase;
   animation: fade-up 0.7s 0.14s var(--ease) both;
 }
 
 .hero__byline {
-  margin-top: 1.75rem;
-  max-width: 48ch;
+  margin-top: 1.5rem;
+  max-width: 36ch;
   color: rgba(255, 255, 255, 0.85);
   font-size: clamp(1rem, 1.6vw, 1.15rem);
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 1.5;
   animation: fade-up 0.7s 0.24s var(--ease) both;
+}
+
+.hero__names {
+  margin-top: 2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  animation: fade-up 0.7s 0.34s var(--ease) both;
 }
 
 .hero__actions {
@@ -571,30 +582,120 @@ button {
   color: #fff;
 }
 
-.passport-tags {
-  list-style: none;
+.passport-line,
+.route-card__passport,
+.pick-card__passport {
+  margin: 0.55rem 0 0;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.route-hero .passport-line {
+  color: var(--muted);
+  margin: 0.75rem 0 1rem;
+}
+
+.pick-card__passport {
+  color: var(--muted);
+}
+
+.route-card__about {
+  display: none;
+}
+
+.place-fact {
+  margin: 0 0 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.place-fact__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
-  margin: 0.65rem 0 0.85rem;
-  padding: 0;
+  align-items: baseline;
+  gap: 0.4rem;
 }
 
-.passport-tags__item {
+.place-fact__icon {
+  font-size: 0.9rem;
+}
+
+.place-fact__pick {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+}
+
+.place-fact__meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.place-fact__links {
+  margin: 0.45rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.stop-panel__day {
+  margin: 0 0 0.35rem;
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.92);
-  background: rgba(0, 0, 0, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  padding: 0.28rem 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
 }
 
-.route-hero .passport-tags__item {
+.stop-road,
+.stop-verdict {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
   color: var(--ink);
-  background: var(--accent-soft);
-  border-color: transparent;
+  line-height: 1.5;
+}
+
+.stop-block--verdict {
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+.route-hero--dry .route-hero__about,
+.route-hero--dry .route-hero__fromto,
+.route-hero--dry .route-hero__source {
+  display: none;
+}
+
+.section__title + .section__sub {
+  margin-bottom: 1.5rem;
+}
+
+.section > .container > .section__eyebrow:last-of-type {
+  margin-bottom: 1.25rem;
+}
+
+#trips .section__eyebrow,
+#picks .section__eyebrow,
+#map-world .section__eyebrow,
+#velo .section__eyebrow {
+  margin-bottom: 1.5rem;
 }
 
 .picks-grid {

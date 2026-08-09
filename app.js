@@ -132,28 +132,180 @@
     return true;
   }
 
+  function placeLabel(m) {
+    var map = {
+      turkey: "Турция",
+      russia: "Россия",
+      asia: "Азия",
+      velo: "Вело",
+    };
+    return map[m.category] || m.transportLabel || "";
+  }
+
+  function passportLine(m, compact) {
+    var parts = [];
+    if (m.days) parts.push(m.days);
+    if (m.transportLabel) parts.push(m.transportLabel.toLowerCase());
+    if (!compact && m.distance) parts.push(m.distance);
+    if (m.season) parts.push(m.season);
+    return parts.join(" · ");
+  }
+
   function passportChips(m) {
-    var chips = [];
-    if (m.days) chips.push(m.days);
-    if (m.transportLabel) chips.push(m.transportLabel);
-    if (m.distance) chips.push(m.distance);
-    if (m.season) chips.push(m.season);
-    if (m.tags && m.tags.length) {
-      m.tags.slice(0, 2).forEach(function (t) {
-        if (chips.indexOf(t) === -1) chips.push(t);
-      });
+    var line = passportLine(m, false);
+    if (!line) return "";
+    return '<p class="passport-line">' + escapeHtml(line) + "</p>";
+  }
+
+  function extractUrl(text) {
+    var match = String(text).match(/https?:\/\/[^\s<]+/i);
+    return match ? match[0].replace(/[),.;]+$/, "") : "";
+  }
+
+  function stripUrl(text) {
+    return String(text)
+      .replace(/https?:\/\/[^\s<]+/gi, "")
+      .replace(/\s+[—–-]\s*$/, "")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+  }
+
+  function renderPlaceFact(text, kind) {
+    var url = extractUrl(text);
+    var body = stripUrl(text);
+    var title = body;
+    var meta = "";
+    var dash = body.split(/\s+[—–]\s+/);
+    if (dash.length > 1) {
+      title = dash[0].replace(/^["«]?|["»]?$/g, "").trim();
+      meta = dash.slice(1).join(" — ").trim();
     }
-    if (!chips.length) return "";
+    var icon = kind === "hotel" ? "🏨" : kind === "food" ? "🍴" : "";
+    var links = "";
+    if (url) {
+      links =
+        '<p class="place-fact__links"><a href="' +
+        escapeHtml(url) +
+        '" target="_blank" rel="noopener noreferrer">Ссылка</a></p>';
+    }
     return (
-      '<ul class="passport-tags">' +
-      chips
-        .slice(0, 5)
-        .map(function (c) {
-          return '<li class="passport-tags__item">' + escapeHtml(c) + "</li>";
+      '<article class="place-fact place-fact--' +
+      kind +
+      '">' +
+      '<p class="place-fact__title">' +
+      (icon ? '<span class="place-fact__icon" aria-hidden="true">' + icon + "</span>" : "") +
+      escapeHtml(title) +
+      "</p>" +
+      (meta ? '<p class="place-fact__meta">' + formatText(meta) + "</p>" : "") +
+      links +
+      "</article>"
+    );
+  }
+
+  function renderFactList(items, kind) {
+    if (!items || !items.length) return "";
+    return items
+      .map(function (item) {
+        if (typeof item === "string") return renderPlaceFact(item, kind);
+        var title = item.name || "";
+        var metaParts = [];
+        if (item.address) metaParts.push(item.address);
+        if (item.note) metaParts.push(item.note);
+        if (item.order) metaParts.push("Что брать: " + item.order);
+        if (item.price) metaParts.push(item.price);
+        if (item.wouldReturn === true) metaParts.push("Вернулись бы: да");
+        if (item.wouldReturn === false) metaParts.push("Вернулись бы: нет");
+        var links = "";
+        if (item.url) {
+          links =
+            '<p class="place-fact__links"><a href="' +
+            escapeHtml(item.url) +
+            '" target="_blank" rel="noopener noreferrer">Ссылка</a></p>';
+        }
+        var pick = item.pick
+          ? '<span class="place-fact__pick">Наш выбор</span>'
+          : "";
+        var icon = kind === "hotel" ? "🏨" : kind === "food" ? "🍴" : "";
+        return (
+          '<article class="place-fact place-fact--' +
+          kind +
+          '">' +
+          '<p class="place-fact__title">' +
+          (icon ? '<span class="place-fact__icon" aria-hidden="true">' + icon + "</span>" : "") +
+          escapeHtml(title) +
+          pick +
+          "</p>" +
+          (metaParts.length
+            ? '<p class="place-fact__meta">' + escapeHtml(metaParts.join(" · ")) + "</p>"
+            : "") +
+          links +
+          "</article>"
+        );
+      })
+      .join("");
+  }
+
+  function renderStopBlock(title, html, tone) {
+    if (!html) return "";
+    return (
+      '<div class="stop-block stop-block--' +
+      tone +
+      '">' +
+      "<h4>" +
+      title +
+      "</h4>" +
+      html +
+      "</div>"
+    );
+  }
+
+  function renderBulletList(items) {
+    if (!items || !items.length) return "";
+    return (
+      "<ul>" +
+      items
+        .map(function (i) {
+          var text = typeof i === "string" ? i : i.name || i.text || "";
+          return "<li>" + formatText(text) + "</li>";
         })
         .join("") +
       "</ul>"
     );
+  }
+
+  function getStopGroups(stop) {
+    if (
+      stop.sights ||
+      stop.food ||
+      stop.hotels ||
+      stop.road ||
+      stop.verdict ||
+      stop.charter
+    ) {
+      return {
+        structured: true,
+        sights: stop.sights || [],
+        food: stop.food || [],
+        hotels: stop.hotels || [],
+        charter: stop.charter || [],
+        logistics: stop.road
+          ? [
+              typeof stop.road === "string"
+                ? stop.road
+                : [stop.road.from && stop.road.to ? stop.road.from + " → " + stop.road.to : "", stop.road.km, stop.road.time]
+                    .filter(Boolean)
+                    .join(" · "),
+            ]
+          : [],
+        verdict: stop.verdict || null,
+      };
+    }
+    var groups = { sights: [], hotels: [], food: [], charter: [], logistics: [], verdict: null };
+    (stop.activities || []).forEach(function (item) {
+      groups[categorize(item)].push(item);
+    });
+    if (stop.verdict) groups.verdict = stop.verdict;
+    return groups;
   }
 
   function getStopCoords(routeMeta, stopName) {
@@ -340,6 +492,8 @@
 
   function renderRouteCard(route) {
     var m = getMeta(route);
+    var fromTo = routeFromTo(route) || route.title;
+    var line = passportLine(m, true);
     var plannedBadge = m.planned
       ? '<span class="route-card__badge">Скоро</span>'
       : "";
@@ -349,21 +503,18 @@
       '" data-open-route="' +
       route.id +
       '">' +
-      renderMediaImage(m.image, "route-card__media", route.title) +
+      renderMediaImage(m.image, "route-card__media", fromTo) +
       plannedBadge +
       '<div class="route-card__body">' +
       '<span class="route-card__eyebrow">' +
-      escapeHtml(route.region) +
+      escapeHtml(placeLabel(m)) +
       "</span>" +
       '<h3 class="route-card__title">' +
-      escapeHtml(route.title) +
+      escapeHtml(fromTo) +
       "</h3>" +
-      passportChips(m) +
-      '<p class="route-card__about">' +
-      escapeHtml(route.about) +
-      "</p>" +
+      (line ? '<p class="route-card__passport">' + escapeHtml(line) + "</p>" : "") +
       '<div class="route-card__path">' +
-      renderPathCompact(route.path, 5) +
+      renderPath(route.path) +
       "</div>" +
       "</div></button>"
     );
@@ -371,37 +522,50 @@
 
   function renderStopPanel(route, stopIndex) {
     var stop = route.stops[stopIndex];
-    var groups = { sights: [], hotels: [], food: [], charter: [], logistics: [] };
-    stop.activities.forEach(function (item) {
-      groups[categorize(item)].push(item);
-    });
+    var groups = getStopGroups(stop);
+    var dayLabel = stop.day || "День " + (stopIndex + 1);
+    var roadHtml = "";
+    if (groups.logistics && groups.logistics.length) {
+      roadHtml =
+        '<p class="stop-road">' +
+        groups.logistics
+          .map(function (item) {
+            return formatText(typeof item === "string" ? item : item.text || "");
+          })
+          .join("<br>") +
+        "</p>";
+    }
 
-    function block(title, items, tone) {
-      if (!items.length) return "";
-      return (
-        '<div class="stop-block stop-block--' +
-        tone +
-        '">' +
-        "<h4>" +
-        title +
-        "</h4><ul>" +
-        items.map(function (i) {
-          return "<li>" + formatText(i) + "</li>";
-        }).join("") +
-        "</ul></div>"
-      );
+    var verdictHtml = "";
+    if (groups.verdict) {
+      var v = groups.verdict;
+      if (typeof v === "string") {
+        verdictHtml = '<p class="stop-verdict">' + escapeHtml(v) + "</p>";
+      } else {
+        var bits = [];
+        if (v.worth) bits.push(v.worth);
+        if (v.nights) bits.push(v.nights);
+        if (v.best) bits.push("Лучшее: " + v.best);
+        if (v.skip) bits.push("Пропустить: " + v.skip);
+        if (v.note) bits.push(v.note);
+        verdictHtml = '<p class="stop-verdict">' + escapeHtml(bits.join(" · ")) + "</p>";
+      }
     }
 
     return (
       '<section class="stop-panel">' +
+      '<p class="stop-panel__day">' +
+      escapeHtml(dayLabel) +
+      "</p>" +
       "<h3>" +
       escapeHtml(stop.name) +
       "</h3>" +
-      block("Что посмотреть", groups.sights, "see") +
-      block("Где остановиться", groups.hotels, "stay") +
-      block("Кафе и рестораны", groups.food, "food") +
-      block("Вода и катера", groups.charter, "water") +
-      block("Дорога", groups.logistics, "road") +
+      renderStopBlock("Дорога", roadHtml, "road") +
+      renderStopBlock("Что посмотреть", renderBulletList(groups.sights), "see") +
+      renderStopBlock("Где поесть", renderFactList(groups.food, "food"), "food") +
+      renderStopBlock("Где жить", renderFactList(groups.hotels, "hotel"), "stay") +
+      renderStopBlock("Вода и катера", renderBulletList(groups.charter), "water") +
+      renderStopBlock("Наше мнение", verdictHtml, "verdict") +
       "</section>"
     );
   }
@@ -428,34 +592,8 @@
     for (i = 0; i < items.length; i++) revealObserver.observe(items[i]);
   }
 
-  function renderRecommendations(route) {
-    // Жильё не дублируем отдельным блоком — оно уже внутри городов (stops).
-    var groups = collectByCategory(route);
-    var cards = "";
-    var sets = [
-      { key: "food", title: "Кафе и рестораны", tone: "food" },
-      { key: "sights", title: "Музеи и места", tone: "see" },
-    ];
-    sets.forEach(function (set) {
-      if (!groups[set.key].length) return;
-      cards +=
-        '<aside class="info-card info-card--' +
-        set.tone +
-        '">' +
-        "<h4>" +
-        set.title +
-        "</h4>" +
-        renderListItems(groups[set.key], true) +
-        "</aside>";
-    });
-    if (!cards) return "";
-    return (
-      '<div class="reco-block">' +
-      '<h3 class="detail-heading">Что мы советуем на этом маршруте</h3>' +
-      '<div class="reco-grid">' +
-      cards +
-      "</div></div>"
-    );
+  function renderRecommendations() {
+    return "";
   }
 
   function renderStopButtons(route, activeIndex) {
@@ -493,7 +631,7 @@
       .join("");
     return (
       '<aside class="tips-block">' +
-      "<h4>Рекомендации</h4>" +
+      "<h4>Советы</h4>" +
       "<ul>" +
       items +
       "</ul></aside>"
@@ -502,13 +640,10 @@
 
   function renderRoutePage(route) {
     var m = getMeta(route);
+    var fromTo = routeFromTo(route) || route.title;
+    var line = passportLine(m, false);
     var primaryAction = m.planned
       ? '<a class="btn btn--primary" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Написать — когда поедем</a>'
-      : "";
-    var sourceLink = route.source
-      ? '<p class="route-hero__source"><a href="' +
-        escapeHtml(route.source) +
-        '" target="_blank" rel="noopener noreferrer" class="text-link">Исходник в Телеграфе</a></p>'
       : "";
     return (
       '<section class="route-page" id="route-' +
@@ -517,33 +652,24 @@
       route.id +
       '">' +
       '<div class="container">' +
-      '<button type="button" class="btn btn--ghost back-btn" data-back-home>← Все маршруты</button>' +
-      '<header class="route-hero">' +
-      renderMediaImage(m.image, "route-hero__media", route.title, false, 1200) +
+      '<button type="button" class="btn btn--ghost back-btn" data-back-home>← Маршруты</button>' +
+      '<header class="route-hero route-hero--dry">' +
+      renderMediaImage(m.image, "route-hero__media", fromTo, false, 1200) +
       '<div class="route-hero__content">' +
       '<p class="route-hero__eyebrow">' +
-      escapeHtml(route.region) +
-      " · " +
-      escapeHtml(m.transportLabel) +
+      escapeHtml(placeLabel(m)) +
       "</p>" +
       "<h2>" +
-      escapeHtml(route.title) +
+      escapeHtml(fromTo) +
       "</h2>" +
-      passportChips(m) +
-      '<p class="route-hero__about">' +
-      escapeHtml(route.about) +
-      "</p>" +
-      sourceLink +
-      (routeFromTo(route)
-        ? '<p class="route-hero__fromto">' + escapeHtml(routeFromTo(route)) + "</p>"
-        : "") +
+      (line ? '<p class="passport-line">' + escapeHtml(line) + "</p>" : "") +
       '<div class="route-hero__path">' +
       renderPath(route.path) +
       "</div>" +
-      '<div class="route-hero__actions">' +
-      primaryAction +
-      '<button type="button" class="btn btn--ghost" data-nav="about">Написать нам</button>' +
-      "</div></div></header>" +
+      (primaryAction
+        ? '<div class="route-hero__actions">' + primaryAction + "</div>"
+        : "") +
+      "</div></header>" +
       '<div class="route-layout">' +
       '<div class="route-map-wrap">' +
       '<p class="map-label">Карта маршрута</p>' +
@@ -553,8 +679,7 @@
       renderMapLegend(route, m) +
       "</div>" +
       '<div class="route-detail">' +
-      '<h3 class="detail-heading">Точки маршрута</h3>' +
-      '<p class="route-hint">Выберите город — на карте подсветится точка и маршрут</p>' +
+      '<h3 class="detail-heading">Дни</h3>' +
       '<div class="stop-nav" data-stop-nav="' +
       route.id +
       '">' +
@@ -566,7 +691,6 @@
       renderStopPanel(route, 0) +
       "</div>" +
       "</div></div>" +
-      renderRecommendations(route) +
       renderTips(route) +
       "</div></section>"
     );
@@ -720,6 +844,8 @@
         var route = findRouteById(pick.id);
         if (!route) return "";
         var m = getMeta(route);
+        var fromTo = routeFromTo(route) || route.title;
+        var line = passportLine(m, true);
         return (
           '<button type="button" class="pick-card reveal" data-open-route="' +
           route.id +
@@ -728,12 +854,9 @@
           escapeHtml(pick.label) +
           "</span>" +
           '<h3 class="pick-card__title">' +
-          escapeHtml(route.title) +
+          escapeHtml(fromTo) +
           "</h3>" +
-          '<p class="pick-card__reason">' +
-          escapeHtml(pick.reason) +
-          "</p>" +
-          passportChips(m) +
+          (line ? '<p class="pick-card__passport">' + escapeHtml(line) + "</p>" : "") +
           "</button>"
         );
       })
