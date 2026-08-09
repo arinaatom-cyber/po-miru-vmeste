@@ -17,7 +17,7 @@ window.ROUTE_META = {
   "turkey-istanbul": {
     transport: ["plane", "car"],
     transportLabel: "Самолёт + авто",
-    category: "turkey",
+    category: "asia",
     image:
       "images/turkey-istanbul.jpg",
     mapCenter: [38.5, 30.5],
@@ -36,7 +36,7 @@ window.ROUTE_META = {
   "turkey-cappadocia": {
     transport: ["plane", "car"],
     transportLabel: "Самолёт + авто",
-    category: "turkey",
+    category: "asia",
     image:
       "images/turkey-cappadocia.jpg",
     mapCenter: [37.6, 32.8],
@@ -73,7 +73,7 @@ window.ROUTE_META = {
   "hainan-china": {
     transport: ["plane", "car"],
     transportLabel: "Самолёт",
-    category: "china",
+    category: "asia",
     image:
       "images/hainan-china.jpg",
     mapCenter: [18.25, 109.5],
@@ -89,7 +89,7 @@ window.ROUTE_META = {
   singapore: {
     transport: ["plane"],
     transportLabel: "Самолёт",
-    category: "singapore",
+    category: "asia",
     image:
       "images/singapore.jpg",
     mapCenter: [1.36, 103.82],
@@ -309,9 +309,6 @@ window.FILTER_LABELS = {
   center: "Центр · Россия",
   asia: "Азия",
   russia: "Россия",
-  turkey: "Турция",
-  china: "Китай",
-  singapore: "Сингапур",
   car: "Авто",
   yacht: "Яхта",
   train: "Поезд",
@@ -327,7 +324,7 @@ window.ROUTE_PASSPORT = {
     mood: ["nature", "active"],
     tags: ["яхта-экспедиция"],
     pin: [61.55, 30.55],
-    pinLabel: "Яхта-экспедиция",
+    pinLabel: "Яхта-экспедиция по шхерам",
   },
   "turkey-istanbul": {
     days: "≈10 дней",

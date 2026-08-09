@@ -136,10 +136,7 @@
       center: "Центр · Россия",
       asia: "Азия",
       russia: "Россия",
-      turkey: "Турция",
-      china: "Китай",
-      singapore: "Сингапур",
-      velo: "Вело",
+      velo: "Велопоездки",
     };
     return map[m.category] || m.transportLabel || "";
   }
@@ -986,7 +983,7 @@
     if (!filterBar) return;
     filterBar.innerHTML = buildFilterRow(
       "place",
-      ["all", "north", "center", "asia", "russia", "turkey", "china", "singapore"],
+      ["all", "north", "center", "asia", "russia"],
       ""
     );
   }
