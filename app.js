@@ -5,7 +5,6 @@
     "spb-karelia": true,
     "spb-city": true,
     "pack-essentials": true,
-    "yachtsmen": true,
   };
   var routes = allRoutes.filter(function (r) {
     return !hiddenIds[r.id];
@@ -15,13 +14,12 @@
   var routePages = document.getElementById("route-pages");
   var routeGrid = document.getElementById("route-grid");
   var veloGrid = document.getElementById("velo-grid");
-  var stayGrid = document.getElementById("stay-grid");
   var filterBar = document.getElementById("filter-bar");
   var navLinks = document.querySelectorAll("[data-nav]");
   var maps = {};
   var activeFilter = "all";
   var baseTitle = document.title;
-  var sectionNav = { velo: true, stay: true, contact: true };
+  var sectionNav = { velo: true, contact: true };
   var reduceMotion =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var revealObserver = null;
@@ -50,12 +48,18 @@
 
   function formatText(value) {
     var safe = escapeHtml(value);
-    var pattern = /(https?:\/\/[^\s<]+|\b[a-z0-9][a-z0-9-]*\.(?:ru|com|net|org)(?:\/[^\s<]*)?)/g;
+    var pattern = /(https?:\/\/[^\s<]+|\b[a-z0-9][a-z0-9-]*\.(?:ru|com|net|org|rest)(?:\/[^\s<]*)?)/g;
     return safe.replace(pattern, function (match) {
       var url = /^https?:/.test(match) ? match : "https://" + match;
       var label = match;
-      if (match.indexOf("booking.com") !== -1) label = "Booking";
-      else if (match.indexOf("telegra.ph") !== -1) label = "Telegraph";
+      if (match.indexOf("booking.com") !== -1) label = "Букинг";
+      else if (match.indexOf("avito.ru") !== -1) label = "Авито";
+      else if (match.indexOf("telegra.ph") !== -1) label = "Телеграф";
+      else if (match.indexOf("citiapartments.ru") !== -1) label = "Эрмитаж Мансард";
+      else if (match.indexOf("ladoga-ozero.ru") !== -1) label = "Ладога Озеро";
+      else if (match.indexOf("torbeevo.ru") !== -1) label = "Торбеево";
+      else if (match.indexOf("italyco.rest") !== -1) label = "Бист";
+      else if (match.indexOf("betullahome.com") !== -1) label = "Бетулла";
       else if (match.length > 42) label = match.slice(0, 40) + "…";
       return (
         '<a href="' +
@@ -169,26 +173,43 @@
     return '<div class="map-legend">' + items + "</div>";
   }
 
+  // Order matters: lodging before sights («Усадьба…» = жильё), food starts early.
+  // Avoid \\b — it does not work with Cyrillic in non-unicode ES5 regex.
   function categorize(text) {
     var t = text.toLowerCase();
-    if (/^если дождь|^запасной план/.test(t)) return "sights";
-    if (/^(ужин|обед|завтрак|бранч|кофейн)/.test(t)) return "food";
-    if (/замок|музей|дворец|усадьба|монастыр|лавра/.test(t)) return "sights";
-    if (/^заселение/.test(t)) return "logistics";
-    if (/отель|hotel|апартам|коттедж|баз[аы] «|жиль|гостин|гостев|кварти|booking|hermitage mansard|hostel|палатк|ночёв|ночев|глэмпинг|^дом \d|дом на берегу|кемпинг/.test(t)) {
-      return "hotels";
-    }
-    if (/катер|яхт|charter|чартер|парус|сплав|raft|лодк|sup|каяк/.test(t)) {
-      return "charter";
+    var end = "(?=[\\s,.:;«»\"()—\\-]|$)";
+    if (/^(ужин|обед|завтрак|кофейн|кафе|ресторан|пивовар|рамен-бар|коктейльн)/.test(t)) {
+      return "food";
     }
     if (
-      /ужин|(^|[\s:«—-])обед|завтрак|ресторан|кафе|кофе|бар|пивовар|рынок|рынк|суши|ролл|рам[эе]н|кимчи|bbq|шашлык|морепродукт|устри|кухн|куш|пахлав|шавух|эчпочмак|krab|крабовая станция|bist|betulla|zuma|gusto|chin chin|чин чин|animals|moloko|supra|coffetory|kafema|koryo|boroda|morskoy|ussuriyskaya|tokyo kawaii|korean house|asiatiq|консерватор|mansarda|«на дне»|огонёк|port cafe|порт кафе|фурукава|ганс/.test(
+      /отель|апартам|коттедж|баз[аы] «|база отдыха|жиль|гостин|гостев|кварти|палатк|ночуем|ночёв|ночев|глэмпинг|кемпинг|^дом (на|\d)|заселя|заселение/.test(
         t
       )
     ) {
+      return "hotels";
+    }
+    if (/замок|музей|дворец|усадьба|монастыр|лавра|крепост|собор|храм/.test(t)) {
+      return "sights";
+    }
+    if (
+      /катер|яхт|чартер|парус|сплав|рафтинг|лодочн|(^|[\\s«(-])лодк|лодок|сапборд|сап-|каяк/.test(t)
+    ) {
+      return "charter";
+    }
+    if (
+      new RegExp(
+        "ужин|(^|[\\s:«—-])обед|завтрак|ресторан|кафе|кофе|(^|[\\s«(-])бар(ы|а|е|ом)?" +
+          end +
+          "|пивовар|пивн|рынок|рынк|суши|ролл|рам[эе]н|кимчи|барбекю|шашлы|морепродукт|устри|краб|кухн|пахлав|шавер|эчпочмак|хинкали|коктейл|винодельн|дегустац|панкейк|десерт|сладост|перекус"
+      ).test(t)
+    ) {
       return "food";
     }
-    if (/поезд|машин|трансфер|авто|самол|рейс|вокзал|вагон|паром|такси|прилёт|приезд|прокат маш|сдача маш/.test(t)) {
+    if (
+      new RegExp(
+        "поезд(а|е|ом|ы)?" + end + "|машин|трансфер|авто|самол|рейс|вокзал|вагон|паром|такси|прилёт|приезд|электричк|старт от|выезд"
+      ).test(t)
+    ) {
       return "logistics";
     }
     return "sights";
@@ -205,6 +226,15 @@
     return groups;
   }
 
+  function stayLineText(item) {
+    var text = item.text;
+    var place = item.place || "";
+    if (!place) return text;
+    // City only when it clarifies a multi-stop list and is not already in the line.
+    if (text.toLowerCase().indexOf(place.toLowerCase()) !== -1) return text;
+    return text + " — " + place;
+  }
+
   function renderListItems(items, withPlace) {
     if (!items.length) {
       return '<p class="info-empty">—</p>';
@@ -213,10 +243,8 @@
       "<ul>" +
       items
         .map(function (item) {
-          var prefix = withPlace
-            ? '<span class="info-place">' + escapeHtml(item.place) + ":</span> "
-            : "";
-          return "<li>" + prefix + formatText(item.text) + "</li>";
+          var line = withPlace ? stayLineText(item) : item.text || item;
+          return "<li>" + formatText(line) + "</li>";
         })
         .join("") +
       "</ul>"
@@ -252,7 +280,7 @@
       plannedBadge +
       '<div class="route-card__body">' +
       '<span class="route-card__eyebrow">' +
-      escapeHtml(m.transportLabel) +
+      escapeHtml(route.region) +
       "</span>" +
       '<h3 class="route-card__title">' +
       escapeHtml(route.title) +
@@ -274,10 +302,12 @@
       groups[categorize(item)].push(item);
     });
 
-    function block(title, items) {
+    function block(title, items, tone) {
       if (!items.length) return "";
       return (
-        '<div class="stop-block">' +
+        '<div class="stop-block stop-block--' +
+        tone +
+        '">' +
         "<h4>" +
         title +
         "</h4><ul>" +
@@ -293,11 +323,11 @@
       "<h3>" +
       escapeHtml(stop.name) +
       "</h3>" +
-      block("Что посмотреть", groups.sights) +
-      block("Жильё и отели", groups.hotels) +
-      block("Заведения", groups.food) +
-      block("Транспорт и чартеры", groups.charter) +
-      block("Логистика", groups.logistics) +
+      block("Что посмотреть", groups.sights, "see") +
+      block("Где остановиться", groups.hotels, "stay") +
+      block("Кафе и рестораны", groups.food, "food") +
+      block("Вода и катера", groups.charter, "water") +
+      block("Дорога", groups.logistics, "road") +
       "</section>"
     );
   }
@@ -325,53 +355,33 @@
   }
 
   function renderRecommendations(route) {
+    // Жильё не дублируем отдельным блоком — оно уже внутри городов (stops).
     var groups = collectByCategory(route);
     var cards = "";
-    if (groups.hotels.length) {
+    var sets = [
+      { key: "food", title: "Кафе и рестораны", tone: "food" },
+      { key: "sights", title: "Музеи и места", tone: "see" },
+    ];
+    sets.forEach(function (set) {
+      if (!groups[set.key].length) return;
       cards +=
-        '<aside class="info-card">' +
-        "<h4>Где остановиться</h4>" +
-        renderListItems(groups.hotels, true) +
+        '<aside class="info-card info-card--' +
+        set.tone +
+        '">' +
+        "<h4>" +
+        set.title +
+        "</h4>" +
+        renderListItems(groups[set.key], true) +
         "</aside>";
-    }
-    if (groups.food.length) {
-      cards +=
-        '<aside class="info-card">' +
-        "<h4>Куда сходить</h4>" +
-        renderListItems(groups.food, true) +
-        "</aside>";
-    }
+    });
     if (!cards) return "";
-    return '<div class="reco-grid">' + cards + "</div>";
-  }
-
-  function renderStayDirectory() {
-    if (!stayGrid) return;
-    var cards = routes
-      .map(function (route) {
-        var hotels = collectByCategory(route).hotels;
-        if (!hotels.length) return "";
-        return (
-          '<article class="info-card stay-card reveal">' +
-          '<p class="stay-card__region">' +
-          escapeHtml(route.region) +
-          "</p>" +
-          '<h3 class="stay-card__title">' +
-          escapeHtml(route.title) +
-          "</h3>" +
-          renderListItems(hotels, true) +
-          '<button type="button" class="stay-card__link" data-open-route="' +
-          route.id +
-          '">Маршрут целиком</button>' +
-          "</article>"
-        );
-      })
-      .filter(Boolean)
-      .join("");
-    stayGrid.innerHTML = cards
-      ? cards
-      : '<p class="empty-state">Данные по жилью появятся позже.</p>';
-    setupReveal();
+    return (
+      '<div class="reco-block">' +
+      '<h3 class="detail-heading">Что мы советуем на этом маршруте</h3>' +
+      '<div class="reco-grid">' +
+      cards +
+      "</div></div>"
+    );
   }
 
   function renderStopButtons(route, activeIndex) {
@@ -424,7 +434,7 @@
     var sourceLink = route.source
       ? '<p class="route-hero__source"><a href="' +
         escapeHtml(route.source) +
-        '" target="_blank" rel="noopener noreferrer" class="text-link">Исходник в Telegraph</a></p>'
+        '" target="_blank" rel="noopener noreferrer" class="text-link">Исходник в Телеграфе</a></p>'
       : "";
     return (
       '<section class="route-page" id="route-' +
@@ -435,7 +445,7 @@
       '<div class="container">' +
       '<button type="button" class="btn btn--ghost back-btn" data-back-home>← Все маршруты</button>' +
       '<header class="route-hero">' +
-      renderMediaImage(m.image, "route-hero__media", route.title, true) +
+      renderMediaImage(m.image, "route-hero__media", route.title, false) +
       '<div class="route-hero__content">' +
       '<p class="route-hero__eyebrow">' +
       escapeHtml(route.region) +
@@ -457,7 +467,7 @@
       "</div>" +
       '<div class="route-hero__actions">' +
       primaryAction +
-      '<a class="btn btn--ghost" href="#contact">Telegram</a>' +
+      '<button type="button" class="btn btn--ghost" data-nav="contact">Написать нам</button>' +
       "</div></div></header>" +
       '<div class="route-layout">' +
       '<div class="route-map-wrap">' +
@@ -480,9 +490,10 @@
       '">' +
       renderStopPanel(route, 0) +
       "</div>" +
+      "</div></div>" +
       renderRecommendations(route) +
       renderTips(route) +
-      "</div></div></div></section>"
+      "</div></section>"
     );
   }
 
@@ -590,7 +601,10 @@
     entry.markers.forEach(function (marker) {
       if (marker._stopIndex === stopIndex) {
         marker.openPopup();
-        entry.map.panTo(marker.getLatLng(), { animate: true, duration: 0.45 });
+        entry.map.panTo(marker.getLatLng(), {
+          animate: !reduceMotion,
+          duration: 0.45,
+        });
       }
     });
   }
@@ -620,12 +634,30 @@
     setupReveal();
   }
 
+  function disposeMapsExcept(keepId) {
+    Object.keys(maps).forEach(function (mapId) {
+      if (keepId && mapId === keepId) return;
+      if (maps[mapId] && maps[mapId].map) {
+        maps[mapId].map.remove();
+      }
+      delete maps[mapId];
+    });
+  }
+
+  function findRouteById(id) {
+    for (var i = 0; i < routes.length; i++) {
+      if (routes[i].id === id) return routes[i];
+    }
+    return null;
+  }
+
   function showHome() {
     homeView.hidden = false;
     var pages = routePages.querySelectorAll(".route-page");
     for (var i = 0; i < pages.length; i++) {
       pages[i].classList.remove("is-active");
     }
+    disposeMapsExcept(null);
     setActiveNav("home");
     document.title = baseTitle;
     if (window.location.hash) {
@@ -635,9 +667,7 @@
   }
 
   function showRoute(id) {
-    var route = routes.find(function (r) {
-      return r.id === id;
-    });
+    var route = findRouteById(id);
     if (!route) {
       showHome();
       return;
@@ -652,6 +682,7 @@
     if (window.location.hash.replace("#", "") !== id) {
       window.location.hash = id;
     }
+    disposeMapsExcept(id);
     initMap(route);
     window.setTimeout(function () {
       var entry = maps[route.id];
@@ -661,9 +692,7 @@
   }
 
   function selectStop(routeId, stopIndex) {
-    var route = routes.find(function (item) {
-      return item.id === routeId;
-    });
+    var route = findRouteById(routeId);
     if (!route || !route.stops[stopIndex]) return;
 
     var nav = document.querySelector('[data-stop-nav="' + routeId + '"]');
@@ -710,7 +739,6 @@
     buildFilters();
     renderGrid();
     renderVeloGrid();
-    renderStayDirectory();
     routePages.innerHTML = routes.map(renderRoutePage).join("");
 
     document.body.addEventListener("click", function (event) {
@@ -784,9 +812,18 @@
       // browser's own jump on load lands in empty space — scroll again here.
       var section = sectionNav[hash] && document.getElementById(hash);
       if (section) {
+        homeView.hidden = false;
+        var pages = routePages.querySelectorAll(".route-page");
+        for (var p = 0; p < pages.length; p++) {
+          pages[p].classList.remove("is-active");
+        }
+        disposeMapsExcept(null);
+        document.title = baseTitle;
         setActiveNav(hash);
         section.scrollIntoView();
+        return;
       }
+      showHome();
     }
 
     var header = document.querySelector(".site-header");

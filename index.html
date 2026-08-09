@@ -22,13 +22,17 @@
 
   <meta property="og:locale" content="ru_RU" />
 
+  <meta property="og:url" content="https://arinaatom-cyber.github.io/po-miru-vmeste/" />
+
+  <meta property="og:image" content="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80" />
+
   <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='%231a7568'/%3E%3Cpath%20d='M16%207c-3.3%200-6%202.7-6%206%200%204.5%206%2012%206%2012s6-7.5%206-12c0-3.3-2.7-6-6-6zm0%208.2a2.2%202.2%200%201%201%200-4.4%202.2%202.2%200%200%201%200%204.4z'%20fill='%23fff'/%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 
@@ -64,8 +68,6 @@
 
         <button class="site-nav__link" type="button" data-nav="velo">Вело</button>
 
-        <button class="site-nav__link" type="button" data-nav="stay">Жильё</button>
-
         <button class="site-nav__link" type="button" data-nav="contact">Контакты</button>
 
       </nav>
@@ -100,37 +102,45 @@
 
       <section class="section section--credo" id="about">
 
+        <div class="wall-notes" aria-hidden="true">
+
+          <p class="wall-note wall-note--a">Жить, чтобы ехать</p>
+
+          <p class="wall-note wall-note--b">Хочу увидеть новые места</p>
+
+        </div>
+
         <div class="container">
 
           <p class="section__eyebrow reveal" data-num="01">Как мы ездим</p>
 
-          <h2 class="section__title reveal">Обычный отпуск, только со спортом</h2>
+          <h2 class="section__title reveal">Ездим вместе и не спешим</h2>
 
-          <p class="section__sub reveal">Катаемся на велосипедах, играем в волейбол и ходим под парусом. Можно просто потренироваться на спортивных яхтах, а можно уйти в экспедицию.</p>
+          <p class="section__sub reveal">Берём друзей, смотрим новые места и оставляем время просто побыть рядом — вечером у воды или в городе.</p>
 
           <div class="credo-grid">
 
             <article class="info-card reveal">
 
-              <h4>Спорт каждый день</h4>
+              <h4>Новые места</h4>
 
-              <p>Велосипед, волейбол, SUP и парус. Тренировка на спортивной яхте или полноценная экспедиция по воде — смотрим по погоде и настроению.</p>
-
-            </article>
-
-            <article class="info-card reveal">
-
-              <h4>Вечера</h4>
-
-              <p>Играем в квиз, жарим рыбу и открываем вино. Обычно это и оказывается лучшей частью дня.</p>
+              <p>Города, озёра, острова — хотим жить, чтобы ехать и смотреть. Каждый маршрут можно взять за основу и собрать под себя.</p>
 
             </article>
 
             <article class="info-card reveal">
 
-              <h4>Города пешком</h4>
+              <h4>С друзьями</h4>
 
-              <p>Много ходим и разглядываем всё подряд — дворы, рынки, музеи и набережные. Маршруты собраны так, чтобы на это оставалось время.</p>
+              <p>В дороге узнаёшь людей лучше, чем за год в городе. Жарим рыбу, открываем вино, играем в квиз — это часто лучшая часть дня.</p>
+
+            </article>
+
+            <article class="info-card reveal">
+
+              <h4>Отдых и силы</h4>
+
+              <p>Много ходим пешком, но без гонки. Маршруты собраны так, чтобы оставалось время отдохнуть и перезагрузиться.</p>
 
             </article>
 
@@ -141,6 +151,14 @@
       </section>
 
       <section class="section" id="trips">
+
+        <div class="wall-notes" aria-hidden="true">
+
+          <p class="wall-note wall-note--c">С друзьями — ближе</p>
+
+          <p class="wall-note wall-note--d">Отдохнуть и наполниться</p>
+
+        </div>
 
         <div class="container">
 
@@ -160,6 +178,14 @@
 
       <section class="section section--velo" id="velo">
 
+        <div class="wall-notes" aria-hidden="true">
+
+          <p class="wall-note wall-note--e">Хочу, чтобы нас слышали</p>
+
+          <p class="wall-note wall-note--f">Перезагрузить сердце</p>
+
+        </div>
+
         <div class="container">
 
           <p class="section__eyebrow reveal" data-num="03">На велосипеде</p>
@@ -169,22 +195,6 @@
           <p class="section__sub reveal">Отдельные поездки на велосипедах — Подмосковье, Москва и Тверская область.</p>
 
           <div id="velo-grid" class="route-grid"></div>
-
-        </div>
-
-      </section>
-
-      <section class="section section--stay" id="stay">
-
-        <div class="container">
-
-          <p class="section__eyebrow reveal" data-num="04">Проверено на себе</p>
-
-          <h2 class="section__title reveal">Где мы жили</h2>
-
-          <p class="section__sub reveal">Отели, апартаменты, коттеджи и базы с наших поездок — с адресами и ссылками на бронирование, где они есть. Кафе, рестораны и бары собраны в блоке «Куда сходить» на странице каждого маршрута.</p>
-
-          <div id="stay-grid" class="stay-grid"></div>
 
         </div>
 
@@ -206,7 +216,7 @@
 
       <div>
 
-        <p class="contact__eyebrow" data-num="05">Кто мы</p>
+        <p class="contact__eyebrow" data-num="04">Кто мы</p>
 
         <h2>Арина и Никита</h2>
 
@@ -216,9 +226,9 @@
 
         </p>
 
-        <p class="contact__note">Подбор жилья, трансфера или доработка маршрута — по договорённости.</p>
+        <p class="contact__note">Расскажем, где мы жили, что понравилось и куда лучше не ехать.</p>
 
-        <a class="btn btn--gold" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="btn btn--gold" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Написать в Телеграм</a>
 
       </div>
 
@@ -230,11 +240,11 @@
 
           <li>Карта с нумерованными точками пути</li>
 
-          <li>Что посмотреть на каждой остановке</li>
+          <li>«Музеи и места» — что посмотреть на каждой остановке</li>
 
           <li>«Где остановиться» — адреса и ссылки на бронирование</li>
 
-          <li>«Куда сходить» — кафе, рестораны и бары, где были сами</li>
+          <li>«Кафе и рестораны» — места, где были сами</li>
 
         </ul>
 
@@ -250,7 +260,7 @@
 
     <div class="container">
 
-      <p>По миру вместе · Арина и Никита · <a href="https://t.me/arion_96" target="_blank" rel="noopener">Telegram</a></p>
+      <p>По миру вместе · Арина и Никита · <a href="https://t.me/arion_96" target="_blank" rel="noopener">Телеграм</a></p>
 
     </div>
 

@@ -8,9 +8,10 @@
 
 :root {
   --font: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --bg: #ffffff;
-  --bg-soft: #f5f4f1;
-  --surface: #ffffff;
+  --font-hand: "Caveat", "Segoe Script", "Comic Sans MS", cursive;
+  --bg: #faf6ef;
+  --bg-soft: #f3ebdd;
+  --surface: #fffdf8;
   --ink: #14201c;
   --muted: #6b7671;
   --muted-light: #9aa39e;
@@ -18,6 +19,12 @@
   --accent-hover: #14584f;
   --accent-soft: rgba(26, 117, 104, 0.08);
   --accent-dark: #14584f;
+  --sand: #f7efe3;
+  --sand-line: #e8dcc4;
+  --terracotta: #c2683f;
+  --terracotta-soft: #fdf2ec;
+  --sky: #2f6f96;
+  --sky-soft: #eef5f9;
   --line: #e7e5e0;
   --line-strong: #d3cfc8;
   --radius: 10px;
@@ -30,6 +37,7 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
 body {
@@ -39,6 +47,7 @@ body {
   color: var(--ink);
   background: var(--bg);
   min-height: 100vh;
+  overflow-x: clip;
 }
 
 h1,
@@ -239,14 +248,114 @@ button {
 }
 
 .section {
+  position: relative;
   padding: 4.5rem 0;
   scroll-margin-top: calc(var(--header-h) + 1rem);
+  overflow: clip;
+}
+
+.section > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Soft handwritten wall notes — live in side gutters on wide desktops only */
+.wall-notes {
+  display: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.wall-note {
+  position: absolute;
+  margin: 0;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1.25vw, 1.65rem);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  opacity: 0.48;
+  /* Cap width to the gutter beside the main column */
+  width: max-content;
+  max-width: min(10.5rem, calc((100vw - 1120px) / 2 - 1.2rem));
+  z-index: 0;
+  white-space: normal;
+}
+
+.section--velo .wall-note {
+  color: var(--sky);
+  opacity: 0.5;
+}
+
+.section--credo .wall-note {
+  color: #5c4a38;
+  opacity: 0.52;
+}
+
+.wall-note--a {
+  left: 0.85rem;
+  top: 20%;
+  transform: rotate(-7deg);
+}
+
+.wall-note--b {
+  right: 0.85rem;
+  top: 56%;
+  transform: rotate(6deg);
+  text-align: right;
+}
+
+.wall-note--c {
+  left: 0.7rem;
+  top: 14%;
+  transform: rotate(-5deg);
+}
+
+.wall-note--d {
+  right: 0.7rem;
+  top: 48%;
+  transform: rotate(8deg);
+  text-align: right;
+}
+
+.wall-note--e {
+  left: 0.85rem;
+  top: 26%;
+  transform: rotate(-9deg);
+}
+
+.wall-note--f {
+  right: 0.85rem;
+  top: 60%;
+  transform: rotate(5deg);
+  text-align: right;
+}
+
+/* Need ~100px+ gutters so notes don't sit on content */
+@media (min-width: 1180px) {
+  .wall-notes {
+    display: block;
+  }
+
+  .section {
+    overflow: visible;
+  }
 }
 
 .section--credo,
-.section--velo,
-.section--stay {
+.section--velo {
   border-top: 1px solid var(--line);
+}
+
+.section--credo {
+  background: var(--sand);
+  border-top-color: var(--sand-line);
+}
+
+.section--velo {
+  background: var(--sky-soft);
+  border-top-color: #d5e5ef;
 }
 
 .section__eyebrow {
@@ -295,9 +404,17 @@ button {
 .credo-grid .info-card {
   background: transparent;
   border: none;
-  border-top: 1px solid var(--line-strong);
+  border-top: 2px solid var(--accent);
   border-radius: 0;
   padding: 1.1rem 0 0;
+}
+
+.credo-grid .info-card:nth-child(2) {
+  border-top-color: var(--terracotta);
+}
+
+.credo-grid .info-card:nth-child(3) {
+  border-top-color: var(--sky);
 }
 
 .credo-grid .info-card h4 {
@@ -341,8 +458,8 @@ button {
 }
 
 .filter-chip.is-active {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--accent);
+  border-color: var(--accent);
   color: #fff;
 }
 
@@ -879,6 +996,46 @@ button {
   margin-bottom: 0.55rem;
 }
 
+.stop-block--see h4 {
+  color: var(--sky);
+}
+
+.stop-block--stay h4 {
+  color: #a9803a;
+}
+
+.stop-block--food h4 {
+  color: var(--terracotta);
+}
+
+.stop-block--water h4 {
+  color: var(--accent);
+}
+
+.stop-block--road h4 {
+  color: var(--muted);
+}
+
+.stop-block--see li::before {
+  background: var(--sky);
+}
+
+.stop-block--stay li::before {
+  background: #d9ad63;
+}
+
+.stop-block--food li::before {
+  background: var(--terracotta);
+}
+
+.stop-block--water li::before {
+  background: var(--accent);
+}
+
+.stop-block--road li::before {
+  background: var(--muted-light);
+}
+
 .stop-block ul {
   list-style: none;
   display: grid;
@@ -904,67 +1061,23 @@ button {
   background: var(--line-strong);
 }
 
-/* Stay directory */
-.stay-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-.info-card.stay-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  background: transparent;
-  border: none;
-  border-top: 1px solid var(--line-strong);
-  border-radius: 0;
-  padding: 1.15rem 0 0;
-}
-
-.stay-card__region {
-  font-size: 0.66rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted-light);
-  font-weight: 700;
-}
-
-.stay-card__title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  color: var(--ink);
-  line-height: 1.25;
-}
-
-.stay-card__link {
-  margin-top: auto;
-  align-self: flex-start;
-  border: none;
-  background: none;
-  padding: 0.6rem 0 0;
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 0.76rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  transition: color 0.18s ease;
-}
-
-.stay-card__link::after {
-  content: " →";
-}
-
-.stay-card:hover .stay-card__link {
-  color: var(--accent-dark);
-}
-
 /* Info cards */
+.reco-block {
+  margin: 3rem 0 2rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
 .reco-grid {
   display: grid;
-  gap: 1.25rem;
-  margin-bottom: 1.75rem;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (min-width: 860px) {
+  .reco-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
 }
 
 .info-card {
@@ -981,6 +1094,46 @@ button {
   color: var(--muted-light);
   font-weight: 700;
   margin-bottom: 0.65rem;
+}
+
+/* Recommendation cards: one colour per kind so the eye finds them fast */
+.info-card--stay {
+  background: var(--sand);
+  border-color: var(--sand-line);
+}
+
+.info-card--stay h4 {
+  color: #a9803a;
+}
+
+.info-card--stay li::before {
+  background: #d9ad63;
+}
+
+.info-card--food {
+  background: var(--terracotta-soft);
+  border-color: #f2d9cb;
+}
+
+.info-card--food h4 {
+  color: var(--terracotta);
+}
+
+.info-card--food li::before {
+  background: var(--terracotta);
+}
+
+.info-card--see {
+  background: var(--sky-soft);
+  border-color: #d5e5ef;
+}
+
+.info-card--see h4 {
+  color: var(--sky);
+}
+
+.info-card--see li::before {
+  background: var(--sky);
 }
 
 .info-card ul {
@@ -1021,7 +1174,8 @@ button {
 }
 
 .tips-block {
-  background: var(--bg-soft);
+  background: var(--sand);
+  border: 1px solid var(--sand-line);
   border-radius: var(--radius);
   padding: 1.25rem 1.35rem;
 }
@@ -1286,13 +1440,11 @@ button {
 }
 
 .js .route-grid .reveal:nth-child(3n + 2),
-.js .stay-grid .reveal:nth-child(3n + 2),
 .js .credo-grid .reveal:nth-child(3n + 2) {
   transition-delay: 0.08s;
 }
 
 .js .route-grid .reveal:nth-child(3n + 3),
-.js .stay-grid .reveal:nth-child(3n + 3),
 .js .credo-grid .reveal:nth-child(3n + 3) {
   transition-delay: 0.16s;
 }
@@ -1355,6 +1507,12 @@ button {
   }
 }
 
+@media (max-width: 1179px) {
+  .wall-notes {
+    display: none !important;
+  }
+}
+
 @media (max-width: 980px) {
   .route-layout,
   .contact__inner {
@@ -1363,6 +1521,13 @@ button {
 
   .route-map-wrap {
     position: static;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .route-map {
+    width: 100%;
+    max-width: 100%;
   }
 
   .contact__inner {
@@ -1379,14 +1544,19 @@ button {
     padding: 0.75rem 0;
   }
 
+  .brand__title {
+    font-size: 0.98rem;
+  }
+
   .site-nav {
     justify-content: flex-start;
     flex-wrap: nowrap;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     margin: 0 -1.25rem;
-    padding: 0 1.25rem;
+    padding: 0 1.25rem 0.15rem;
   }
 
   .site-nav::-webkit-scrollbar {
@@ -1395,29 +1565,78 @@ button {
 
   .site-nav__link {
     white-space: nowrap;
+    flex: 0 0 auto;
   }
 }
 
 @media (max-width: 720px) {
+  .container {
+    width: min(1200px, calc(100% - 1.5rem));
+  }
+
   .hero {
-    padding: 4rem 0 3rem;
+    padding: 3.5rem 0 2.75rem;
+  }
+
+  .hero__title {
+    max-width: 11ch;
+    font-size: clamp(2.15rem, 10.5vw, 3.35rem);
+  }
+
+  .hero__byline {
+    margin-top: 1.35rem;
+    font-size: 1rem;
+  }
+
+  .hero__cue {
+    margin-top: 2rem;
   }
 
   .section {
-    padding: 3.25rem 0;
+    padding: 3rem 0;
+    overflow: clip;
+  }
+
+  .section__sub {
+    margin-bottom: 1.75rem;
+    font-size: 0.95rem;
+  }
+
+  .filter-bar {
+    gap: 0.35rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .filter-chip {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.78rem;
   }
 
   .route-grid,
-  .stay-grid {
+  .reco-grid {
     grid-template-columns: 1fr;
   }
 
+  .route-grid {
+    gap: 1rem;
+  }
+
   .route-card {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 5 / 4;
+    min-height: 0;
   }
 
   .route-card__body {
-    padding: 1.15rem 1.15rem 1.25rem;
+    padding: 1rem 1rem 1.1rem;
+  }
+
+  .route-card__title {
+    font-size: 1.2rem;
+  }
+
+  .route-card__about {
+    font-size: 0.82rem;
+    -webkit-line-clamp: 2;
   }
 
   .route-hero__media {
@@ -1425,6 +1644,42 @@ button {
   }
 
   .route-hero__content {
-    padding-top: 1.5rem;
+    padding-top: 1.35rem;
+  }
+
+  .route-hero__actions {
+    flex-wrap: wrap;
+  }
+
+  .route-map {
+    min-height: 260px;
+    height: min(42vh, 380px);
+  }
+
+  .map-legend {
+    max-height: 180px;
+  }
+
+  .credo-grid {
+    gap: 1.5rem;
+  }
+
+  .contact__inner {
+    gap: 1.75rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-nav {
+    margin: 0 -0.75rem;
+    padding: 0 0.75rem 0.15rem;
+  }
+
+  .route-card {
+    aspect-ratio: 4 / 3;
+  }
+
+  .route-card__path {
+    display: none;
   }
 }

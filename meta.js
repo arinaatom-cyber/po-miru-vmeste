@@ -12,6 +12,7 @@ window.ROUTE_META = {
       Сортавала: [61.7033, 30.6917],
       "Ладожские шхеры": [61.55, 30.55],
       "Санкт-Петербург": [59.9343, 30.3351],
+      Шлиссельбург: [59.9436, 31.0333],
     },
   },
   "turkey-istanbul": {
@@ -67,8 +68,6 @@ window.ROUTE_META = {
       Казань: [55.7887, 49.1221],
       Самара: [53.1959, 50.1002],
       Тольятти: [53.5303, 49.3461],
-      Ульяновск: [54.3142, 48.4031],
-      Муром: [55.5731, 42.0516],
     },
   },
   "hainan-china": {
@@ -82,8 +81,8 @@ window.ROUTE_META = {
     stopCoords: {
       Санья: [18.2528, 109.5119],
       Наньшань: [18.288, 109.2],
-      Yanoda: [18.45, 109.65],
-      "Dong Tian": [18.3, 109.75],
+      Янода: [18.355, 109.562],
+      "Дун Тянь": [18.293, 109.205],
       Пляжи: [18.22, 109.45],
     },
   },
@@ -115,6 +114,7 @@ window.ROUTE_META = {
       "Сергиев Посад": [56.315, 38.136],
       Абрамцево: [56.237, 37.966],
       "Гремячий ключ": [56.281, 38.36],
+      "Музеи города": [56.315, 38.136],
     },
   },
   vladivostok: {
@@ -129,11 +129,11 @@ window.ROUTE_META = {
       Владивосток: [43.1155, 131.8855],
       "о. Русский": [43.02, 131.9],
       "Уссурийский залив": [43.08, 131.92],
-      Дунай: [43.15, 132.0],
+      Дунай: [42.878, 132.337],
       Находка: [42.824, 132.892],
       "Бухта Ежовая": [42.95, 133.2],
-      "Южное Приморье": [43.35, 132.35],
-      Витязь: [42.9, 133.05],
+      "Южное Приморье": [42.901, 133.904],
+      Витязь: [42.598, 131.187],
     },
   },
   karelia: {
@@ -179,7 +179,7 @@ window.ROUTE_META = {
       "Горные лыжи": [46.98, 142.7],
       Невельск: [46.683, 141.867],
       Корсаков: [46.634, 142.777],
-      "Бухта Тихая": [46.5, 142.0],
+      "Бухта Тихая": [48.249, 142.536],
     },
   },
   "spb-city": {
@@ -228,14 +228,28 @@ window.ROUTE_META = {
     category: "velo",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Moscow_%2852078730783%29.jpg/1920px-Moscow_%2852078730783%29.jpg",
-    mapCenter: [55.79, 37.57],
+    mapCenter: [55.78, 37.62],
     mapZoom: 11,
     stopCoords: {
       "Ботанический сад": [55.836, 37.601],
-      ВДНХ: [55.8264, 37.6376],
-      Останкино: [55.8213, 37.6122],
-      "Серебряный Бор": [55.7817, 37.4283],
+      "Лосиный остров": [55.875, 37.78],
+      Автозаводская: [55.7074, 37.6568],
       "Москва-Сити": [55.7497, 37.5372],
+    },
+  },
+  "velo-botsad-kolomenskoe": {
+    transport: ["bike"],
+    transportLabel: "На велосипеде",
+    category: "velo",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Moscow._Kolomenskoye._Church_of_the_Ascension_P5183117_2600.jpg/1280px-Moscow._Kolomenskoye._Church_of_the_Ascension_P5183117_2600.jpg",
+    mapCenter: [55.75, 37.65],
+    mapZoom: 11,
+    stopCoords: {
+      "Ботанический сад": [55.836, 37.601],
+      Сокольники: [55.793, 37.675],
+      Таганка: [55.741, 37.654],
+      Коломенское: [55.6694, 37.6708],
     },
   },
   "velo-sergiev": {
@@ -273,26 +287,27 @@ window.ROUTE_META = {
     transport: ["bike"],
     transportLabel: "На велосипеде",
     category: "velo",
-    planned: true,
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/G._Konakovo%2C_Tverskaya_oblast%27%2C_Russia_-_panoramio.jpg/1920px-G._Konakovo%2C_Tverskaya_oblast%27%2C_Russia_-_panoramio.jpg",
-    mapCenter: [56.7, 36.76],
+    mapCenter: [56.72, 36.96],
     mapZoom: 10,
     stopCoords: {
       Конаково: [56.703, 36.762],
+      Дубна: [56.733, 37.167],
     },
   },
   "velo-tver": {
     transport: ["bike"],
     transportLabel: "На велосипеде",
     category: "velo",
-    planned: true,
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%D0%B0_%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%BE%D0%B3%D0%BE.jpg/1920px-%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%D0%B0_%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%BE%D0%B3%D0%BE.jpg",
-    mapCenter: [56.858, 35.917],
-    mapZoom: 11,
+    mapCenter: [56.78, 36.34],
+    mapZoom: 9,
     stopCoords: {
       Тверь: [56.858, 35.917],
+      Городня: [56.7092, 36.2411],
+      Конаково: [56.703, 36.762],
     },
   },
 };
