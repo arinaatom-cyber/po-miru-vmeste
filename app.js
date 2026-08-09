@@ -50,23 +50,19 @@
   var filterBar = document.getElementById("filter-bar");
   var navLinks = document.querySelectorAll("[data-nav]");
   var maps = {};
-  var worldMap = null;
   var activeFilters = { place: "all", how: "all", mood: "all" };
   var baseTitle = document.title;
   var sectionNav = {
     home: true,
     trips: true,
-    "map-world": true,
     velo: true,
     about: true,
     contact: true,
-    picks: true,
   };
   var reduceMotion =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var revealObserver = null;
   var passports = window.ROUTE_PASSPORT || {};
-  var topPicks = window.TOP_PICKS || [];
 
   function getMeta(route) {
     var base =
@@ -995,7 +991,6 @@
     if (target === "trips" || sectionNav[target]) {
       showHome(target === "trips" ? "trips" : target);
       scrollToId(target === "trips" ? "trips" : target);
-      if (target === "map-world") initWorldMap();
       return;
     }
     showRoute(target);
@@ -1067,7 +1062,6 @@
     buildFilters();
     renderGrid();
     renderVeloGrid();
-    renderPicks();
     routePages.innerHTML = routes.map(renderRoutePage).join("");
 
     document.body.addEventListener("click", function (event) {
@@ -1149,7 +1143,6 @@
       if (section) {
         showHome(hash);
         scrollToId(hash);
-        if (hash === "map-world") initWorldMap();
         return;
       }
       showHome("trips");
@@ -1162,22 +1155,6 @@
       };
       window.addEventListener("scroll", onScroll, { passive: true });
       onScroll();
-    }
-
-    var mapSection = document.getElementById("map-world");
-    if (mapSection && typeof IntersectionObserver !== "undefined") {
-      var mapObserver = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              initWorldMap();
-              mapObserver.disconnect();
-            }
-          });
-        },
-        { rootMargin: "120px" }
-      );
-      mapObserver.observe(mapSection);
     }
 
     window.addEventListener("hashchange", openFromHash);
