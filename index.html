@@ -34,11 +34,18 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-
   <link rel="stylesheet" href="styles.css" />
 
   <script>document.documentElement.className += " js";</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "По миру вместе",
+    "url": "https://arinaatom-cyber.github.io/po-miru-vmeste/"
+  }
+  </script>
 
 </head>
 
@@ -64,11 +71,11 @@
 
       <nav class="site-nav">
 
-        <button class="site-nav__link is-active" type="button" data-nav="home">Маршруты</button>
+        <a href="#home" class="site-nav__link is-active" data-nav="home">Маршруты</a>
 
-        <button class="site-nav__link" type="button" data-nav="velo">Вело</button>
+        <a href="#velo" class="site-nav__link" data-nav="velo">Вело</a>
 
-        <button class="site-nav__link" type="button" data-nav="contact">Контакты</button>
+        <a href="#contact" class="site-nav__link" data-nav="contact">Контакты</a>
 
       </nav>
 
@@ -256,13 +263,11 @@
 
 
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="routes.js?v=20260809f"></script>
 
-  <script src="routes.js?v=20260809e"></script>
+  <script src="meta.js?v=20260809f"></script>
 
-  <script src="meta.js?v=20260809e"></script>
-
-  <script src="app.js?v=20260809e"></script>
+  <script src="app.js?v=20260809f"></script>
 
 </body>
 

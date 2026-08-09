@@ -1,4 +1,35 @@
 (function () {
+  // Оптимизация картинок Wikimedia: меняем оригинал на 600px для скорости
+  function getOptimizedImage(url, width) {
+    width = width || 600;
+    if (!url || url.indexOf("wikipedia/commons") === -1) return url;
+    return url.replace(/\/\d+px-/g, "/" + width + "px-");
+  }
+
+  // Ленивая загрузка карт (подгружаем скрипт и стили только при открытии маршрута)
+  var leafletLoaded = false;
+  var leafletPromise = null;
+  function loadLeaflet() {
+    if (leafletLoaded && window.L) {
+      return Promise.resolve(window.L);
+    }
+    if (leafletPromise) return leafletPromise;
+    leafletPromise = new Promise(function (resolve) {
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      document.head.appendChild(link);
+      var script = document.createElement("script");
+      script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+      script.onload = function () {
+        leafletLoaded = true;
+        resolve(window.L);
+      };
+      document.body.appendChild(script);
+    });
+    return leafletPromise;
+  }
+
   var allRoutes = window.ROUTES || [];
   var meta = window.ROUTE_META || {};
   var hiddenIds = {
@@ -19,7 +50,7 @@
   var maps = {};
   var activeFilter = "all";
   var baseTitle = document.title;
-  var sectionNav = { velo: true, contact: true };
+  var sectionNav = { home: true, velo: true, contact: true };
   var reduceMotion =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var revealObserver = null;
@@ -103,7 +134,7 @@
 
   function createNumberedIcon(number, active) {
     var cls = "route-marker" + (active ? " route-marker--active" : "");
-    return L.divIcon({
+    return window.L.divIcon({
       className: cls,
       html:
         '<span class="route-marker__bubble"><span class="route-marker__num">' +
@@ -115,15 +146,16 @@
     });
   }
 
-  function renderMediaImage(imageUrl, className, altText, eager) {
+  function renderMediaImage(imageUrl, className, altText, eager, imageWidth) {
     if (!imageUrl) {
       return '<div class="' + className + ' ' + className + '--empty"></div>';
     }
+    var optimized = getOptimizedImage(imageUrl, imageWidth || 600);
     return (
       '<div class="' +
       className +
       '"><img src="' +
-      escapeHtml(imageUrl) +
+      escapeHtml(optimized) +
       '" alt="' +
       escapeHtml(altText || "") +
       '" loading="' +
@@ -445,7 +477,7 @@
       '<div class="container">' +
       '<button type="button" class="btn btn--ghost back-btn" data-back-home>← Все маршруты</button>' +
       '<header class="route-hero">' +
-      renderMediaImage(m.image, "route-hero__media", route.title, false) +
+      renderMediaImage(m.image, "route-hero__media", route.title, false, 1200) +
       '<div class="route-hero__content">' +
       '<p class="route-hero__eyebrow">' +
       escapeHtml(route.region) +
@@ -498,87 +530,88 @@
   }
 
   function initMap(route) {
-    if (typeof L === "undefined") return;
-    var el = document.getElementById("map-" + route.id);
-    if (!el || maps[route.id]) return;
+    return loadLeaflet().then(function (L) {
+      var el = document.getElementById("map-" + route.id);
+      if (!el || maps[route.id]) return;
 
-    var m = getMeta(route);
-    var map = L.map(el, {
-      scrollWheelZoom: false,
-      zoomControl: true,
-    }).setView(m.mapCenter, m.mapZoom);
+      var m = getMeta(route);
+      var map = L.map(el, {
+        scrollWheelZoom: false,
+        zoomControl: true,
+      }).setView(m.mapCenter, m.mapZoom);
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
-      subdomains: "abcd",
-      maxZoom: 19,
-    }).addTo(map);
-
-    var markers = [];
-    var pathLine = [];
-    var path = route.path || [];
-
-    path.forEach(function (placeName, pathIndex) {
-      var coords = getStopCoords(m, placeName);
-      if (!coords) return;
-      pathLine.push(coords);
-      var stopIndex = getStopIndex(route, placeName);
-      var marker = L.marker(coords, {
-        icon: createNumberedIcon(pathIndex + 1),
-        zIndexOffset: 500 + pathIndex,
-      })
-        .addTo(map)
-        .bindPopup(
-          "<strong>" +
-            (pathIndex + 1) +
-            ". " +
-            escapeHtml(placeName) +
-            "</strong>"
-        );
-      marker._stopIndex = stopIndex >= 0 ? stopIndex : pathIndex;
-      marker._pathIndex = pathIndex;
-      marker._isPath = true;
-      markers.push(marker);
-    });
-
-    route.stops.forEach(function (stop, stopIndex) {
-      if (path.indexOf(stop.name) !== -1) return;
-      var coords = getStopCoords(m, stop.name);
-      if (!coords) return;
-      var marker = L.circleMarker(coords, {
-        radius: 6,
-        color: "#14201c",
-        weight: 2,
-        fillColor: "#ffffff",
-        fillOpacity: 1,
-      })
-        .addTo(map)
-        .bindPopup("<strong>" + escapeHtml(stop.name) + "</strong>");
-      marker._stopIndex = stopIndex;
-      marker._isPath = false;
-      markers.push(marker);
-    });
-
-    if (pathLine.length > 1) {
-      L.polyline(pathLine, {
-        color: "#1a7568",
-        weight: 3,
-        opacity: 0.9,
-        lineJoin: "round",
-        lineCap: "round",
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
+        subdomains: "abcd",
+        maxZoom: 19,
       }).addTo(map);
-      map.fitBounds(L.latLngBounds(pathLine), {
-        padding: [40, 40],
-        maxZoom: Math.min(m.mapZoom + 3, 12),
-      });
-    } else if (pathLine.length === 1) {
-      map.setView(pathLine[0], Math.min(m.mapZoom + 2, 12));
-    }
 
-    maps[route.id] = { map: map, markers: markers };
-    window.setTimeout(function () {
-      map.invalidateSize();
-    }, 250);
+      var markers = [];
+      var pathLine = [];
+      var path = route.path || [];
+
+      path.forEach(function (placeName, pathIndex) {
+        var coords = getStopCoords(m, placeName);
+        if (!coords) return;
+        pathLine.push(coords);
+        var stopIndex = getStopIndex(route, placeName);
+        var marker = L.marker(coords, {
+          icon: createNumberedIcon(pathIndex + 1),
+          zIndexOffset: 500 + pathIndex,
+        })
+          .addTo(map)
+          .bindPopup(
+            "<strong>" +
+              (pathIndex + 1) +
+              ". " +
+              escapeHtml(placeName) +
+              "</strong>"
+          );
+        marker._stopIndex = stopIndex >= 0 ? stopIndex : pathIndex;
+        marker._pathIndex = pathIndex;
+        marker._isPath = true;
+        markers.push(marker);
+      });
+
+      route.stops.forEach(function (stop, stopIndex) {
+        if (path.indexOf(stop.name) !== -1) return;
+        var coords = getStopCoords(m, stop.name);
+        if (!coords) return;
+        var marker = L.circleMarker(coords, {
+          radius: 6,
+          color: "#14201c",
+          weight: 2,
+          fillColor: "#ffffff",
+          fillOpacity: 1,
+        })
+          .addTo(map)
+          .bindPopup("<strong>" + escapeHtml(stop.name) + "</strong>");
+        marker._stopIndex = stopIndex;
+        marker._isPath = false;
+        markers.push(marker);
+      });
+
+      if (pathLine.length > 1) {
+        L.polyline(pathLine, {
+          color: "#1a7568",
+          weight: 3,
+          opacity: 0.9,
+          lineJoin: "round",
+          lineCap: "round",
+        }).addTo(map);
+        map.fitBounds(L.latLngBounds(pathLine), {
+          padding: [40, 40],
+          maxZoom: Math.min(m.mapZoom + 3, 12),
+        });
+      } else if (pathLine.length === 1) {
+        map.setView(pathLine[0], Math.min(m.mapZoom + 2, 12));
+      }
+
+      maps[route.id] = { map: map, markers: markers };
+      window.setTimeout(function () {
+        map.invalidateSize();
+      }, 250);
+    });
   }
 
   function setMarkerActive(entry, stopIndex) {
@@ -651,19 +684,22 @@
     return null;
   }
 
-  function showHome() {
+  function showHome(sectionId) {
     homeView.hidden = false;
     var pages = routePages.querySelectorAll(".route-page");
     for (var i = 0; i < pages.length; i++) {
       pages[i].classList.remove("is-active");
     }
     disposeMapsExcept(null);
-    setActiveNav("home");
+    setActiveNav(sectionId || "home");
     document.title = baseTitle;
-    if (window.location.hash) {
-      history.replaceState(null, "", window.location.pathname);
+    var nextHash = sectionId && sectionId !== "home" ? "#" + sectionId : "";
+    if (window.location.hash !== nextHash) {
+      history.replaceState(null, "", window.location.pathname + nextHash);
     }
-    window.scrollTo(0, 0);
+    if (!sectionId || sectionId === "home") {
+      window.scrollTo(0, 0);
+    }
   }
 
   function showRoute(id) {
@@ -683,12 +719,27 @@
       window.location.hash = id;
     }
     disposeMapsExcept(id);
-    initMap(route);
-    window.setTimeout(function () {
-      var entry = maps[route.id];
-      if (entry) entry.map.invalidateSize();
-    }, 400);
+    initMap(route).then(function () {
+      window.setTimeout(function () {
+        var entry = maps[route.id];
+        if (entry) entry.map.invalidateSize();
+      }, 400);
+    });
     window.scrollTo(0, 0);
+  }
+
+  function navigateTo(target) {
+    if (target === "home") {
+      showHome("home");
+      return;
+    }
+    if (sectionNav[target]) {
+      showHome(target);
+      var section = document.getElementById(target);
+      if (section) section.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+      return;
+    }
+    showRoute(target);
   }
 
   function selectStop(routeId, stopIndex) {
@@ -784,16 +835,27 @@
 
       var navBtn = event.target.closest("[data-nav]");
       if (navBtn) {
-        var target = navBtn.getAttribute("data-nav");
-        if (target === "home") showHome();
-        else if (sectionNav[target]) {
-          showHome();
-          setActiveNav(target);
-          var section = document.getElementById(target);
-          if (section) section.scrollIntoView({ behavior: "smooth" });
-        } else showRoute(target);
+        // Шапка обрабатывается отдельно — там ссылки с href для SEO
+        if (navBtn.closest(".site-nav")) return;
+        navigateTo(navBtn.getAttribute("data-nav"));
       }
     });
+
+    var siteNav = document.querySelector(".site-nav");
+    if (siteNav) {
+      siteNav.addEventListener("click", function (e) {
+        var link = e.target.closest("[data-nav]");
+        if (!link) return;
+        // Ctrl/Cmd/средняя кнопка — пусть браузер откроет вкладку по href
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        var target = link.getAttribute("data-nav");
+        navigateTo(target);
+        if (target === "home" || sectionNav[target]) {
+          history.pushState(null, "", "#" + target);
+        }
+      });
+    }
 
     function openFromHash() {
       var hash = window.location.hash.replace("#", "");
@@ -804,26 +866,19 @@
         showRoute(hash);
         return;
       }
-      if (!hash) {
-        showHome();
+      if (!hash || hash === "home") {
+        showHome("home");
         return;
       }
       // Section anchors are only in place once the grids have rendered, so the
       // browser's own jump on load lands in empty space — scroll again here.
       var section = sectionNav[hash] && document.getElementById(hash);
       if (section) {
-        homeView.hidden = false;
-        var pages = routePages.querySelectorAll(".route-page");
-        for (var p = 0; p < pages.length; p++) {
-          pages[p].classList.remove("is-active");
-        }
-        disposeMapsExcept(null);
-        document.title = baseTitle;
-        setActiveNav(hash);
+        showHome(hash);
         section.scrollIntoView();
         return;
       }
-      showHome();
+      showHome("home");
     }
 
     var header = document.querySelector(".site-header");
