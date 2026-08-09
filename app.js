@@ -2,7 +2,9 @@
   // Оптимизация картинок Wikimedia: меняем оригинал на 600px для скорости
   function getOptimizedImage(url, width) {
     width = width || 600;
-    if (!url || url.indexOf("wikipedia/commons") === -1) return url;
+    if (!url) return url;
+    if (url.indexOf("images/") === 0 || url.indexOf("./images/") === 0) return url;
+    if (url.indexOf("wikipedia/commons") === -1) return url;
     return url.replace(/\/\d+px-/g, "/" + width + "px-");
   }
 
@@ -655,8 +657,11 @@
       renderPath(route.path) +
       "</div>" +
       (primaryAction
-        ? '<div class="route-hero__actions">' + primaryAction + "</div>"
-        : "") +
+        ? '<div class="route-hero__actions">' +
+          primaryAction +
+          '<a class="btn btn--ghost" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Написать нам</a>' +
+          "</div>"
+        : '<div class="route-hero__actions"><a class="btn btn--ghost" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Написать нам</a></div>') +
       "</div></header>" +
       '<div class="route-layout">' +
       '<div class="route-map-wrap">' +
@@ -961,24 +966,32 @@
     window.scrollTo(0, 0);
   }
 
+  function scrollToId(id) {
+    var header = document.querySelector(".site-header");
+    var offset = header ? header.offsetHeight + 8 : 72;
+    window.requestAnimationFrame(function () {
+      window.setTimeout(function () {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({
+          top: Math.max(0, top),
+          behavior: reduceMotion ? "auto" : "smooth",
+        });
+      }, 40);
+    });
+  }
+
   function navigateTo(target) {
     if (target === "home") {
       showHome("trips");
       window.scrollTo(0, 0);
       return;
     }
-    if (target === "trips") {
-      showHome("trips");
-      var tripsEl = document.getElementById("trips");
-      if (tripsEl) {
-        tripsEl.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
-      }
-      return;
-    }
-    if (sectionNav[target]) {
-      showHome(target);
-      var section = document.getElementById(target);
-      if (section) section.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+    if (target === "contact") target = "about";
+    if (target === "trips" || sectionNav[target]) {
+      showHome(target === "trips" ? "trips" : target);
+      scrollToId(target === "trips" ? "trips" : target);
       if (target === "map-world") initWorldMap();
       return;
     }
@@ -1115,9 +1128,7 @@
         e.preventDefault();
         var target = link.getAttribute("data-nav");
         navigateTo(target);
-        if (target === "home" || sectionNav[target]) {
-          history.pushState(null, "", "#" + (target === "home" ? "trips" : target));
-        }
+        // hash already set inside showHome; avoid fighting scroll
       });
     }
 
@@ -1137,7 +1148,7 @@
       var section = sectionNav[hash] && document.getElementById(hash);
       if (section) {
         showHome(hash);
-        section.scrollIntoView();
+        scrollToId(hash);
         if (hash === "map-world") initWorldMap();
         return;
       }

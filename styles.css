@@ -91,14 +91,14 @@ button {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(16px);
-  transition: border-color 0.25s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .site-header.is-scrolled {
   border-bottom-color: var(--line-strong);
+  box-shadow: 0 8px 24px rgba(20, 32, 28, 0.06);
 }
 
 .site-header__inner {
@@ -198,8 +198,7 @@ button {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80")
-    center / cover;
+  background: url("images/hero.jpg") center / cover;
   animation: hero-zoom 16s var(--ease) forwards;
 }
 
@@ -308,7 +307,7 @@ button {
   position: relative;
   padding: 4.5rem 0;
   scroll-margin-top: calc(var(--header-h) + 1rem);
-  overflow: clip;
+  overflow: visible;
 }
 
 .section > .container {

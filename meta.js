@@ -4,7 +4,7 @@ window.ROUTE_META = {
     transportLabel: "Поезд + яхта",
     category: "russia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/%D0%A8%D1%85%D0%B5%D1%80%D1%8B%2C_%D0%9B%D0%B0%D0%B4%D0%BE%D0%B3%D0%B0%2C_%D1%81%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D1%87%D0%B0%D1%81%D1%82%D1%8C.jpg/1920px-%D0%A8%D1%85%D0%B5%D1%80%D1%8B%2C_%D0%9B%D0%B0%D0%B4%D0%BE%D0%B3%D0%B0%2C_%D1%81%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D1%87%D0%B0%D1%81%D1%82%D1%8C.jpg",
+      "images/route-1.jpg",
     mapCenter: [59.5, 32.5],
     mapZoom: 5,
     stopCoords: {
@@ -20,7 +20,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт + авто",
     category: "turkey",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Istanbul_panorama_%2816293921746%29.jpg/1920px-Istanbul_panorama_%2816293921746%29.jpg",
+      "images/route-2.jpg",
     mapCenter: [38.5, 30.5],
     mapZoom: 6,
     stopCoords: {
@@ -39,7 +39,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт + авто",
     category: "turkey",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Hot_air_balloon_start_in_Cappadocia_2014.jpg/1920px-Hot_air_balloon_start_in_Cappadocia_2014.jpg",
+      "images/fill-1.jpg",
     mapCenter: [37.6, 32.8],
     mapZoom: 6,
     stopCoords: {
@@ -59,7 +59,7 @@ window.ROUTE_META = {
     transportLabel: "Авто",
     category: "russia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Kazan_Kremlin_-_panoramio_%286%29.jpg/1920px-Kazan_Kremlin_-_panoramio_%286%29.jpg",
+      "images/fill-2.jpg",
     mapCenter: [54.5, 49.5],
     mapZoom: 5,
     stopCoords: {
@@ -75,7 +75,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт",
     category: "asia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/%E4%B8%89%E4%BA%9A%E5%A4%A7%E5%B0%8F%E6%B4%9E%E5%A4%A9%E6%99%AF%E5%8C%BA%E9%A3%8E%E5%85%89_-_panoramio_%2820%29.jpg/1920px-%E4%B8%89%E4%BA%9A%E5%A4%A7%E5%B0%8F%E6%B4%9E%E5%A4%A9%E6%99%AF%E5%8C%BA%E9%A3%8E%E5%85%89_-_panoramio_%2820%29.jpg",
+      "images/route-5.jpg",
     mapCenter: [18.25, 109.5],
     mapZoom: 8,
     stopCoords: {
@@ -91,7 +91,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт",
     category: "asia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Puente_Helix%2C_Marina_Bay%2C_Singapur%2C_2023-08-16%2C_DD_144-146_HDR.jpg/1920px-Puente_Helix%2C_Marina_Bay%2C_Singapur%2C_2023-08-16%2C_DD_144-146_HDR.jpg",
+      "images/fill-3.jpg",
     mapCenter: [1.36, 103.82],
     mapZoom: 11,
     stopCoords: {
@@ -106,7 +106,7 @@ window.ROUTE_META = {
     transportLabel: "Авто",
     category: "russia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/%D0%A1%D0%B2%D1%8F%D1%82%D0%BE-%D0%A2%D1%80%D0%BE%D0%B8%D1%86%D0%BA%D0%B0%D1%8F_%D0%A1%D0%B5%D1%80%D0%B3%D0%B8%D0%B5%D0%B2%D0%B0_%D0%BB%D0%B0%D0%B2%D1%80%D0%B0_%D0%9E%D0%B1%D1%89%D0%B8%D0%B9_%D0%B2%D0%B8%D0%B4_%D0%9F%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0.jpg/1920px-%D0%A1%D0%B2%D1%8F%D1%82%D0%BE-%D0%A2%D1%80%D0%BE%D0%B8%D1%86%D0%BA%D0%B0%D1%8F_%D0%A1%D0%B5%D1%80%D0%B3%D0%B8%D0%B5%D0%B2%D0%B0_%D0%BB%D0%B0%D0%B2%D1%80%D0%B0_%D0%9E%D0%B1%D1%89%D0%B8%D0%B9_%D0%B2%D0%B8%D0%B4_%D0%9F%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0.jpg",
+      "images/fill-4.jpg",
     mapCenter: [56.3, 38.1],
     mapZoom: 9,
     stopCoords: {
@@ -122,7 +122,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт + авто",
     category: "russia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Views_of_Vladivostok_%28October_2024%29-0_3.jpg/1920px-Views_of_Vladivostok_%28October_2024%29-0_3.jpg",
+      "images/fill-5.jpg",
     mapCenter: [43.5, 132.5],
     mapZoom: 7,
     stopCoords: {
@@ -141,7 +141,7 @@ window.ROUTE_META = {
     transportLabel: "Авто",
     category: "russia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Kizhi_06-2017_img08_Pogost_view.jpg/1920px-Kizhi_06-2017_img08_Pogost_view.jpg",
+      "images/route-1.jpg",
     mapCenter: [60.9, 32.8],
     mapZoom: 6,
     stopCoords: {
@@ -155,7 +155,7 @@ window.ROUTE_META = {
     transportLabel: "На машине",
     category: "russia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Kizhi_06-2017_img08_Pogost_view.jpg/1920px-Kizhi_06-2017_img08_Pogost_view.jpg",
+      "images/route-1.jpg",
     mapCenter: [61.0, 32.0],
     mapZoom: 6,
     stopCoords: {
@@ -171,7 +171,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт + авто",
     category: "russia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Zametny_Island_and_Tikhaya_Bay.jpg/1920px-Zametny_Island_and_Tikhaya_Bay.jpg",
+      "images/route-10.jpg",
     mapCenter: [47.0, 142.7],
     mapZoom: 7,
     stopCoords: {
@@ -187,7 +187,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт / поезд",
     category: "russia",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Palace_Bridge_SPB_%28img2%29_Crop.jpg/1920px-Palace_Bridge_SPB_%28img2%29_Crop.jpg",
+      "images/fill-7.jpg",
     mapCenter: [59.93, 30.35],
     mapZoom: 10,
     stopCoords: {
@@ -202,7 +202,7 @@ window.ROUTE_META = {
     transportLabel: "Чек-лист",
     category: "checklist",
     image:
-      "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80",
+      "images/route-12.jpg",
     mapCenter: [55.75, 37.62],
     mapZoom: 4,
     stopCoords: {},
@@ -212,7 +212,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%D0%AF%D1%85%D1%80%D0%BE%D0%BC%D0%B0._%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D0%BB%D0%B0_%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2%D0%B0.jpg/1920px-%D0%AF%D1%85%D1%80%D0%BE%D0%BC%D0%B0._%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D0%BB%D0%B0_%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2%D0%B0.jpg",
+      "images/fill-8.jpg",
     mapCenter: [56.51, 37.33],
     mapZoom: 9,
     stopCoords: {
@@ -227,7 +227,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Moscow_%2852078730783%29.jpg/1920px-Moscow_%2852078730783%29.jpg",
+      "images/fill-9.jpg",
     mapCenter: [55.78, 37.62],
     mapZoom: 11,
     stopCoords: {
@@ -242,7 +242,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Moscow._Kolomenskoye._Church_of_the_Ascension_P5183117_2600.jpg/1280px-Moscow._Kolomenskoye._Church_of_the_Ascension_P5183117_2600.jpg",
+      "images/route-15.jpg",
     mapCenter: [55.75, 37.65],
     mapZoom: 11,
     stopCoords: {
@@ -257,7 +257,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Lavra%2C_aerial_view_4_-_Sergiyev_Posad%2C_Russia_-_panoramio.jpg/1920px-Lavra%2C_aerial_view_4_-_Sergiyev_Posad%2C_Russia_-_panoramio.jpg",
+      "images/fill-10.jpg",
     mapCenter: [56.03, 37.9],
     mapZoom: 9,
     stopCoords: {
@@ -273,7 +273,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/%D0%90%D0%BD%D1%81%D0%B0%D0%BC%D0%B1%D0%BB%D1%8C_%D0%A1%D0%B0%D0%B2%D0%B2%D0%B8%D0%BD%D0%BE-%D0%A1%D1%82%D0%BE%D1%80%D0%BE%D0%B6%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BC%D0%BE%D0%BD%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%8F_%D1%81_%D1%80%D0%B0%D0%B7%D0%BD%D1%8B%D1%85_%D1%81%D1%82%D0%BE%D1%80%D0%BE%D0%BD_2_%D0%A1%D0%B0%D0%B2%D0%B2%D0%B8%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B4%D0%B0%2C_%D0%97%D0%B2%D0%B5%D0%BD%D0%B8%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%2C_%D0%9C%D0%BE%D1%81%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C.jpg/1920px-%D0%90%D0%BD%D1%81%D0%B0%D0%BC%D0%B1%D0%BB%D1%8C_%D0%A1%D0%B0%D0%B2%D0%B2%D0%B8%D0%BD%D0%BE-%D0%A1%D1%82%D0%BE%D1%80%D0%BE%D0%B6%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BC%D0%BE%D0%BD%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%8F_%D1%81_%D1%80%D0%B0%D0%B7%D0%BD%D1%8B%D1%85_%D1%81%D1%82%D0%BE%D1%80%D0%BE%D0%BD_2_%D0%A1%D0%B0%D0%B2%D0%B2%D0%B8%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B4%D0%B0%2C_%D0%97%D0%B2%D0%B5%D0%BD%D0%B8%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%2C_%D0%9C%D0%BE%D1%81%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C.jpg",
+      "images/fill-11.jpg",
     mapCenter: [55.74, 37.25],
     mapZoom: 10,
     stopCoords: {
@@ -288,7 +288,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/G._Konakovo%2C_Tverskaya_oblast%27%2C_Russia_-_panoramio.jpg/1920px-G._Konakovo%2C_Tverskaya_oblast%27%2C_Russia_-_panoramio.jpg",
+      "images/fill-12.jpg",
     mapCenter: [56.72, 36.96],
     mapZoom: 10,
     stopCoords: {
@@ -301,7 +301,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%D0%B0_%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%BE%D0%B3%D0%BE.jpg/1920px-%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C_%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%D0%B0_%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%BE%D0%B3%D0%BE.jpg",
+      "images/fill-13.jpg",
     mapCenter: [56.78, 36.34],
     mapZoom: 9,
     stopCoords: {
