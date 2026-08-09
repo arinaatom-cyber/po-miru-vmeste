@@ -4,7 +4,7 @@ window.ROUTE_META = {
     transportLabel: "Поезд + яхта",
     category: "north",
     image:
-      "images/route-1.jpg",
+      "images/karelia-yacht.jpg",
     mapCenter: [59.5, 32.5],
     mapZoom: 5,
     stopCoords: {
@@ -20,7 +20,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт + авто",
     category: "turkey",
     image:
-      "images/route-2.jpg",
+      "images/turkey-istanbul.jpg",
     mapCenter: [38.5, 30.5],
     mapZoom: 6,
     stopCoords: {
@@ -39,7 +39,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт + авто",
     category: "turkey",
     image:
-      "images/fill-1.jpg",
+      "images/turkey-cappadocia.jpg",
     mapCenter: [37.6, 32.8],
     mapZoom: 6,
     stopCoords: {
@@ -59,7 +59,7 @@ window.ROUTE_META = {
     transportLabel: "Авто",
     category: "center",
     image:
-      "images/fill-2.jpg",
+      "images/new-new-year.jpg",
     mapCenter: [54.5, 49.5],
     mapZoom: 5,
     stopCoords: {
@@ -75,7 +75,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт",
     category: "china",
     image:
-      "images/route-5.jpg",
+      "images/hainan-china.jpg",
     mapCenter: [18.25, 109.5],
     mapZoom: 8,
     stopCoords: {
@@ -91,7 +91,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт",
     category: "singapore",
     image:
-      "images/fill-3.jpg",
+      "images/singapore.jpg",
     mapCenter: [1.36, 103.82],
     mapZoom: 11,
     stopCoords: {
@@ -106,7 +106,7 @@ window.ROUTE_META = {
     transportLabel: "Авто",
     category: "center",
     image:
-      "images/fill-4.jpg",
+      "images/sergiev-posad.jpg",
     mapCenter: [56.3, 38.1],
     mapZoom: 9,
     stopCoords: {
@@ -122,7 +122,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт + авто",
     category: "asia",
     image:
-      "images/fill-5.jpg",
+      "images/vladivostok.jpg",
     mapCenter: [43.5, 132.5],
     mapZoom: 7,
     stopCoords: {
@@ -141,7 +141,7 @@ window.ROUTE_META = {
     transportLabel: "Авто",
     category: "north",
     image:
-      "images/route-1.jpg",
+      "images/karelia.jpg",
     mapCenter: [60.9, 32.8],
     mapZoom: 6,
     stopCoords: {
@@ -155,7 +155,7 @@ window.ROUTE_META = {
     transportLabel: "На машине",
     category: "russia",
     image:
-      "images/route-1.jpg",
+      "images/spb-karelia.jpg",
     mapCenter: [61.0, 32.0],
     mapZoom: 6,
     stopCoords: {
@@ -171,7 +171,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт + авто",
     category: "asia",
     image:
-      "images/route-10.jpg",
+      "images/sakhalin.jpg",
     mapCenter: [47.0, 142.7],
     mapZoom: 7,
     stopCoords: {
@@ -187,7 +187,7 @@ window.ROUTE_META = {
     transportLabel: "Самолёт / поезд",
     category: "russia",
     image:
-      "images/fill-7.jpg",
+      "images/spb-city.jpg",
     mapCenter: [59.93, 30.35],
     mapZoom: 10,
     stopCoords: {
@@ -202,7 +202,7 @@ window.ROUTE_META = {
     transportLabel: "Чек-лист",
     category: "checklist",
     image:
-      "images/route-12.jpg",
+      "images/hero.jpg",
     mapCenter: [55.75, 37.62],
     mapZoom: 4,
     stopCoords: {},
@@ -212,7 +212,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "images/fill-8.jpg",
+      "images/velo-yakhroma.jpg",
     mapCenter: [56.51, 37.33],
     mapZoom: 9,
     stopCoords: {
@@ -228,7 +228,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "images/fill-9.jpg",
+      "images/velo-botsad-city.jpg",
     mapCenter: [55.78, 37.62],
     mapZoom: 11,
     stopCoords: {
@@ -243,7 +243,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "images/route-15.jpg",
+      "images/velo-botsad-kolomenskoe.jpg",
     mapCenter: [55.75, 37.65],
     mapZoom: 11,
     stopCoords: {
@@ -258,7 +258,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "images/fill-10.jpg",
+      "images/velo-sergiev.jpg",
     mapCenter: [56.03, 37.9],
     mapZoom: 9,
     stopCoords: {
@@ -274,7 +274,7 @@ window.ROUTE_META = {
     transportLabel: "На велосипеде",
     category: "velo",
     image:
-      "images/fill-11.jpg",
+      "images/velo-zvenigorod.jpg",
     mapCenter: [55.74, 37.25],
     mapZoom: 10,
     stopCoords: {
@@ -290,7 +290,7 @@ window.ROUTE_META = {
     category: "velo",
     planned: true,
     image:
-      "images/fill-12.jpg",
+      "images/velo-konakovo.jpg",
     mapCenter: [56.72, 36.96],
     mapZoom: 10,
     stopCoords: {
