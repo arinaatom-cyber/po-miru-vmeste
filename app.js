@@ -533,6 +533,40 @@
     return route.title || routeFromTo(route) || "Маршрут";
   }
 
+  function getRouteSources(route) {
+    if (route.sources && route.sources.length) {
+      return route.sources.filter(Boolean);
+    }
+    return route.source ? [route.source] : [];
+  }
+
+  function renderSourceLinks(route) {
+    var sources = getRouteSources(route);
+    if (!sources.length) return "";
+    if (sources.length === 1) {
+      return (
+        '<p class="route-hero__source"><a href="' +
+        escapeHtml(sources[0]) +
+        '" target="_blank" rel="noopener noreferrer">Читать в Telegraph</a></p>'
+      );
+    }
+    return (
+      '<ul class="route-hero__source-list">' +
+      sources
+        .map(function (url, i) {
+          return (
+            '<li><a href="' +
+            escapeHtml(url) +
+            '" target="_blank" rel="noopener noreferrer">Telegraph' +
+            (sources.length > 1 ? " " + (i + 1) : "") +
+            "</a></li>"
+          );
+        })
+        .join("") +
+      "</ul>"
+    );
+  }
+
   function renderRouteCard(route) {
     var m = getMeta(route);
     var headline = routeHeadline(route);
@@ -699,6 +733,7 @@
       (route.about
         ? '<p class="route-hero__about">' + escapeHtml(route.about) + "</p>"
         : "") +
+      renderSourceLinks(route) +
       (line ? '<p class="passport-line">' + escapeHtml(line) + "</p>" : "") +
       '<div class="route-hero__path">' +
       renderPath(route.path) +
@@ -877,6 +912,9 @@
       "</h3>" +
       (route && route.about
         ? '<p class="route-card__about">' + escapeHtml(route.about) + "</p>"
+        : "") +
+      (route && getRouteSources(route).length
+        ? '<p class="city-card__source-note">Есть заметка в Telegraph</p>'
         : "") +
       "</div></button>"
     );

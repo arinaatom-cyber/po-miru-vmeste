@@ -729,9 +729,7 @@ button {
   margin-top: 0.5rem;
 }
 
-.route-hero--dry .route-hero__about,
-.route-hero--dry .route-hero__fromto,
-.route-hero--dry .route-hero__source {
+.route-hero--dry .route-hero__fromto {
   display: none;
 }
 
@@ -930,6 +928,15 @@ button {
   overflow: hidden;
 }
 
+.city-card__source-note {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .route-card__path {
   display: flex;
   flex-wrap: wrap;
@@ -1060,8 +1067,40 @@ button {
 }
 
 .route-hero__source {
-  font-size: 0.88rem;
-  margin-bottom: 1.25rem;
+  font-size: 0.92rem;
+  margin: 0.35rem 0 1.15rem;
+  font-weight: 600;
+}
+
+.route-hero__source a {
+  color: var(--accent-dark);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(26, 117, 104, 0.35);
+}
+
+.route-hero__source a:hover {
+  border-bottom-color: var(--accent);
+}
+
+.route-hero__source-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.1rem;
+  margin: 0.35rem 0 1.15rem;
+  padding: 0;
+  list-style: none;
+}
+
+.route-hero__source-list a {
+  color: var(--accent-dark);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(26, 117, 104, 0.35);
+}
+
+.route-hero__source-list a:hover {
+  border-bottom-color: var(--accent);
 }
 
 .route-hero__fromto {
