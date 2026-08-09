@@ -157,12 +157,36 @@ button {
 
 /* Hero — light and quiet */
 .hero {
-  padding: 6.5rem 0 4rem;
-  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  padding: 7rem 0 5.5rem;
+  background: var(--ink);
+  color: #fff;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80")
+    center / cover;
+  animation: hero-zoom 16s var(--ease) forwards;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, rgba(14, 24, 20, 0.92) 0%, rgba(20, 88, 79, 0.7) 100%);
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
 }
 
 .hero__eyebrow {
-  color: var(--accent);
+  color: rgba(255, 255, 255, 0.78);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -177,13 +201,14 @@ button {
   letter-spacing: -0.045em;
   line-height: 1;
   max-width: 14ch;
+  color: #fff;
   animation: fade-up 0.7s 0.14s var(--ease) both;
 }
 
 .hero__byline {
   margin-top: 1.75rem;
   max-width: 54ch;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.85);
   font-size: clamp(1rem, 1.6vw, 1.15rem);
   font-weight: 500;
   line-height: 1.6;
@@ -197,14 +222,14 @@ button {
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--muted-light);
+  color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
   animation: fade-up 0.7s 0.34s var(--ease) both;
   transition: color 0.18s ease;
 }
 
 .hero__cue:hover {
-  color: var(--accent);
+  color: #fff;
 }
 
 /* Sections */
@@ -1222,6 +1247,15 @@ button {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
   }
 }
 
