@@ -1359,14 +1359,10 @@ button {
   background: var(--line-strong);
 }
 
-/* Info cards */
+/* Info cards — сводные блоки reco/tips скрыты */
 .reco-block,
 .tips-block {
   display: none !important;
-}
-  margin: 3rem 0 2rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid var(--line);
 }
 
 .reco-grid {
