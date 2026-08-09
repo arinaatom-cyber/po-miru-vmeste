@@ -1048,11 +1048,12 @@
 
   function buildFilters() {
     if (!filterBar) return;
-    var regionKeys = Object.keys(placeTree);
+    var regionKeys = ["russia", "asia"];
     var regionChips = regionKeys
       .map(function (key) {
+        if (!placeTree[key]) return "";
         var active = activeFilters.region === key ? " is-active" : "";
-        var label = (placeTree[key] && placeTree[key].label) || key;
+        var label = placeTree[key].label || key;
         return (
           '<button type="button" class="filter-chip filter-chip--region' +
           active +
@@ -1086,7 +1087,7 @@
         .join("");
 
     filterBar.innerHTML =
-      '<div class="filter-row"><div class="filter-row__chips">' +
+      '<div class="filter-row filter-row--regions"><span class="filter-row__label">Регион</span><div class="filter-row__chips">' +
       regionChips +
       '</div></div><div class="filter-row filter-row--cities"><span class="filter-row__label">Города</span><div class="filter-row__chips">' +
       cityChips +
