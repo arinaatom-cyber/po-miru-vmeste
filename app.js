@@ -59,6 +59,7 @@
     "map-world": true,
     velo: true,
     about: true,
+    contact: true,
     picks: true,
   };
   var reduceMotion =
@@ -136,9 +137,12 @@
 
   function placeLabel(m) {
     var map = {
-      turkey: "Турция",
-      russia: "Россия",
+      north: "Север",
+      center: "Центр",
       asia: "Азия",
+      turkey: "Турция",
+      china: "Китай",
+      singapore: "Сингапур",
       velo: "Вело",
     };
     return map[m.category] || m.transportLabel || "";
@@ -149,7 +153,6 @@
     if (m.days) parts.push(m.days);
     if (m.transportLabel) parts.push(m.transportLabel.toLowerCase());
     if (!compact && m.distance) parts.push(m.distance);
-    if (m.season) parts.push(m.season);
     return parts.join(" · ");
   }
 
@@ -988,7 +991,7 @@
       window.scrollTo(0, 0);
       return;
     }
-    if (target === "contact") target = "about";
+    if (target === "about") target = "contact";
     if (target === "trips" || sectionNav[target]) {
       showHome(target === "trips" ? "trips" : target);
       scrollToId(target === "trips" ? "trips" : target);
@@ -1027,9 +1030,9 @@
   function buildFilterRow(axis, keys, label) {
     return (
       '<div class="filter-row">' +
-      '<span class="filter-row__label">' +
-      escapeHtml(label) +
-      "</span>" +
+      (label
+        ? '<span class="filter-row__label">' + escapeHtml(label) + "</span>"
+        : "") +
       '<div class="filter-row__chips">' +
       keys
         .map(function (key) {
@@ -1053,14 +1056,11 @@
 
   function buildFilters() {
     if (!filterBar) return;
-    filterBar.innerHTML =
-      buildFilterRow("place", ["all", "turkey", "russia", "asia"], "Куда") +
-      buildFilterRow("how", ["all", "car", "plane", "train", "yacht"], "Как") +
-      buildFilterRow(
-        "mood",
-        ["all", "sea", "nature", "city", "active", "food", "weekend"],
-        "Что"
-      );
+    filterBar.innerHTML = buildFilterRow(
+      "place",
+      ["all", "north", "center", "asia", "turkey", "china", "singapore"],
+      ""
+    );
   }
 
   function init() {

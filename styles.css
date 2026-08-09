@@ -136,6 +136,15 @@ button {
   line-height: 1.2;
 }
 
+.brand__hand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
 .site-nav {
   display: flex;
   flex-wrap: wrap;
@@ -234,6 +243,25 @@ button {
   color: #fff;
   text-transform: uppercase;
   animation: fade-up 0.7s 0.14s var(--ease) both;
+}
+
+.hero__title--hand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: clamp(2.8rem, 8vw, 5.2rem);
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  max-width: 14ch;
+  text-transform: none;
+}
+
+.contact__hand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
 }
 
 .hero__byline {
