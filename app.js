@@ -596,6 +596,10 @@
     return "";
   }
 
+  function renderTips() {
+    return "";
+  }
+
   function renderStopButtons(route, activeIndex) {
     return route.stops
       .map(function (stop, index) {
@@ -620,22 +624,6 @@
         );
       })
       .join("");
-  }
-
-  function renderTips(route) {
-    if (!route.tips || !route.tips.length) return "";
-    var items = route.tips
-      .map(function (tip) {
-        return "<li>" + formatText(tip) + "</li>";
-      })
-      .join("");
-    return (
-      '<aside class="tips-block">' +
-      "<h4>Советы</h4>" +
-      "<ul>" +
-      items +
-      "</ul></aside>"
-    );
   }
 
   function renderRoutePage(route) {
@@ -691,7 +679,6 @@
       renderStopPanel(route, 0) +
       "</div>" +
       "</div></div>" +
-      renderTips(route) +
       "</div></section>"
     );
   }
