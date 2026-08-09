@@ -36,7 +36,6 @@
   var meta = window.ROUTE_META || {};
   var hiddenIds = {
     "spb-karelia": true,
-    "spb-city": true,
     "pack-essentials": true,
   };
   var routes = allRoutes.filter(function (r) {
@@ -136,6 +135,7 @@
       north: "Север · Россия",
       center: "Центр · Россия",
       asia: "Азия",
+      russia: "Россия",
       turkey: "Турция",
       china: "Китай",
       singapore: "Сингапур",
@@ -986,7 +986,7 @@
     if (!filterBar) return;
     filterBar.innerHTML = buildFilterRow(
       "place",
-      ["all", "north", "center", "asia", "turkey", "china", "singapore"],
+      ["all", "north", "center", "asia", "russia", "turkey", "china", "singapore"],
       ""
     );
   }

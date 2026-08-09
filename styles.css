@@ -206,16 +206,18 @@ button {
 .hero::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: url("images/hero.jpg") center / cover;
-  animation: hero-zoom 16s var(--ease) forwards;
+  inset: -1px;
+  background: url("images/hero.jpg") center 32% / cover no-repeat;
+  animation: none;
 }
 
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, rgba(14, 24, 20, 0.92) 0%, rgba(20, 88, 79, 0.7) 100%);
+  background:
+    linear-gradient(to bottom, transparent 78%, var(--bg) 100%),
+    linear-gradient(115deg, rgba(14, 24, 20, 0.92) 0%, rgba(20, 88, 79, 0.72) 100%);
 }
 
 .hero .container {
@@ -329,7 +331,10 @@ button {
 
 /* Sections */
 .main-content {
+  position: relative;
+  z-index: 1;
   background: var(--bg);
+  margin-top: -1px;
   min-height: 50vh;
 }
 
