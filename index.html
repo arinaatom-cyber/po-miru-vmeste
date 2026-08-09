@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta name="description" content="По миру вместе — маршруты, по которым мы уже ездили. Турция и Каппадокия, Хайнань, Сингапур, Карелия, Петербург, Владивосток, Сахалин." />
+  <meta name="description" content="По миру вместе — маршруты Арины и Никиты: города, дороги, жильё, кафе и карты поездок, которые мы проехали сами." />
 
   <title>По миру вместе</title>
 
@@ -16,9 +16,9 @@
 
   <meta property="og:type" content="website" />
 
-  <meta property="og:title" content="По миру вместе — маршруты наших поездок" />
+  <meta property="og:title" content="По миру вместе — маршруты, которые мы проехали сами" />
 
-  <meta property="og:description" content="Города, отели с адресами, кафе и карты по маршрутам, которые мы уже проехали." />
+  <meta property="og:description" content="Города, дороги, жильё, кафе и карты. Турция, Карелия, Хайнань, Сахалин, Владивосток и другие поездки." />
 
   <meta property="og:locale" content="ru_RU" />
 
@@ -71,11 +71,15 @@
 
       <nav class="site-nav">
 
-        <a href="#home" class="site-nav__link is-active" data-nav="home">Маршруты</a>
+        <a href="#trips" class="site-nav__link is-active" data-nav="trips">Маршруты</a>
+
+        <a href="#map-world" class="site-nav__link" data-nav="map-world">Карта</a>
 
         <a href="#velo" class="site-nav__link" data-nav="velo">Вело</a>
 
-        <a href="#contact" class="site-nav__link" data-nav="contact">Контакты</a>
+        <a href="#about" class="site-nav__link" data-nav="about">О нас</a>
+
+        <a class="site-nav__telegram" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer" aria-label="Телеграм" title="Телеграм">TG</a>
 
       </nav>
 
@@ -89,23 +93,21 @@
 
     <section class="hero">
 
-      <div class="wall-notes" aria-hidden="true">
-
-        <p class="wall-note wall-note--g">Ездить по миру</p>
-
-        <p class="wall-note wall-note--h">Знакомиться с новыми людьми</p>
-
-      </div>
-
       <div class="container">
 
-        <p class="hero__eyebrow">Арина и Никита</p>
+        <p class="hero__brand">По миру вместе</p>
 
-        <h1 class="hero__title">Так мы уже путешествовали</h1>
+        <h1 class="hero__title">Арина и Никита. Маршруты, которые мы проехали сами.</h1>
 
-        <p class="hero__byline">Привет. Мы долго катались сами по себе — и наконец собрали всё, что прожили, в одно место. Берите маршрут, меняйте под себя и езжайте. Мы тоже будем добавлять новое.</p>
+        <p class="hero__byline">Города, дороги, жильё, кафе и места, куда вернулись бы ещё раз.</p>
 
-        <a class="hero__cue" href="#trips">Маршруты ↓</a>
+        <div class="hero__actions">
+
+          <a class="btn btn--gold" href="#trips">Смотреть маршруты</a>
+
+          <a class="btn btn--ghost-light" href="#map-world" data-nav="map-world">Открыть карту</a>
+
+        </div>
 
       </div>
 
@@ -115,45 +117,15 @@
 
     <div class="main-content">
 
-      <section class="section section--credo" id="about">
-
-        <div class="wall-notes" aria-hidden="true">
-
-          <p class="wall-note wall-note--a">Как же здорово жить</p>
-
-          <p class="wall-note wall-note--b">Хотим новых эмоций</p>
-
-        </div>
-
-        <div class="container">
-
-          <p class="section__eyebrow reveal" data-num="01">Как мы ездим</p>
-
-          <h2 class="section__title reveal">Не галочки — ощущения</h2>
-
-          <p class="section__sub reveal">Нам важнее вечер у воды и разговор по душам, чем успеть везде. Компания, тишина и место, которое запоминается кожей.</p>
-
-        </div>
-
-      </section>
-
       <section class="section" id="trips">
 
-        <div class="wall-notes" aria-hidden="true">
-
-          <p class="wall-note wall-note--c">Ездить по городам России</p>
-
-          <p class="wall-note wall-note--d">Хотим отдыхать</p>
-
-        </div>
-
         <div class="container">
 
-          <p class="section__eyebrow reveal" data-num="02">Наши поездки</p>
+          <p class="section__eyebrow reveal" data-num="01">Каталог</p>
 
-          <h2 class="section__title reveal">Куда уже ездили</h2>
+          <h2 class="section__title reveal">Маршруты</h2>
 
-          <p class="section__sub reveal">От моря Турции до Карелии и Сахалина — маршруты, которые мы прошли сами.</p>
+          <p class="section__sub reveal">Фильтруйте по направлению, способу и характеру поездки. Внутри — адреса, кафе и карта.</p>
 
           <div class="filter-bar reveal" id="filter-bar"></div>
 
@@ -163,23 +135,47 @@
 
       </section>
 
-      <section class="section section--velo" id="velo">
-
-        <div class="wall-notes" aria-hidden="true">
-
-          <p class="wall-note wall-note--e">Перезагрузить голову</p>
-
-          <p class="wall-note wall-note--f">Хотим перезарядиться</p>
-
-        </div>
+      <section class="section section--picks" id="picks">
 
         <div class="container">
 
-          <p class="section__eyebrow reveal" data-num="03">На велосипеде</p>
+          <p class="section__eyebrow reveal" data-num="02">Наш топ</p>
 
-          <h2 class="section__title reveal">Когда хочется крутить</h2>
+          <h2 class="section__title reveal">Куда вернулись бы</h2>
 
-          <p class="section__sub reveal">День в седле: канал, лес, Волга. Подмосковье, Москва и Тверская область — чтобы проветрить голову.</p>
+          <p class="section__sub reveal">Три маршрута, которые рекомендуем без оговорок.</p>
+
+          <div id="picks-grid" class="picks-grid"></div>
+
+        </div>
+
+      </section>
+
+      <section class="section section--world" id="map-world">
+
+        <div class="container">
+
+          <p class="section__eyebrow reveal" data-num="03">Карта</p>
+
+          <h2 class="section__title reveal">Где мы уже были</h2>
+
+          <p class="section__sub reveal">Нажмите точку — откроется маршрут.</p>
+
+          <div id="world-map" class="world-map" role="region" aria-label="Карта поездок"></div>
+
+        </div>
+
+      </section>
+
+      <section class="section section--velo" id="velo">
+
+        <div class="container">
+
+          <p class="section__eyebrow reveal" data-num="04">Велосипед</p>
+
+          <h2 class="section__title reveal">Веломаршруты</h2>
+
+          <p class="section__sub reveal">Подмосковье, Москва и Тверская область — день в седле, без палаток и GPX пока, но с понятным путём.</p>
 
           <div id="velo-grid" class="route-grid"></div>
 
@@ -197,51 +193,25 @@
 
 
 
-  <section class="contact" id="contact">
-
-    <div class="wall-notes" aria-hidden="true">
-
-      <p class="wall-note wall-note--i">Просто быть с друзьями</p>
-
-      <p class="wall-note wall-note--j">Как же здорово жить</p>
-
-    </div>
+  <section class="contact" id="about">
 
     <div class="container contact__inner">
 
       <div>
 
-        <p class="contact__eyebrow" data-num="04">Кто мы</p>
+        <p class="contact__eyebrow" data-num="05">О нас</p>
 
         <h2>Арина и Никита</h2>
 
         <p>
 
-          Двое, которые любят ехать. Сайт сначала для своих — но если вам откликается, берите любой маршрут и пишите: подскажем жильё, кафе и где лучше не останавливаться.
+          Мы Арина и Никита. Путешествуем сами, чаще всего компанией друзей. Любим длинные автомобильные маршруты, яхты, велосипеды, странные музеи, хороший завтрак и места, где вечером можно просто сидеть у воды. Здесь сохраняем поездки так, чтобы их можно было повторить.
 
         </p>
 
-        <p class="contact__note">Честно: что зашло, что нет, и куда вернулись бы снова.</p>
+        <p class="contact__note">Напишите в Телеграм — подскажем жильё, кафе и куда лучше не ехать.</p>
 
         <a class="btn btn--gold" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Написать в Телеграм</a>
-
-      </div>
-
-      <div class="contact__card">
-
-        <h3>На странице маршрута</h3>
-
-        <ul>
-
-          <li>Карта с нумерованными точками пути</li>
-
-          <li>«Музеи и места» — что посмотреть на каждой остановке</li>
-
-          <li>«Где остановиться» — адреса и ссылки на бронирование</li>
-
-          <li>«Кафе и рестораны» — места, где были сами</li>
-
-        </ul>
 
       </div>
 
@@ -263,14 +233,12 @@
 
 
 
-  <script src="routes.js?v=20260809f"></script>
+  <script src="routes.js?v=20260809g"></script>
 
-  <script src="meta.js?v=20260809f"></script>
+  <script src="meta.js?v=20260809g"></script>
 
-  <script src="app.js?v=20260809f"></script>
+  <script src="app.js?v=20260809g"></script>
 
 </body>
 
 </html>
-
-

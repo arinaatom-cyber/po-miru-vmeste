@@ -48,15 +48,25 @@
   var filterBar = document.getElementById("filter-bar");
   var navLinks = document.querySelectorAll("[data-nav]");
   var maps = {};
-  var activeFilter = "all";
+  var worldMap = null;
+  var activeFilters = { place: "all", how: "all", mood: "all" };
   var baseTitle = document.title;
-  var sectionNav = { home: true, velo: true, contact: true };
+  var sectionNav = {
+    home: true,
+    trips: true,
+    "map-world": true,
+    velo: true,
+    about: true,
+    picks: true,
+  };
   var reduceMotion =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var revealObserver = null;
+  var passports = window.ROUTE_PASSPORT || {};
+  var topPicks = window.TOP_PICKS || [];
 
   function getMeta(route) {
-    return (
+    var base =
       meta[route.id] || {
         transport: ["mixed"],
         transportLabel: "Маршрут",
@@ -65,8 +75,9 @@
         mapCenter: [55.75, 37.62],
         mapZoom: 5,
         stopCoords: {},
-      }
-    );
+      };
+    var passport = passports[route.id] || {};
+    return Object.assign({}, base, passport);
   }
 
   function escapeHtml(value) {
@@ -106,13 +117,43 @@
     return getMeta(route).transport.indexOf("bike") !== -1;
   }
 
-  function matchesFilter(route, filter) {
-    if (filter === "all") return true;
+  function matchesFilters(route) {
     var m = getMeta(route);
-    if (filter === "turkey" || filter === "russia" || filter === "asia") {
-      return m.category === filter;
+    if (activeFilters.place !== "all" && m.category !== activeFilters.place) {
+      return false;
     }
-    return m.transport.indexOf(filter) !== -1;
+    if (activeFilters.how !== "all" && m.transport.indexOf(activeFilters.how) === -1) {
+      return false;
+    }
+    if (activeFilters.mood !== "all") {
+      var mood = m.mood || [];
+      if (mood.indexOf(activeFilters.mood) === -1) return false;
+    }
+    return true;
+  }
+
+  function passportChips(m) {
+    var chips = [];
+    if (m.days) chips.push(m.days);
+    if (m.transportLabel) chips.push(m.transportLabel);
+    if (m.distance) chips.push(m.distance);
+    if (m.season) chips.push(m.season);
+    if (m.tags && m.tags.length) {
+      m.tags.slice(0, 2).forEach(function (t) {
+        if (chips.indexOf(t) === -1) chips.push(t);
+      });
+    }
+    if (!chips.length) return "";
+    return (
+      '<ul class="passport-tags">' +
+      chips
+        .slice(0, 5)
+        .map(function (c) {
+          return '<li class="passport-tags__item">' + escapeHtml(c) + "</li>";
+        })
+        .join("") +
+      "</ul>"
+    );
   }
 
   function getStopCoords(routeMeta, stopName) {
@@ -317,6 +358,7 @@
       '<h3 class="route-card__title">' +
       escapeHtml(route.title) +
       "</h3>" +
+      passportChips(m) +
       '<p class="route-card__about">' +
       escapeHtml(route.about) +
       "</p>" +
@@ -487,6 +529,7 @@
       "<h2>" +
       escapeHtml(route.title) +
       "</h2>" +
+      passportChips(m) +
       '<p class="route-hero__about">' +
       escapeHtml(route.about) +
       "</p>" +
@@ -499,7 +542,7 @@
       "</div>" +
       '<div class="route-hero__actions">' +
       primaryAction +
-      '<button type="button" class="btn btn--ghost" data-nav="contact">Написать нам</button>' +
+      '<button type="button" class="btn btn--ghost" data-nav="about">Написать нам</button>' +
       "</div></div></header>" +
       '<div class="route-layout">' +
       '<div class="route-map-wrap">' +
@@ -643,16 +686,18 @@
   }
 
   function setActiveNav(id) {
+    var highlight = id === "home" ? "trips" : id;
     for (var i = 0; i < navLinks.length; i++) {
       var link = navLinks[i];
       var navId = link.getAttribute("data-nav");
-      link.classList.toggle("is-active", navId === id || (id === "home" && navId === "home"));
+      if (!navId) continue;
+      link.classList.toggle("is-active", navId === highlight || navId === id);
     }
   }
 
   function renderGrid() {
     var filtered = routes.filter(function (route) {
-      return !isVelo(route) && matchesFilter(route, activeFilter);
+      return !isVelo(route) && matchesFilters(route);
     });
     routeGrid.innerHTML = filtered.length
       ? filtered.map(renderRouteCard).join("")
@@ -665,6 +710,84 @@
     var velo = routes.filter(isVelo);
     veloGrid.innerHTML = velo.map(renderRouteCard).join("");
     setupReveal();
+  }
+
+  function renderPicks() {
+    var grid = document.getElementById("picks-grid");
+    if (!grid || !topPicks.length) return;
+    grid.innerHTML = topPicks
+      .map(function (pick) {
+        var route = findRouteById(pick.id);
+        if (!route) return "";
+        var m = getMeta(route);
+        return (
+          '<button type="button" class="pick-card reveal" data-open-route="' +
+          route.id +
+          '">' +
+          '<span class="pick-card__label">' +
+          escapeHtml(pick.label) +
+          "</span>" +
+          '<h3 class="pick-card__title">' +
+          escapeHtml(route.title) +
+          "</h3>" +
+          '<p class="pick-card__reason">' +
+          escapeHtml(pick.reason) +
+          "</p>" +
+          passportChips(m) +
+          "</button>"
+        );
+      })
+      .join("");
+    setupReveal();
+  }
+
+  function initWorldMap() {
+    var el = document.getElementById("world-map");
+    if (!el || worldMap) return;
+    loadLeaflet().then(function (L) {
+      if (worldMap) return;
+      worldMap = L.map(el, {
+        scrollWheelZoom: false,
+        worldCopyJump: true,
+      }).setView([40, 60], 2);
+
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
+        subdomains: "abcd",
+        maxZoom: 19,
+      }).addTo(worldMap);
+
+      var bounds = [];
+      routes.forEach(function (route) {
+        if (isVelo(route)) return;
+        var m = getMeta(route);
+        var pin = m.pin || m.mapCenter;
+        if (!pin) return;
+        bounds.push(pin);
+        L.circleMarker(pin, {
+          radius: 8,
+          color: "#1a7568",
+          weight: 2,
+          fillColor: "#1a7568",
+          fillOpacity: 0.85,
+        })
+          .addTo(worldMap)
+          .bindPopup(
+            "<strong>" +
+              escapeHtml(m.pinLabel || route.title) +
+              '</strong><br><button type="button" class="text-link" data-open-route="' +
+              route.id +
+              '">Открыть маршрут</button>'
+          );
+      });
+
+      if (bounds.length > 1) {
+        worldMap.fitBounds(bounds, { padding: [40, 40], maxZoom: 4 });
+      }
+      window.setTimeout(function () {
+        worldMap.invalidateSize();
+      }, 200);
+    });
   }
 
   function disposeMapsExcept(keepId) {
@@ -730,13 +853,23 @@
 
   function navigateTo(target) {
     if (target === "home") {
-      showHome("home");
+      showHome("trips");
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (target === "trips") {
+      showHome("trips");
+      var tripsEl = document.getElementById("trips");
+      if (tripsEl) {
+        tripsEl.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+      }
       return;
     }
     if (sectionNav[target]) {
       showHome(target);
       var section = document.getElementById(target);
       if (section) section.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+      if (target === "map-world") initWorldMap();
       return;
     }
     showRoute(target);
@@ -768,34 +901,56 @@
     }
   }
 
+  function buildFilterRow(axis, keys, label) {
+    return (
+      '<div class="filter-row">' +
+      '<span class="filter-row__label">' +
+      escapeHtml(label) +
+      "</span>" +
+      '<div class="filter-row__chips">' +
+      keys
+        .map(function (key) {
+          var active = activeFilters[axis] === key ? " is-active" : "";
+          return (
+            '<button type="button" class="filter-chip' +
+            active +
+            '" data-filter-axis="' +
+            axis +
+            '" data-filter="' +
+            key +
+            '">' +
+            escapeHtml(window.FILTER_LABELS[key] || key) +
+            "</button>"
+          );
+        })
+        .join("") +
+      "</div></div>"
+    );
+  }
+
   function buildFilters() {
-    var filters = ["all", "turkey", "russia", "asia", "car", "yacht", "train", "plane"];
-    filterBar.innerHTML = filters
-      .map(function (key) {
-        var active = key === activeFilter ? " is-active" : "";
-        return (
-          '<button type="button" class="filter-chip' +
-          active +
-          '" data-filter="' +
-          key +
-          '">' +
-          escapeHtml(window.FILTER_LABELS[key] || key) +
-          "</button>"
-        );
-      })
-      .join("");
+    if (!filterBar) return;
+    filterBar.innerHTML =
+      buildFilterRow("place", ["all", "turkey", "russia", "asia"], "Куда") +
+      buildFilterRow("how", ["all", "car", "plane", "train", "yacht"], "Как") +
+      buildFilterRow(
+        "mood",
+        ["all", "sea", "nature", "city", "active", "food", "weekend"],
+        "Что"
+      );
   }
 
   function init() {
     buildFilters();
     renderGrid();
     renderVeloGrid();
+    renderPicks();
     routePages.innerHTML = routes.map(renderRoutePage).join("");
 
     document.body.addEventListener("click", function (event) {
-      var chip = event.target.closest("[data-filter]");
+      var chip = event.target.closest("[data-filter-axis]");
       if (chip) {
-        activeFilter = chip.getAttribute("data-filter");
+        activeFilters[chip.getAttribute("data-filter-axis")] = chip.getAttribute("data-filter");
         buildFilters();
         renderGrid();
         return;
@@ -808,7 +963,7 @@
       }
 
       if (event.target.closest("[data-back-home]")) {
-        showHome();
+        showHome("trips");
         return;
       }
 
@@ -835,7 +990,6 @@
 
       var navBtn = event.target.closest("[data-nav]");
       if (navBtn) {
-        // Шапка обрабатывается отдельно — там ссылки с href для SEO
         if (navBtn.closest(".site-nav")) return;
         navigateTo(navBtn.getAttribute("data-nav"));
       }
@@ -844,15 +998,15 @@
     var siteNav = document.querySelector(".site-nav");
     if (siteNav) {
       siteNav.addEventListener("click", function (e) {
+        if (e.target.closest("a[href^='https://t.me']")) return;
         var link = e.target.closest("[data-nav]");
         if (!link) return;
-        // Ctrl/Cmd/средняя кнопка — пусть браузер откроет вкладку по href
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
         e.preventDefault();
         var target = link.getAttribute("data-nav");
         navigateTo(target);
         if (target === "home" || sectionNav[target]) {
-          history.pushState(null, "", "#" + target);
+          history.pushState(null, "", "#" + (target === "home" ? "trips" : target));
         }
       });
     }
@@ -866,19 +1020,18 @@
         showRoute(hash);
         return;
       }
-      if (!hash || hash === "home") {
-        showHome("home");
+      if (!hash || hash === "home" || hash === "trips") {
+        showHome("trips");
         return;
       }
-      // Section anchors are only in place once the grids have rendered, so the
-      // browser's own jump on load lands in empty space — scroll again here.
       var section = sectionNav[hash] && document.getElementById(hash);
       if (section) {
         showHome(hash);
         section.scrollIntoView();
+        if (hash === "map-world") initWorldMap();
         return;
       }
-      showHome("home");
+      showHome("trips");
     }
 
     var header = document.querySelector(".site-header");
@@ -888,6 +1041,22 @@
       };
       window.addEventListener("scroll", onScroll, { passive: true });
       onScroll();
+    }
+
+    var mapSection = document.getElementById("map-world");
+    if (mapSection && typeof IntersectionObserver !== "undefined") {
+      var mapObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              initWorldMap();
+              mapObserver.disconnect();
+            }
+          });
+        },
+        { rootMargin: "120px" }
+      );
+      mapObserver.observe(mapSection);
     }
 
     window.addEventListener("hashchange", openFromHash);

@@ -167,6 +167,24 @@ button {
   background: var(--accent-soft);
 }
 
+.site-nav__telegram {
+  margin-left: 0.35rem;
+  align-self: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--accent-dark);
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.32rem 0.55rem;
+  line-height: 1;
+}
+
+.site-nav__telegram:hover {
+  background: var(--accent-soft);
+}
+
 /* Hero — light and quiet */
 .hero {
   position: relative;
@@ -197,7 +215,8 @@ button {
   z-index: 1;
 }
 
-.hero__eyebrow {
+.hero__eyebrow,
+.hero__brand {
   color: rgba(255, 255, 255, 0.78);
   font-size: 0.7rem;
   font-weight: 700;
@@ -208,23 +227,47 @@ button {
 }
 
 .hero__title {
-  font-size: clamp(2.4rem, 7vw, 5rem);
+  font-size: clamp(2.1rem, 5.5vw, 3.75rem);
   font-weight: 800;
   letter-spacing: -0.045em;
-  line-height: 1;
-  max-width: 14ch;
+  line-height: 1.05;
+  max-width: 18ch;
   color: #fff;
   animation: fade-up 0.7s 0.14s var(--ease) both;
 }
 
 .hero__byline {
   margin-top: 1.75rem;
-  max-width: 54ch;
+  max-width: 48ch;
   color: rgba(255, 255, 255, 0.85);
   font-size: clamp(1rem, 1.6vw, 1.15rem);
   font-weight: 500;
   line-height: 1.6;
   animation: fade-up 0.7s 0.24s var(--ease) both;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2.25rem;
+  animation: fade-up 0.7s 0.34s var(--ease) both;
+}
+
+.btn--ghost-light {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+}
+
+.btn--ghost-light:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero .btn--gold {
+  text-decoration: none;
 }
 
 .hero__cue {
@@ -478,16 +521,39 @@ button {
 /* Filters */
 .filter-bar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-bottom: 2.5rem;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.75rem;
+}
+
+.filter-row__label {
+  flex: 0 0 auto;
+  min-width: 2.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+.filter-row__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
 }
 
 .filter-chip {
   border: 1px solid var(--line);
   background: transparent;
   color: var(--muted);
-  padding: 0.5rem 1rem;
+  padding: 0.45rem 0.9rem;
   border-radius: 999px;
   font-size: 0.82rem;
   font-weight: 600;
@@ -503,6 +569,95 @@ button {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+.passport-tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.65rem 0 0.85rem;
+  padding: 0;
+}
+
+.passport-tags__item {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  padding: 0.28rem 0.65rem;
+}
+
+.route-hero .passport-tags__item {
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-color: transparent;
+}
+
+.picks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.pick-card {
+  text-align: left;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  border-radius: 14px;
+  padding: 1.35rem 1.4rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.pick-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.pick-card__label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  margin-bottom: 0.7rem;
+}
+
+.pick-card__title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0 0 0.55rem;
+  color: var(--ink);
+}
+
+.pick-card__reason {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.pick-card .passport-tags__item {
+  color: var(--ink);
+  background: #fff;
+  border-color: var(--line);
+}
+
+.world-map {
+  height: min(62vh, 520px);
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  z-index: 0;
 }
 
 /* Route cards — photo tiles with the caption sitting on the image */
@@ -1272,9 +1427,10 @@ button {
 
 .contact__inner {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1fr;
   gap: 3.5rem;
   align-items: start;
+  max-width: 40rem;
 }
 
 .contact__eyebrow {
@@ -1584,6 +1740,10 @@ button {
 }
 
 @media (max-width: 900px) {
+  .picks-grid {
+    grid-template-columns: 1fr;
+  }
+
   .site-header__inner {
     flex-direction: column;
     align-items: stretch;
