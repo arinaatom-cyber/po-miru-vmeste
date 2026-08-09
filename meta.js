@@ -120,7 +120,7 @@ window.ROUTE_META = {
   },
   vladivostok: {
     transport: ["plane", "car"],
-    transportLabel: "Самолёт + авто",
+    transportLabel: "Самолёт + внедорожник",
     category: "asia",
     image:
       "images/vladivostok.jpg",
@@ -324,9 +324,9 @@ window.ROUTE_PASSPORT = {
     days: "≈9 дней",
     distance: "Ладожские шхеры",
     mood: ["nature", "active"],
-    tags: ["яхта"],
+    tags: ["яхта-экспедиция"],
     pin: [61.55, 30.55],
-    pinLabel: "Ладожские шхеры",
+    pinLabel: "Яхта-экспедиция",
   },
   "turkey-istanbul": {
     days: "≈10 дней",
@@ -380,9 +380,9 @@ window.ROUTE_PASSPORT = {
     days: "≈10 дней",
     distance: "Приморье",
     mood: ["sea", "active", "nature"],
-    tags: ["самолёт + авто"],
+    tags: ["внедорожник"],
     pin: [43.12, 131.89],
-    pinLabel: "Приморье",
+    pinLabel: "Приморье · внедорожник",
   },
   karelia: {
     days: "≈7–12 дней",

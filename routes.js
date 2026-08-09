@@ -1,11 +1,11 @@
 window.ROUTES = [
   {
     id: "karelia-yacht",
-    title: "Москва — Ладожские шхеры",
+    title: "Яхта-экспедиция",
     emoji: "",
     region: "Север · Россия",
     source: "https://telegra.ph/YAHTSMENY-V-DELE-07-20",
-    about: "Яхтенная поездка. Москва — Ладожские шхеры — Санкт-Петербург — Шлиссельбург.",
+    about: "Экспедиция по Ладожским шхерам на яхте.",
     path: [
       "Москва",
       "Ладожские шхеры",
@@ -514,7 +514,7 @@ window.ROUTES = [
   },
   {
     id: "vladivostok",
-    title: "Поездка по Приморью",
+    title: "Путешествие по Приморью на внедорожнике",
     emoji: "",
     region: "Азия",
     source: "https://telegra.ph/VLADIVOSTOK-08-04-3",
