@@ -2,7 +2,7 @@ window.ROUTE_META = {
   "karelia-yacht": {
     transport: ["train", "yacht"],
     transportLabel: "Поезд + яхта",
-    category: "north",
+    category: "russia",
     image:
       "images/karelia-yacht.jpg",
     mapCenter: [59.5, 32.5],
@@ -56,7 +56,7 @@ window.ROUTE_META = {
   "new-new-year": {
     transport: ["car"],
     transportLabel: "Авто",
-    category: "center",
+    category: "russia",
     image:
       "images/new-new-year.jpg",
     mapCenter: [54.5, 49.5],
@@ -104,7 +104,7 @@ window.ROUTE_META = {
   "sergiev-posad": {
     transport: ["car"],
     transportLabel: "Авто",
-    category: "center",
+    category: "russia",
     image:
       "images/sergiev-posad.jpg",
     mapCenter: [56.3, 38.1],
@@ -140,7 +140,7 @@ window.ROUTE_META = {
   karelia: {
     transport: ["car"],
     transportLabel: "Авто",
-    category: "north",
+    category: "russia",
     image:
       "images/karelia.jpg",
     mapCenter: [60.9, 32.8],
@@ -305,15 +305,82 @@ window.ROUTE_META = {
 
 window.FILTER_LABELS = {
   all: "Все",
-  north: "Север · Россия",
-  center: "Центр · Россия",
-  asia: "Азия",
   russia: "Россия",
+  asia: "Азия",
   car: "Авто",
   yacht: "Яхта",
   train: "Поезд",
   plane: "Самолёт",
   bike: "Велосипед",
+};
+
+/** Регион → города → маршруты */
+window.PLACE_TREE = {
+  russia: {
+    label: "Россия",
+    cities: [
+      {
+        id: "spb",
+        label: "Санкт-Петербург",
+        routes: ["spb-city"],
+      },
+      {
+        id: "skerries",
+        label: "Ладожские шхеры",
+        routes: ["karelia-yacht"],
+      },
+      {
+        id: "karelia",
+        label: "Карелия",
+        routes: ["karelia"],
+      },
+      {
+        id: "sergiev",
+        label: "Сергиев Посад",
+        routes: ["sergiev-posad"],
+      },
+      {
+        id: "samara",
+        label: "Самара",
+        routes: ["new-new-year"],
+      },
+    ],
+  },
+  asia: {
+    label: "Азия",
+    cities: [
+      {
+        id: "antalya-istanbul",
+        label: "Анталия — Стамбул",
+        routes: ["turkey-istanbul"],
+      },
+      {
+        id: "cappadocia",
+        label: "Каппадокия",
+        routes: ["turkey-cappadocia"],
+      },
+      {
+        id: "sanya",
+        label: "Санья",
+        routes: ["hainan-china"],
+      },
+      {
+        id: "singapore",
+        label: "Сингапур",
+        routes: ["singapore"],
+      },
+      {
+        id: "primorye",
+        label: "Приморье",
+        routes: ["vladivostok"],
+      },
+      {
+        id: "sakhalin",
+        label: "Сахалин",
+        routes: ["sakhalin"],
+      },
+    ],
+  },
 };
 
 /** Паспорт маршрута для карточек и шапки страницы */
@@ -324,7 +391,7 @@ window.ROUTE_PASSPORT = {
     mood: ["nature", "active"],
     tags: ["яхта-экспедиция"],
     pin: [61.55, 30.55],
-    pinLabel: "Яхта-экспедиция по шхерам",
+    pinLabel: "Яхта-экспедиция",
   },
   "turkey-istanbul": {
     days: "≈10 дней",

@@ -194,28 +194,32 @@ button {
   background: var(--accent-soft);
 }
 
-/* Hero — заставка с картой и камерой */
+/* Hero — фото и подпись, без белого перехода */
 .hero {
   position: relative;
   overflow: hidden;
   padding: 7rem 0 5.5rem;
-  background: var(--ink);
+  background: #0e1814;
   color: #fff;
 }
 
 .hero::before {
   content: "";
   position: absolute;
-  inset: -1px;
-  background: url("images/hero.jpg") center 32% / cover no-repeat;
-  animation: none;
+  inset: 0;
+  background: url("images/hero.jpg") center 40% / cover no-repeat;
 }
 
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, rgba(14, 24, 20, 0.88) 0%, rgba(20, 88, 79, 0.62) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(8, 14, 12, 0.72) 0%,
+    rgba(8, 14, 12, 0.35) 42%,
+    rgba(8, 14, 12, 0.15) 100%
+  );
 }
 
 .hero .container {
@@ -343,7 +347,6 @@ button {
   position: relative;
   z-index: 1;
   background: var(--bg);
-  margin-top: -1px;
   min-height: 50vh;
 }
 
@@ -623,6 +626,16 @@ button {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+.filter-chip--region {
+  font-size: 0.92rem;
+  padding: 0.55rem 1.15rem;
+  font-weight: 700;
+}
+
+.filter-row--cities {
+  margin-top: 0.85rem;
 }
 
 .passport-line,

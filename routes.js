@@ -1,7 +1,7 @@
 window.ROUTES = [
   {
     id: "karelia-yacht",
-    title: "Яхта-экспедиция по шхерам",
+    title: "Яхта-экспедиция",
     emoji: "",
     region: "Север · Россия",
     source: "https://telegra.ph/YAHTSMENY-V-DELE-07-20",

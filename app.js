@@ -49,7 +49,47 @@
   var filterBar = document.getElementById("filter-bar");
   var navLinks = document.querySelectorAll("[data-nav]");
   var maps = {};
-  var activeFilters = { place: "all", how: "all", mood: "all" };
+  var activeFilters = { region: "russia", city: "all", how: "all", mood: "all" };
+  var placeTree = window.PLACE_TREE || {};
+  var routeById = {};
+  routes.forEach(function (r) {
+    routeById[r.id] = r;
+  });
+
+  function getRegionCities(regionKey) {
+    var node = placeTree[regionKey];
+    return node && node.cities ? node.cities : [];
+  }
+
+  function getCityRoutes(regionKey, cityId) {
+    var cities = getRegionCities(regionKey);
+    if (cityId === "all") {
+      var all = [];
+      cities.forEach(function (city) {
+        (city.routes || []).forEach(function (id) {
+          if (all.indexOf(id) === -1) all.push(id);
+        });
+      });
+      return all;
+    }
+    for (var i = 0; i < cities.length; i++) {
+      if (cities[i].id === cityId) return cities[i].routes || [];
+    }
+    return [];
+  }
+
+  function findCityForRoute(routeId) {
+    var regions = Object.keys(placeTree);
+    for (var r = 0; r < regions.length; r++) {
+      var cities = getRegionCities(regions[r]);
+      for (var c = 0; c < cities.length; c++) {
+        if ((cities[c].routes || []).indexOf(routeId) !== -1) {
+          return { region: regions[r], city: cities[c] };
+        }
+      }
+    }
+    return null;
+  }
   var baseTitle = document.title;
   var sectionNav = {
     home: true,
@@ -117,9 +157,6 @@
 
   function matchesFilters(route) {
     var m = getMeta(route);
-    if (activeFilters.place !== "all" && m.category !== activeFilters.place) {
-      return false;
-    }
     if (activeFilters.how !== "all" && m.transport.indexOf(activeFilters.how) === -1) {
       return false;
     }
@@ -127,15 +164,19 @@
       var mood = m.mood || [];
       if (mood.indexOf(activeFilters.mood) === -1) return false;
     }
-    return true;
+    var allowed = getCityRoutes(activeFilters.region, activeFilters.city);
+    if (!allowed.length) return m.category === activeFilters.region;
+    return allowed.indexOf(route.id) !== -1;
   }
 
-  function placeLabel(m) {
+  function placeLabel(m, route) {
+    var found = route ? findCityForRoute(route.id) : null;
+    if (found && found.city) return found.city.label;
     var map = {
-      north: "Север · Россия",
-      center: "Центр · Россия",
-      asia: "Азия",
       russia: "Россия",
+      asia: "Азия",
+      north: "Россия",
+      center: "Россия",
       velo: "Велопоездки",
     };
     return map[m.category] || m.transportLabel || "";
@@ -509,7 +550,7 @@
       plannedBadge +
       '<div class="route-card__body">' +
       '<span class="route-card__eyebrow">' +
-      escapeHtml(placeLabel(m)) +
+      escapeHtml(placeLabel(m, route)) +
       "</span>" +
       '<h3 class="route-card__title">' +
       escapeHtml(headline) +
@@ -650,7 +691,7 @@
       renderMediaImage(m.image, "route-hero__media", headline, false, 1200) +
       '<div class="route-hero__content">' +
       '<p class="route-hero__eyebrow">' +
-      escapeHtml(placeLabel(m)) +
+      escapeHtml(placeLabel(m, route)) +
       "</p>" +
       "<h2>" +
       escapeHtml(headline) +
@@ -817,13 +858,46 @@
     }
   }
 
+  function renderCityCard(city) {
+    var firstId = (city.routes || [])[0];
+    var route = firstId ? routeById[firstId] : null;
+    var m = route ? getMeta(route) : {};
+    var img = m.image || "";
+    return (
+      '<button type="button" class="route-card city-card reveal" data-open-city="' +
+      escapeHtml(city.id) +
+      '">' +
+      renderMediaImage(img, "route-card__media", city.label) +
+      '<div class="route-card__body">' +
+      '<span class="route-card__eyebrow">' +
+      escapeHtml((placeTree[activeFilters.region] && placeTree[activeFilters.region].label) || "") +
+      "</span>" +
+      '<h3 class="route-card__title">' +
+      escapeHtml(city.label) +
+      "</h3>" +
+      (route && route.about
+        ? '<p class="route-card__about">' + escapeHtml(route.about) + "</p>"
+        : "") +
+      "</div></button>"
+    );
+  }
+
   function renderGrid() {
+    if (!routeGrid) return;
+    if (activeFilters.city === "all") {
+      var cities = getRegionCities(activeFilters.region);
+      routeGrid.innerHTML = cities.length
+        ? cities.map(renderCityCard).join("")
+        : '<p class="empty-state">Пока нет городов в этом разделе.</p>';
+      setupReveal();
+      return;
+    }
     var filtered = routes.filter(function (route) {
       return !isVelo(route) && matchesFilters(route);
     });
     routeGrid.innerHTML = filtered.length
       ? filtered.map(renderRouteCard).join("")
-      : '<p class="empty-state">По этому фильтру маршрутов нет.</p>';
+      : '<p class="empty-state">В этом городе пока нет карточек.</p>';
     setupReveal();
   }
 
@@ -952,40 +1026,71 @@
     }
   }
 
-  function buildFilterRow(axis, keys, label) {
-    return (
-      '<div class="filter-row">' +
-      (label
-        ? '<span class="filter-row__label">' + escapeHtml(label) + "</span>"
-        : "") +
-      '<div class="filter-row__chips">' +
-      keys
-        .map(function (key) {
-          var active = activeFilters[axis] === key ? " is-active" : "";
-          return (
-            '<button type="button" class="filter-chip' +
-            active +
-            '" data-filter-axis="' +
-            axis +
-            '" data-filter="' +
-            key +
-            '">' +
-            escapeHtml(window.FILTER_LABELS[key] || key) +
-            "</button>"
-          );
-        })
-        .join("") +
-      "</div></div>"
-    );
+  function openCity(cityId) {
+    var cities = getRegionCities(activeFilters.region);
+    var city = null;
+    for (var i = 0; i < cities.length; i++) {
+      if (cities[i].id === cityId) {
+        city = cities[i];
+        break;
+      }
+    }
+    if (!city) return;
+    activeFilters.city = cityId;
+    buildFilters();
+    var ids = city.routes || [];
+    if (ids.length === 1 && routeById[ids[0]]) {
+      showRoute(ids[0]);
+      return;
+    }
+    renderGrid();
   }
 
   function buildFilters() {
     if (!filterBar) return;
-    filterBar.innerHTML = buildFilterRow(
-      "place",
-      ["all", "north", "center", "asia", "russia"],
-      ""
-    );
+    var regionKeys = Object.keys(placeTree);
+    var regionChips = regionKeys
+      .map(function (key) {
+        var active = activeFilters.region === key ? " is-active" : "";
+        var label = (placeTree[key] && placeTree[key].label) || key;
+        return (
+          '<button type="button" class="filter-chip filter-chip--region' +
+          active +
+          '" data-set-region="' +
+          key +
+          '">' +
+          escapeHtml(label) +
+          "</button>"
+        );
+      })
+      .join("");
+
+    var cities = getRegionCities(activeFilters.region);
+    var cityChips =
+      '<button type="button" class="filter-chip' +
+      (activeFilters.city === "all" ? " is-active" : "") +
+      '" data-set-city="all">Все города</button>' +
+      cities
+        .map(function (city) {
+          var active = activeFilters.city === city.id ? " is-active" : "";
+          return (
+            '<button type="button" class="filter-chip' +
+            active +
+            '" data-set-city="' +
+            city.id +
+            '">' +
+            escapeHtml(city.label) +
+            "</button>"
+          );
+        })
+        .join("");
+
+    filterBar.innerHTML =
+      '<div class="filter-row"><div class="filter-row__chips">' +
+      regionChips +
+      '</div></div><div class="filter-row filter-row--cities"><span class="filter-row__label">Города</span><div class="filter-row__chips">' +
+      cityChips +
+      "</div></div>";
   }
 
   function init() {
@@ -995,11 +1100,31 @@
     routePages.innerHTML = routes.map(renderRoutePage).join("");
 
     document.body.addEventListener("click", function (event) {
-      var chip = event.target.closest("[data-filter-axis]");
-      if (chip) {
-        activeFilters[chip.getAttribute("data-filter-axis")] = chip.getAttribute("data-filter");
+      var regionBtn = event.target.closest("[data-set-region]");
+      if (regionBtn) {
+        activeFilters.region = regionBtn.getAttribute("data-set-region");
+        activeFilters.city = "all";
         buildFilters();
         renderGrid();
+        return;
+      }
+
+      var cityBtn = event.target.closest("[data-set-city]");
+      if (cityBtn) {
+        var cityId = cityBtn.getAttribute("data-set-city");
+        if (cityId === "all") {
+          activeFilters.city = "all";
+          buildFilters();
+          renderGrid();
+          return;
+        }
+        openCity(cityId);
+        return;
+      }
+
+      var cityCard = event.target.closest("[data-open-city]");
+      if (cityCard) {
+        openCity(cityCard.getAttribute("data-open-city"));
         return;
       }
 
