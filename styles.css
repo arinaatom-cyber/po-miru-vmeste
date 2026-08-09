@@ -881,13 +881,14 @@ button {
 }
 
 .route-card__title {
-  font-size: clamp(1.05rem, 1.55vw, 1.3rem);
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
   font-weight: 800;
-  letter-spacing: 0.005em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  text-transform: none;
   margin-bottom: 0.5rem;
   color: #fff;
-  line-height: 1.2;
+  line-height: 1.25;
+  max-width: 24ch;
 }
 
 .route-card__about {
