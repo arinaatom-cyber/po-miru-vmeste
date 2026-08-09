@@ -141,7 +141,7 @@ button {
   font-weight: 600;
   font-size: clamp(1.35rem, 2.2vw, 1.75rem);
   line-height: 1.1;
-  color: var(--ink);
+  color: var(--muted);
   letter-spacing: 0.01em;
 }
 
@@ -194,28 +194,18 @@ button {
   background: var(--accent-soft);
 }
 
-/* Hero — light and quiet */
+/* Hero — beige, grey cursive brand */
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 7rem 0 5.5rem;
-  background: var(--ink);
-  color: #fff;
+  padding: 6.5rem 0 4.5rem;
+  background: var(--bg);
+  color: var(--ink);
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("images/hero.jpg") center / cover;
-  animation: hero-zoom 16s var(--ease) forwards;
-}
-
+.hero::before,
 .hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(115deg, rgba(14, 24, 20, 0.92) 0%, rgba(20, 88, 79, 0.7) 100%);
+  display: none;
 }
 
 .hero .container {
@@ -225,7 +215,7 @@ button {
 
 .hero__eyebrow,
 .hero__brand {
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--muted-light);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -240,7 +230,7 @@ button {
   letter-spacing: -0.045em;
   line-height: 1;
   max-width: 12ch;
-  color: #fff;
+  color: var(--muted);
   text-transform: uppercase;
   animation: fade-up 0.7s 0.14s var(--ease) both;
 }
@@ -253,6 +243,7 @@ button {
   line-height: 1.05;
   max-width: 14ch;
   text-transform: none;
+  color: #7a756c;
 }
 
 .contact__hand {
@@ -262,12 +253,13 @@ button {
   letter-spacing: 0.01em;
   line-height: 1.1;
   margin-bottom: 1rem;
+  color: #7a756c;
 }
 
 .hero__byline {
   margin-top: 1.5rem;
   max-width: 36ch;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--muted);
   font-size: clamp(1rem, 1.6vw, 1.15rem);
   font-weight: 500;
   line-height: 1.5;
@@ -275,13 +267,13 @@ button {
 }
 
 .hero__names {
-  margin-top: 2rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-  animation: fade-up 0.7s 0.34s var(--ease) both;
+  margin-top: 1.75rem;
+  font-family: var(--font-hand);
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  font-weight: 600;
+  color: #7a756c;
+  letter-spacing: 0.02em;
+  animation: fade-up 0.7s 0.32s var(--ease) both;
 }
 
 .hero__actions {
@@ -384,8 +376,8 @@ button {
 }
 
 .hero .wall-note {
-  color: rgba(255, 255, 255, 0.72);
-  opacity: 1;
+  color: #7a756c;
+  opacity: 0.55;
 }
 
 .wall-note--a {
@@ -1592,6 +1584,36 @@ button {
   margin-bottom: 1rem;
   line-height: 1.65;
   max-width: 52ch;
+}
+
+.contact__lead {
+  font-size: 1.05rem;
+}
+
+.contact__names {
+  font-family: var(--font-hand);
+  font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+  font-weight: 600;
+  color: #7a756c;
+  margin-bottom: 0.75rem !important;
+}
+
+.contact__club {
+  margin-bottom: 1.5rem !important;
+}
+
+.contact__club-link {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #7a756c;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(122, 117, 108, 0.35);
+}
+
+.contact__club-link:hover {
+  color: var(--accent-dark);
+  border-bottom-color: var(--accent);
 }
 
 .contact__note {

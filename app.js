@@ -133,8 +133,8 @@
 
   function placeLabel(m) {
     var map = {
-      north: "Север",
-      center: "Центр",
+      north: "Север · Россия",
+      center: "Центр · Россия",
       asia: "Азия",
       turkey: "Турция",
       china: "Китай",
