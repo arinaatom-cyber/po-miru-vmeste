@@ -14,7 +14,7 @@ window.ROUTE_META = {
       "Санкт-Петербург": [59.9343, 30.3351],
     },
   },
-  "turkey-2026": {
+  "turkey-istanbul": {
     transport: ["plane", "car"],
     transportLabel: "Самолёт + авто",
     category: "turkey",
@@ -31,6 +31,26 @@ window.ROUTE_META = {
       Эфес: [37.94, 27.341],
       Бурса: [40.188, 29.061],
       Стамбул: [41.0082, 28.9784],
+    },
+  },
+  "turkey-cappadocia": {
+    transport: ["plane", "car"],
+    transportLabel: "Самолёт + авто",
+    category: "turkey",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Hot_air_balloon_start_in_Cappadocia_2014.jpg/1920px-Hot_air_balloon_start_in_Cappadocia_2014.jpg",
+    mapCenter: [37.6, 32.8],
+    mapZoom: 6,
+    stopCoords: {
+      Анталия: [36.8969, 30.7133],
+      Эгирдир: [37.8742, 30.8497],
+      Конья: [37.8746, 32.4932],
+      Каппадокия: [38.6431, 34.8289],
+      Эрджиес: [38.5322, 35.4489],
+      Кызкалеси: [36.4636, 34.1478],
+      Мамуре: [36.0906, 32.9328],
+      Каньоны: [37.15, 31.18],
+      Кемер: [36.6021, 30.5595],
     },
   },
   "new-new-year": {
@@ -144,24 +164,6 @@ window.ROUTE_META = {
       Онега: [61.78, 35.9],
       Кижи: [62.066, 35.225],
       Кинерма: [61.45, 33.65],
-    },
-  },
-  "turkey-ny-holidays": {
-    transport: ["car"],
-    transportLabel: "Авто",
-    category: "turkey",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/20101106_Galata_Tower_Istanbul_Turkey_Panorama.jpg/1920px-20101106_Galata_Tower_Istanbul_Turkey_Panorama.jpg",
-    mapCenter: [38.5, 30.5],
-    mapZoom: 6,
-    stopCoords: {
-      Демре: [36.244, 29.987],
-      Каш: [36.2, 29.637],
-      Фетхие: [36.621, 29.116],
-      Бодрум: [37.034, 27.43],
-      Эфес: [37.94, 27.341],
-      Джумалыкызык: [40.175, 29.155],
-      Стамбул: [41.0082, 28.9784],
     },
   },
   sakhalin: {

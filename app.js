@@ -4,7 +4,6 @@
   var hiddenIds = {
     "spb-karelia": true,
     "spb-city": true,
-    "turkey-ny-holidays": true,
     "pack-essentials": true,
     "yachtsmen": true,
   };
