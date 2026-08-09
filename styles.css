@@ -293,6 +293,17 @@ button {
   opacity: 0.52;
 }
 
+.hero .wall-note,
+.contact .wall-note {
+  color: var(--accent);
+  opacity: 0.55;
+}
+
+.hero .wall-note {
+  color: rgba(255, 255, 255, 0.72);
+  opacity: 1;
+}
+
 .wall-note--a {
   left: 0.85rem;
   top: 20%;
@@ -332,13 +343,41 @@ button {
   text-align: right;
 }
 
+.wall-note--g {
+  left: 0.85rem;
+  top: 22%;
+  transform: rotate(-6deg);
+}
+
+.wall-note--h {
+  right: 0.85rem;
+  top: 58%;
+  transform: rotate(7deg);
+  text-align: right;
+}
+
+.wall-note--i {
+  left: 0.7rem;
+  top: 18%;
+  transform: rotate(-8deg);
+}
+
+.wall-note--j {
+  right: 0.7rem;
+  top: 52%;
+  transform: rotate(6deg);
+  text-align: right;
+}
+
 /* Need ~100px+ gutters so notes don't sit on content */
 @media (min-width: 1180px) {
   .wall-notes {
     display: block;
   }
 
-  .section {
+  .section,
+  .hero,
+  .contact {
     overflow: visible;
   }
 }
@@ -1216,10 +1255,16 @@ button {
 
 /* Contact — light */
 .contact {
+  position: relative;
   padding: 5rem 0;
   background: var(--bg-soft);
   color: var(--ink);
   scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+.contact > .container {
+  position: relative;
+  z-index: 1;
 }
 
 .contact__inner {
