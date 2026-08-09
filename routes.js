@@ -504,7 +504,7 @@ window.ROUTES = [
     id: "vladivostok",
     title: "Путешествие по Приморью на внедорожнике",
     emoji: "",
-    region: "Азия",
+    region: "Россия",
     source: "https://telegra.ph/VLADIVOSTOK-08-04-3",
     about: "Владивосток, острова, маяки и красивые бухты.",
     path: [
@@ -765,7 +765,7 @@ window.ROUTES = [
     id: "sakhalin",
     title: "Южный Сахалин",
     emoji: "",
-    region: "Азия",
+    region: "Россия",
     source: "https://telegra.ph/SAHALIN-03-10",
     about: "Горные лыжи, рыбалка, красивые бухты и природа.",
     path: [

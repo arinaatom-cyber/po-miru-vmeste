@@ -120,7 +120,7 @@ window.ROUTE_META = {
   vladivostok: {
     transport: ["plane", "car"],
     transportLabel: "Самолёт + внедорожник",
-    category: "asia",
+    category: "russia",
     image:
       "images/vladivostok.jpg",
     mapCenter: [43.5, 132.5],
@@ -171,7 +171,7 @@ window.ROUTE_META = {
   sakhalin: {
     transport: ["plane", "car"],
     transportLabel: "Самолёт + авто",
-    category: "asia",
+    category: "russia",
     image:
       "images/sakhalin.jpg",
     mapCenter: [47.0, 142.7],
@@ -344,6 +344,16 @@ window.PLACE_TREE = {
         label: "Самара",
         routes: ["new-new-year"],
       },
+      {
+        id: "primorye",
+        label: "Владивосток",
+        routes: ["vladivostok"],
+      },
+      {
+        id: "sakhalin",
+        label: "Сахалин",
+        routes: ["sakhalin"],
+      },
     ],
   },
   asia: {
@@ -368,16 +378,6 @@ window.PLACE_TREE = {
         id: "singapore",
         label: "Сингапур",
         routes: ["singapore"],
-      },
-      {
-        id: "primorye",
-        label: "Приморье",
-        routes: ["vladivostok"],
-      },
-      {
-        id: "sakhalin",
-        label: "Сахалин",
-        routes: ["sakhalin"],
       },
     ],
   },
