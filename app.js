@@ -491,9 +491,13 @@
     return route.path[0] + " → " + route.path[route.path.length - 1];
   }
 
+  function routeHeadline(route) {
+    return route.title || routeFromTo(route) || "Маршрут";
+  }
+
   function renderRouteCard(route) {
     var m = getMeta(route);
-    var fromTo = routeFromTo(route) || route.title;
+    var headline = routeHeadline(route);
     var line = passportLine(m, true);
     var plannedBadge = m.planned
       ? '<span class="route-card__badge">Скоро</span>'
@@ -504,15 +508,18 @@
       '" data-open-route="' +
       route.id +
       '">' +
-      renderMediaImage(m.image, "route-card__media", fromTo) +
+      renderMediaImage(m.image, "route-card__media", headline) +
       plannedBadge +
       '<div class="route-card__body">' +
       '<span class="route-card__eyebrow">' +
       escapeHtml(placeLabel(m)) +
       "</span>" +
       '<h3 class="route-card__title">' +
-      escapeHtml(fromTo) +
+      escapeHtml(headline) +
       "</h3>" +
+      (route.about
+        ? '<p class="route-card__about">' + escapeHtml(route.about) + "</p>"
+        : "") +
       (line ? '<p class="route-card__passport">' + escapeHtml(line) + "</p>" : "") +
       '<div class="route-card__path">' +
       renderPath(route.path) +
@@ -629,7 +636,7 @@
 
   function renderRoutePage(route) {
     var m = getMeta(route);
-    var fromTo = routeFromTo(route) || route.title;
+    var headline = routeHeadline(route);
     var line = passportLine(m, false);
     var primaryAction = m.planned
       ? '<a class="btn btn--primary" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Написать — когда поедем</a>'
@@ -643,14 +650,17 @@
       '<div class="container">' +
       '<button type="button" class="btn btn--ghost back-btn" data-back-home>← Маршруты</button>' +
       '<header class="route-hero route-hero--dry">' +
-      renderMediaImage(m.image, "route-hero__media", fromTo, false, 1200) +
+      renderMediaImage(m.image, "route-hero__media", headline, false, 1200) +
       '<div class="route-hero__content">' +
       '<p class="route-hero__eyebrow">' +
       escapeHtml(placeLabel(m)) +
       "</p>" +
       "<h2>" +
-      escapeHtml(fromTo) +
+      escapeHtml(headline) +
       "</h2>" +
+      (route.about
+        ? '<p class="route-hero__about">' + escapeHtml(route.about) + "</p>"
+        : "") +
       (line ? '<p class="passport-line">' + escapeHtml(line) + "</p>" : "") +
       '<div class="route-hero__path">' +
       renderPath(route.path) +

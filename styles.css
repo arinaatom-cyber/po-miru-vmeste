@@ -620,10 +620,6 @@ button {
   color: var(--muted);
 }
 
-.route-card__about {
-  display: none;
-}
-
 .place-fact {
   margin: 0 0 0.75rem;
   padding: 0.75rem 0.85rem;
