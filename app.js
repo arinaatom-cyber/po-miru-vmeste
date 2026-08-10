@@ -1413,13 +1413,10 @@
 
     var stepClass =
       "filter-panel filter-panel--step-" + (filterStep === "cities" ? "cities" : "region");
-    var panelTitle =
-      filterStep === "cities"
-        ? regionLabel(activeFilters.region)
-        : "Куда смотрим";
+    var panelTitle = filterStep === "cities" ? regionLabel(activeFilters.region) : "Меню";
     var backBtn =
       filterStep === "cities"
-        ? '<button type="button" class="filter-panel__back" data-filter-back aria-label="Назад к регионам">←</button>'
+        ? '<button type="button" class="filter-panel__back" data-filter-back aria-label="Назад в меню">←</button>'
         : "";
 
     filterBar.innerHTML =
@@ -1434,7 +1431,7 @@
       '<circle cx="17" cy="17" r="1.6" fill="currentColor"/>' +
       "</svg></span>" +
       '<span class="filter-menu-btn__text">' +
-      '<span class="filter-menu-btn__eyebrow">Фильтры</span>' +
+      '<span class="filter-menu-btn__eyebrow">Меню</span>' +
       '<span class="filter-menu-btn__value">' +
       escapeHtml(filterSummary()) +
       "</span></span></button>" +
@@ -1455,14 +1452,17 @@
       '<a href="#trips" class="filter-panel__nav-link" data-nav="trips" data-close-filters>Маршруты</a>' +
       '<a href="#velo" class="filter-panel__nav-link" data-nav="velo" data-close-filters>Велопоездки</a>' +
       '<a href="#contact" class="filter-panel__nav-link" data-nav="contact" data-close-filters>Контакты</a>' +
+      '<a href="https://t.me/arion_96" class="filter-panel__nav-link" target="_blank" rel="noopener noreferrer">Написать нам</a>' +
       "</div>" +
-      '<div class="filter-row filter-row--regions"><span class="filter-row__label">Страна</span><div class="filter-row__chips">' +
+      '<div class="filter-panel__filters">' +
+      '<p class="filter-row__label">Фильтры</p>' +
+      '<div class="filter-row filter-row--regions"><div class="filter-row__chips">' +
       regionChips +
       '</div></div><div class="filter-row filter-row--cities"><span class="filter-row__label">Города</span><div class="filter-row__chips">' +
       cityChips +
       "</div></div>" +
       '<button type="button" class="btn btn--primary filter-panel__done" data-close-filters>Показать</button>' +
-      "</div>";
+      "</div></div>";
 
     if (keepOpen) {
       filterBar.classList.add("is-open");

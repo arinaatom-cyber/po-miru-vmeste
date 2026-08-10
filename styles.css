@@ -2254,23 +2254,23 @@ button {
   .filter-panel {
     position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
+    right: auto;
     bottom: 0;
-    left: auto;
-    width: min(42vw, 168px);
+    width: min(58vw, 210px);
     max-height: none;
     z-index: 230;
     background: var(--bg);
     border: none;
-    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
     border-radius: 0;
-    box-shadow: -8px 0 28px rgba(20, 32, 28, 0.14);
-    padding: calc(0.7rem + env(safe-area-inset-top, 0px)) 0.55rem
+    box-shadow: 8px 0 28px rgba(20, 32, 28, 0.14);
+    padding: calc(0.7rem + env(safe-area-inset-top, 0px)) 0.65rem
       calc(0.9rem + env(safe-area-inset-bottom, 0px));
     display: flex;
     flex-direction: column;
-    gap: 0.45rem;
-    transform: translateX(104%);
+    gap: 0.55rem;
+    transform: translateX(-104%);
     opacity: 1;
     pointer-events: auto;
     transition: transform 0.25s var(--ease, ease);
@@ -2314,11 +2314,40 @@ button {
     margin: 0;
     flex: 1 1 auto;
     min-width: 0;
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted-light);
+  }
+
+  .filter-panel__nav {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.05rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .filter-panel__nav-link {
+    display: block;
+    padding: 0.55rem 0.15rem;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.25;
+  }
+
+  .filter-panel__filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1 1 auto;
+  }
+
+  .filter-panel__filters > .filter-row__label {
+    margin: 0.15rem 0 0;
   }
 
   .filter-panel--step-region .filter-row--cities,
@@ -2327,7 +2356,8 @@ button {
   }
 
   .filter-panel--step-cities .filter-row--regions,
-  .filter-panel--step-cities .filter-panel__nav {
+  .filter-panel--step-cities .filter-panel__nav,
+  .filter-panel--step-cities .filter-panel__filters > .filter-row__label:first-child {
     display: none;
   }
 
