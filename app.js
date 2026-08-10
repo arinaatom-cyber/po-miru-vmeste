@@ -423,7 +423,8 @@
     var ne = bounds.getNorthEast();
     var sw = bounds.getSouthWest();
     var span = Math.max(Math.abs(ne.lat - sw.lat), Math.abs(ne.lng - sw.lng));
-    if (span < 0.06) return 14;
+    if (span < 0.03) return 15;
+    if (span < 0.08) return 14;
     if (span < 0.25) return 13;
     if (span < 1) return 11;
     if (span < 4) return 9;

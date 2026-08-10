@@ -202,9 +202,9 @@ window.ROUTE_META = {
     category: "russia",
     image:
       "images/spb-city.jpg",
-    album: ["images/albums/spb-city/photo-1.png","images/albums/spb-city/photo-2.png","images/albums/spb-city/photo-3.png"],
-    mapCenter: [59.93, 30.35],
-    mapZoom: 11,
+    album: ["images/albums/spb-city/photo-1.jpg","images/albums/spb-city/photo-2.jpg","images/albums/spb-city/photo-3.jpg"],
+    mapCenter: [59.934, 30.32],
+    mapZoom: 13,
     stopCoords: {
       Центр: [59.9343, 30.3351],
       Эрмитаж: [59.9398, 30.3146],
