@@ -517,10 +517,6 @@ window.ROUTES = [
     emoji: "",
     region: "Россия",
     source: "https://telegra.ph/VLADIVOSTOK-08-04-3",
-    sources: [
-      "https://telegra.ph/VLADIVOSTOK-08-04-3",
-      "https://telegra.ph/Vladivostok-03-18-2",
-    ],
     about: "Владивосток, острова, маяки и красивые бухты.",
     path: [
       "Владивосток",
@@ -645,7 +641,6 @@ window.ROUTES = [
       },
     ],
     tips: [
-      "Второй гид по Приморью: https://telegra.ph/Vladivostok-03-18-2",
       "Много дорог без асфальта, зато ни одного случайного туриста",
       "Связь пропадает — скачайте карты офлайн",
       "Всегда держите запас воды и топлива",

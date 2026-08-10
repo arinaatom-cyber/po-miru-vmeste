@@ -20,10 +20,7 @@ const ROUTES = [
   { id: "sergiev-posad", urls: ["https://telegra.ph/Sergiev-Posad-03-18"] },
   {
     id: "vladivostok",
-    urls: [
-      "https://telegra.ph/VLADIVOSTOK-08-04-3",
-      "https://telegra.ph/Vladivostok-03-18-2",
-    ],
+    urls: ["https://telegra.ph/VLADIVOSTOK-08-04-3"],
   },
   { id: "karelia", urls: ["https://telegra.ph/SPB---Kareliya-2-sezd-po-pidorski-06-08"] },
   { id: "sakhalin", urls: ["https://telegra.ph/SAHALIN-03-10"] },
