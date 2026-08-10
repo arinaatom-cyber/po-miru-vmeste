@@ -49,11 +49,12 @@
   var filterBar = document.getElementById("filter-bar");
   var navLinks = document.querySelectorAll("[data-nav]");
   var maps = {};
-  var activeFilters = { region: "russia", city: "all", how: "all", mood: "all" };
-  var filterStep = "region";
+  var activeFilters = { region: "all", city: "all", how: "all", mood: "all" };
+  var filterStep = "menu";
   var placeTree = window.PLACE_TREE || {};
 
   function regionLabel(key) {
+    if (key === "all") return "Все";
     if (key === "asia") return "Другие страны";
     if (placeTree[key] && placeTree[key].label) return placeTree[key].label;
     return key;
@@ -64,8 +65,30 @@
   });
 
   function getRegionCities(regionKey) {
+    if (regionKey === "all") {
+      var merged = [];
+      ["russia", "asia"].forEach(function (key) {
+        var list = (placeTree[key] && placeTree[key].cities) || [];
+        list.forEach(function (city) {
+          merged.push({
+            id: city.id,
+            label: city.label,
+            routes: city.routes || [],
+            regionKey: key,
+          });
+        });
+      });
+      return merged;
+    }
     var node = placeTree[regionKey];
-    return node && node.cities ? node.cities : [];
+    return ((node && node.cities) || []).map(function (city) {
+      return {
+        id: city.id,
+        label: city.label,
+        routes: city.routes || [],
+        regionKey: regionKey,
+      };
+    });
   }
 
   function getCityRoutes(regionKey, cityId) {
@@ -185,8 +208,9 @@
       var mood = m.mood || [];
       if (mood.indexOf(activeFilters.mood) === -1) return false;
     }
+    if (activeFilters.region === "all" && activeFilters.city === "all") return true;
     var allowed = getCityRoutes(activeFilters.region, activeFilters.city);
-    if (!allowed.length) return m.category === activeFilters.region;
+    if (!allowed.length) return false;
     return allowed.indexOf(route.id) !== -1;
   }
 
@@ -1156,6 +1180,8 @@
     var m = route ? getMeta(route) : {};
     var img = m.image || "";
     var sources = getCitySources(city);
+    var regionName = regionLabel(city.regionKey || activeFilters.region);
+    if (regionName === "Все") regionName = "";
     return (
       '<article class="route-card city-card reveal" data-open-city="' +
       escapeHtml(city.id) +
@@ -1163,7 +1189,7 @@
       renderMediaImage(img, "route-card__media", city.label) +
       '<div class="route-card__body">' +
       '<span class="route-card__eyebrow">' +
-      escapeHtml((placeTree[activeFilters.region] && placeTree[activeFilters.region].label) || "") +
+      escapeHtml(regionName) +
       "</span>" +
       '<h3 class="route-card__title">' +
       escapeHtml(city.label) +
@@ -1341,6 +1367,9 @@
   }
 
   function filterSummary() {
+    if (activeFilters.region === "all" && activeFilters.city === "all") {
+      return "Все маршруты";
+    }
     var region = regionLabel(activeFilters.region) || "Регион";
     var cityLabel = "Все города";
     if (activeFilters.city !== "all") {
@@ -1361,7 +1390,7 @@
 
   function setFilterPanelOpen(open) {
     if (!filterBar) return;
-    if (open) filterStep = "region";
+    if (open) filterStep = "menu";
     filterBar.classList.toggle("is-open", open);
     document.body.classList.toggle("filters-open", open);
     var btn = filterBar.querySelector("[data-toggle-filters]");
@@ -1374,10 +1403,10 @@
   function buildFilters() {
     if (!filterBar) return;
     var keepOpen = isFilterPanelOpen();
-    var regionKeys = ["russia", "asia"];
+    var regionKeys = ["all", "russia", "asia"];
     var regionChips = regionKeys
       .map(function (key) {
-        if (!placeTree[key]) return "";
+        if (key !== "all" && !placeTree[key]) return "";
         var active = activeFilters.region === key ? " is-active" : "";
         return (
           '<button type="button" class="filter-chip filter-chip--region' +
@@ -1391,7 +1420,7 @@
       })
       .join("");
 
-    var cities = getRegionCities(activeFilters.region);
+    var cities = getRegionCities(activeFilters.region === "all" ? "all" : activeFilters.region);
     var cityChips =
       '<button type="button" class="filter-chip' +
       (activeFilters.city === "all" ? " is-active" : "") +
@@ -1411,13 +1440,19 @@
         })
         .join("");
 
-    var stepClass =
-      "filter-panel filter-panel--step-" + (filterStep === "cities" ? "cities" : "region");
-    var panelTitle = filterStep === "cities" ? regionLabel(activeFilters.region) : "Меню";
+    var step =
+      filterStep === "cities" ? "cities" : filterStep === "region" ? "region" : "menu";
+    var stepClass = "filter-panel filter-panel--step-" + step;
+    var panelTitle =
+      step === "cities"
+        ? regionLabel(activeFilters.region)
+        : step === "region"
+          ? "Фильтры"
+          : "Меню";
     var backBtn =
-      filterStep === "cities"
-        ? '<button type="button" class="filter-panel__back" data-filter-back aria-label="Назад в меню">←</button>'
-        : "";
+      step === "menu"
+        ? ""
+        : '<button type="button" class="filter-panel__back" data-filter-back aria-label="Назад">←</button>';
 
     filterBar.innerHTML =
       '<button type="button" class="filter-menu-btn" data-toggle-filters aria-expanded="' +
@@ -1454,9 +1489,9 @@
       '<a href="#contact" class="filter-panel__nav-link" data-nav="contact" data-close-filters>Контакты</a>' +
       '<a href="https://t.me/arion_96" class="filter-panel__nav-link" target="_blank" rel="noopener noreferrer" data-close-filters>Написать нам</a>' +
       "</div>" +
+      '<button type="button" class="filter-panel__filters-entry" data-open-filters>Фильтры</button>' +
       '<div class="filter-panel__filters">' +
-      '<p class="filter-row__label">Фильтры</p>' +
-      '<div class="filter-row filter-row--regions"><div class="filter-row__chips">' +
+      '<div class="filter-row filter-row--regions"><span class="filter-row__label">Страна</span><div class="filter-row__chips">' +
       regionChips +
       '</div></div><div class="filter-row filter-row--cities"><span class="filter-row__label">Города</span><div class="filter-row__chips">' +
       cityChips +
@@ -1485,6 +1520,13 @@
 
       var filterBack = event.target.closest("[data-filter-back]");
       if (filterBack) {
+        filterStep = filterStep === "cities" ? "region" : "menu";
+        buildFilters();
+        return;
+      }
+
+      var openFilters = event.target.closest("[data-open-filters]");
+      if (openFilters) {
         filterStep = "region";
         buildFilters();
         return;
@@ -1507,6 +1549,13 @@
       if (regionBtn) {
         activeFilters.region = regionBtn.getAttribute("data-set-region");
         activeFilters.city = "all";
+        if (activeFilters.region === "all") {
+          filterStep = "menu";
+          buildFilters();
+          renderGrid();
+          setFilterPanelOpen(false);
+          return;
+        }
         filterStep = "cities";
         buildFilters();
         renderGrid();
@@ -1522,6 +1571,17 @@
           renderGrid();
           setFilterPanelOpen(false);
           return;
+        }
+        var picked = null;
+        var allCities = getRegionCities(activeFilters.region);
+        for (var ci = 0; ci < allCities.length; ci++) {
+          if (allCities[ci].id === cityId) {
+            picked = allCities[ci];
+            break;
+          }
+        }
+        if (picked && picked.regionKey) {
+          activeFilters.region = picked.regionKey;
         }
         setFilterPanelOpen(false);
         openCity(cityId);

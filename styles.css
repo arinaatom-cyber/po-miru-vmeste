@@ -608,7 +608,8 @@ button {
 
 .filter-panel__head,
 .filter-panel__nav,
-.filter-panel__done {
+.filter-panel__done,
+.filter-panel__filters-entry {
   display: none;
 }
 
@@ -2346,18 +2347,38 @@ button {
     flex: 1 1 auto;
   }
 
-  .filter-panel__filters > .filter-row__label {
-    margin: 0.15rem 0 0;
+  .filter-panel__filters-entry {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 0.55rem 0.65rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-align: left;
   }
 
+  .filter-panel--step-menu .filter-panel__filters {
+    display: none;
+  }
+
+  .filter-panel--step-menu .filter-panel__filters-entry {
+    display: block;
+  }
+
+  .filter-panel--step-region .filter-panel__nav,
+  .filter-panel--step-region .filter-panel__filters-entry,
   .filter-panel--step-region .filter-row--cities,
   .filter-panel--step-region .filter-panel__done {
     display: none;
   }
 
-  .filter-panel--step-cities .filter-row--regions,
   .filter-panel--step-cities .filter-panel__nav,
-  .filter-panel--step-cities .filter-panel__filters > .filter-row__label:first-child {
+  .filter-panel--step-cities .filter-panel__filters-entry,
+  .filter-panel--step-cities .filter-row--regions {
     display: none;
   }
 
