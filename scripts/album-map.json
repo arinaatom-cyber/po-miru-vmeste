@@ -1,0 +1,48 @@
+{
+  "karelia-yacht": [
+    "images/albums/karelia-yacht/photo-2.jpg",
+    "images/albums/karelia-yacht/photo-3.webp"
+  ],
+  "turkey-istanbul": [
+    "images/albums/turkey-istanbul/photo-3.jpg",
+    "images/albums/turkey-istanbul/photo-4.png"
+  ],
+  "turkey-cappadocia": [
+    "images/albums/turkey-cappadocia/photo-1.jpg",
+    "images/albums/turkey-cappadocia/photo-3.jpg",
+    "images/albums/turkey-cappadocia/photo-4.jpg"
+  ],
+  "new-new-year": [
+    "images/albums/new-new-year/photo-1.jpg",
+    "images/albums/new-new-year/photo-2.png",
+    "images/albums/new-new-year/photo-3.jpg"
+  ],
+  "hainan-china": [
+    "images/albums/hainan-china/photo-1.jpg",
+    "images/albums/hainan-china/photo-2.jpg"
+  ],
+  "sergiev-posad": [
+    "images/albums/sergiev-posad/photo-2.jpg",
+    "images/albums/sergiev-posad/photo-3.jpg"
+  ],
+  "vladivostok": [
+    "images/albums/vladivostok/photo-1.jpg",
+    "images/albums/vladivostok/photo-2.jpg",
+    "images/albums/vladivostok/photo-4.jpg"
+  ],
+  "karelia": [
+    "images/albums/karelia/photo-2.png",
+    "images/albums/karelia/photo-3.jpg",
+    "images/albums/karelia/photo-4.png"
+  ],
+  "sakhalin": [
+    "images/albums/sakhalin/photo-1.jpg",
+    "images/albums/sakhalin/photo-2.png",
+    "images/albums/sakhalin/photo-3.jpg"
+  ],
+  "spb-city": [
+    "images/albums/spb-city/photo-1.png",
+    "images/albums/spb-city/photo-2.png",
+    "images/albums/spb-city/photo-3.png"
+  ]
+}

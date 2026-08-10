@@ -5,6 +5,7 @@ window.ROUTE_META = {
     category: "russia",
     image:
       "images/karelia-yacht.jpg",
+    album: ["images/albums/karelia-yacht/photo-2.jpg","images/albums/karelia-yacht/photo-3.webp"],
     mapCenter: [59.5, 32.5],
     mapZoom: 5,
     stopCoords: {
@@ -20,6 +21,7 @@ window.ROUTE_META = {
     category: "asia",
     image:
       "images/turkey-istanbul.jpg",
+    album: ["images/albums/turkey-istanbul/photo-3.jpg","images/albums/turkey-istanbul/photo-4.png"],
     mapCenter: [38.5, 30.5],
     mapZoom: 6,
     stopCoords: {
@@ -39,6 +41,7 @@ window.ROUTE_META = {
     category: "asia",
     image:
       "images/turkey-cappadocia.jpg",
+    album: ["images/albums/turkey-cappadocia/photo-1.jpg","images/albums/turkey-cappadocia/photo-3.jpg","images/albums/turkey-cappadocia/photo-4.jpg"],
     mapCenter: [37.6, 32.8],
     mapZoom: 6,
     stopCoords: {
@@ -59,6 +62,7 @@ window.ROUTE_META = {
     category: "russia",
     image:
       "images/new-new-year.jpg",
+    album: ["images/albums/new-new-year/photo-1.jpg","images/albums/new-new-year/photo-2.png","images/albums/new-new-year/photo-3.jpg"],
     mapCenter: [54.5, 49.5],
     mapZoom: 5,
     stopCoords: {
@@ -76,6 +80,7 @@ window.ROUTE_META = {
     category: "asia",
     image:
       "images/hainan-china.jpg",
+    album: ["images/albums/hainan-china/photo-1.jpg","images/albums/hainan-china/photo-2.jpg"],
     mapCenter: [18.25, 109.5],
     mapZoom: 8,
     stopCoords: {
@@ -107,6 +112,7 @@ window.ROUTE_META = {
     category: "russia",
     image:
       "images/sergiev-posad.jpg",
+    album: ["images/albums/sergiev-posad/photo-2.jpg","images/albums/sergiev-posad/photo-3.jpg"],
     mapCenter: [56.3, 38.1],
     mapZoom: 9,
     stopCoords: {
@@ -123,13 +129,14 @@ window.ROUTE_META = {
     category: "russia",
     image:
       "images/vladivostok.jpg",
+    album: ["images/albums/vladivostok/photo-1.jpg","images/albums/vladivostok/photo-2.jpg","images/albums/vladivostok/photo-4.jpg"],
     mapCenter: [43.5, 132.5],
     mapZoom: 7,
     stopCoords: {
       Владивосток: [43.1155, 131.8855],
-      "о. Русский": [43.02, 131.9],
+      "о. Русский": [43.006, 131.895],
       "Маяк Токаревского": [43.078, 131.843],
-      "Уссурийский залив": [43.08, 131.92],
+      "Уссурийский залив": [43.15, 132.05],
       Дунай: [42.878, 132.337],
       Находка: [42.824, 132.892],
       "Бухта Ежовая": [42.95, 133.2],
@@ -143,6 +150,11 @@ window.ROUTE_META = {
     category: "russia",
     image:
       "images/karelia.jpg",
+    album: [
+      "images/albums/karelia/photo-2.png",
+      "images/albums/karelia/photo-3.jpg",
+      "images/albums/karelia/photo-4.png",
+    ],
     mapCenter: [60.9, 32.8],
     mapZoom: 6,
     stopCoords: {
@@ -174,11 +186,12 @@ window.ROUTE_META = {
     category: "russia",
     image:
       "images/sakhalin.jpg",
+    album: ["images/albums/sakhalin/photo-1.jpg","images/albums/sakhalin/photo-2.png","images/albums/sakhalin/photo-3.jpg"],
     mapCenter: [47.0, 142.7],
     mapZoom: 7,
     stopCoords: {
       "Южно-Сахалинск": [46.959, 142.738],
-      "Горные лыжи": [46.98, 142.7],
+      "Горные лыжи": [46.847, 142.766],
       Невельск: [46.683, 141.867],
       Корсаков: [46.634, 142.777],
       "Бухта Тихая": [48.249, 142.536],
@@ -190,6 +203,7 @@ window.ROUTE_META = {
     category: "russia",
     image:
       "images/spb-city.jpg",
+    album: ["images/albums/spb-city/photo-1.png","images/albums/spb-city/photo-2.png","images/albums/spb-city/photo-3.png"],
     mapCenter: [59.93, 30.35],
     mapZoom: 11,
     stopCoords: {

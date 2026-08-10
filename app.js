@@ -352,14 +352,35 @@
     if (coords[stopName]) return coords[stopName];
     var aliases = {
       "Коломна (район)": "Коломна (район Петербурга)",
+      Петербург: "Санкт-Петербург",
+      "Санкт-Петербург": "Петербург",
+      "Гремучий ключ": "Гремячий ключ",
+      "Гремячий ключ": "Гремучий ключ",
     };
     var key = aliases[stopName];
-    return key && coords[key] ? coords[key] : null;
+    if (key && coords[key]) return coords[key];
+    var lower = String(stopName || "").toLowerCase();
+    for (var name in coords) {
+      if (Object.prototype.hasOwnProperty.call(coords, name) && name.toLowerCase() === lower) {
+        return coords[name];
+      }
+    }
+    return null;
   }
 
   function getStopIndex(route, stopName) {
     for (var i = 0; i < route.stops.length; i++) {
       if (route.stops[i].name === stopName) return i;
+    }
+    var aliases = {
+      "Санкт-Петербург": "Петербург",
+      Петербург: "Санкт-Петербург",
+    };
+    var alt = aliases[stopName];
+    if (alt) {
+      for (var j = 0; j < route.stops.length; j++) {
+        if (route.stops[j].name === alt) return j;
+      }
     }
     return -1;
   }
@@ -375,6 +396,33 @@
       iconSize: [34, 42],
       iconAnchor: [17, 42],
       popupAnchor: [0, -40],
+    });
+  }
+
+  function mapMaxZoomForBounds(bounds) {
+    if (!bounds || !bounds.isValid || !bounds.isValid()) return 11;
+    var ne = bounds.getNorthEast();
+    var sw = bounds.getSouthWest();
+    var span = Math.max(Math.abs(ne.lat - sw.lat), Math.abs(ne.lng - sw.lng));
+    if (span < 0.06) return 14;
+    if (span < 0.25) return 13;
+    if (span < 1) return 11;
+    if (span < 4) return 9;
+    if (span < 12) return 7;
+    return 6;
+  }
+
+  function fitMapToPoints(map, L, points) {
+    if (!points || !points.length) return;
+    if (points.length === 1) {
+      map.setView(points[0], 12, { animate: false });
+      return;
+    }
+    var bounds = L.latLngBounds(points);
+    map.fitBounds(bounds, {
+      padding: [48, 48],
+      maxZoom: mapMaxZoomForBounds(bounds),
+      animate: false,
     });
   }
 
@@ -540,6 +588,21 @@
     return route.source ? [route.source] : [];
   }
 
+  function getCitySources(city) {
+    var urls = [];
+    var seen = {};
+    (city.routes || []).forEach(function (id) {
+      var route = routeById[id];
+      if (!route) return;
+      getRouteSources(route).forEach(function (url) {
+        if (!url || seen[url]) return;
+        seen[url] = true;
+        urls.push(url);
+      });
+    });
+    return urls;
+  }
+
   function renderSourceLinks(route) {
     var sources = getRouteSources(route);
     if (!sources.length) return "";
@@ -547,7 +610,7 @@
       return (
         '<p class="route-hero__source"><a href="' +
         escapeHtml(sources[0]) +
-        '" target="_blank" rel="noopener noreferrer">Читать в Telegraph</a></p>'
+        '" target="_blank" rel="noopener noreferrer">Читать в Telegraph →</a></p>'
       );
     }
     return (
@@ -557,13 +620,78 @@
           return (
             '<li><a href="' +
             escapeHtml(url) +
-            '" target="_blank" rel="noopener noreferrer">Telegraph' +
-            (sources.length > 1 ? " " + (i + 1) : "") +
-            "</a></li>"
+            '" target="_blank" rel="noopener noreferrer">Telegraph ' +
+            (i + 1) +
+            " →</a></li>"
           );
         })
         .join("") +
       "</ul>"
+    );
+  }
+
+  function renderCardTelegraphLinks(sources) {
+    if (!sources || !sources.length) return "";
+    return (
+      '<div class="card-telegraph">' +
+      sources
+        .map(function (url, i) {
+          var label =
+            sources.length === 1
+              ? "Читать в Telegraph →"
+              : "Telegraph " + (i + 1) + " →";
+          return (
+            '<a class="card-telegraph__link" href="' +
+            escapeHtml(url) +
+            '" target="_blank" rel="noopener noreferrer">' +
+            label +
+            "</a>"
+          );
+        })
+        .join("") +
+      "</div>"
+    );
+  }
+
+  function renderAlbum(route, m) {
+    var photos = (m && m.album) || route.album || [];
+    if (!photos.length) return "";
+    return (
+      '<section class="route-album" aria-label="Фотоальбом">' +
+      '<h3 class="detail-heading">Фото из поездки</h3>' +
+      '<div class="route-album__grid">' +
+      photos
+        .map(function (src, i) {
+          return (
+            '<a class="route-album__item" href="' +
+            escapeHtml(src) +
+            '" target="_blank" rel="noopener noreferrer">' +
+            '<img src="' +
+            escapeHtml(src) +
+            '" alt="Фото ' +
+            (i + 1) +
+            '" loading="lazy" decoding="async" />' +
+            "</a>"
+          );
+        })
+        .join("") +
+      "</div></section>"
+    );
+  }
+
+  function renderStaySummary(route) {
+    var hotels = collectByCategory(route).hotels;
+    if (!hotels.length) return "";
+    return (
+      '<section class="route-stay" aria-label="Где жить">' +
+      '<h3 class="detail-heading">Где жить</h3>' +
+      '<div class="route-stay__list">' +
+      hotels
+        .map(function (item) {
+          return renderPlaceFact(stayLineText(item), "hotel");
+        })
+        .join("") +
+      "</div></section>"
     );
   }
 
@@ -574,12 +702,13 @@
     var plannedBadge = m.planned
       ? '<span class="route-card__badge">Скоро</span>'
       : "";
+    var sources = getRouteSources(route);
     return (
-      '<button type="button" class="route-card reveal' +
+      '<article class="route-card reveal' +
       (m.planned ? " route-card--planned" : "") +
       '" data-open-route="' +
       route.id +
-      '">' +
+      '" tabindex="0" role="button">' +
       renderMediaImage(m.image, "route-card__media", headline) +
       plannedBadge +
       '<div class="route-card__body">' +
@@ -596,7 +725,8 @@
       '<div class="route-card__path">' +
       renderPath(route.path) +
       "</div>" +
-      "</div></button>"
+      renderCardTelegraphLinks(sources) +
+      "</div></article>"
     );
   }
 
@@ -744,7 +874,11 @@
           '<a class="btn btn--ghost" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Написать нам</a>' +
           "</div>"
         : '<div class="route-hero__actions"><a class="btn btn--ghost" href="https://t.me/arion_96" target="_blank" rel="noopener noreferrer">Написать нам</a></div>') +
-      "</div></header>" +
+      '</div></header>' +
+      '<div class="route-city-blocks">' +
+      renderAlbum(route, m) +
+      renderStaySummary(route) +
+      "</div>" +
       '<div class="route-layout">' +
       '<div class="route-map-wrap">' +
       '<p class="map-label">Карта маршрута</p>' +
@@ -779,26 +913,53 @@
       var map = L.map(el, {
         scrollWheelZoom: false,
         zoomControl: true,
-      }).setView(m.mapCenter, m.mapZoom);
+        attributionControl: true,
+      }).setView(m.mapCenter || [55.75, 37.62], m.mapZoom || 6);
 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: "abcd",
         maxZoom: 19,
       }).addTo(map);
 
+      map.on("focus", function () {
+        map.scrollWheelZoom.enable();
+      });
+      map.on("blur", function () {
+        map.scrollWheelZoom.disable();
+      });
+      el.addEventListener(
+        "mouseenter",
+        function () {
+          map.scrollWheelZoom.enable();
+        },
+        { passive: true }
+      );
+      el.addEventListener(
+        "mouseleave",
+        function () {
+          map.scrollWheelZoom.disable();
+        },
+        { passive: true }
+      );
+
       var markers = [];
       var pathLine = [];
+      var allPoints = [];
       var path = route.path || [];
 
       path.forEach(function (placeName, pathIndex) {
         var coords = getStopCoords(m, placeName);
         if (!coords) return;
         pathLine.push(coords);
+        allPoints.push(coords);
         var stopIndex = getStopIndex(route, placeName);
         var marker = L.marker(coords, {
           icon: createNumberedIcon(pathIndex + 1),
           zIndexOffset: 500 + pathIndex,
+          keyboard: true,
+          title: placeName,
         })
           .addTo(map)
           .bindPopup(
@@ -811,6 +972,9 @@
         marker._stopIndex = stopIndex >= 0 ? stopIndex : pathIndex;
         marker._pathIndex = pathIndex;
         marker._isPath = true;
+        marker.on("click", function () {
+          if (marker._stopIndex >= 0) selectStop(route.id, marker._stopIndex);
+        });
         markers.push(marker);
       });
 
@@ -818,9 +982,10 @@
         if (path.indexOf(stop.name) !== -1) return;
         var coords = getStopCoords(m, stop.name);
         if (!coords) return;
+        allPoints.push(coords);
         var marker = L.circleMarker(coords, {
-          radius: 6,
-          color: "#14201c",
+          radius: 7,
+          color: "#14584f",
           weight: 2,
           fillColor: "#ffffff",
           fillOpacity: 1,
@@ -829,35 +994,55 @@
           .bindPopup("<strong>" + escapeHtml(stop.name) + "</strong>");
         marker._stopIndex = stopIndex;
         marker._isPath = false;
+        marker.on("click", function () {
+          selectStop(route.id, stopIndex);
+        });
         markers.push(marker);
       });
 
       if (pathLine.length > 1) {
         L.polyline(pathLine, {
           color: "#1a7568",
-          weight: 3,
-          opacity: 0.9,
+          weight: 8,
+          opacity: 0.12,
+          lineJoin: "round",
+          lineCap: "round",
+          interactive: false,
+        }).addTo(map);
+        L.polyline(pathLine, {
+          color: "#1a7568",
+          weight: 3.5,
+          opacity: 0.95,
           lineJoin: "round",
           lineCap: "round",
         }).addTo(map);
-        map.fitBounds(L.latLngBounds(pathLine), {
-          padding: [40, 40],
-          maxZoom: Math.min(m.mapZoom + 3, 12),
-        });
-      } else if (pathLine.length === 1) {
-        map.setView(pathLine[0], Math.min(m.mapZoom + 2, 12));
       }
+
+      fitMapToPoints(map, L, allPoints.length ? allPoints : pathLine);
 
       maps[route.id] = { map: map, markers: markers };
       window.setTimeout(function () {
-        map.invalidateSize();
-      }, 250);
+        map.invalidateSize(false);
+        fitMapToPoints(map, L, allPoints.length ? allPoints : pathLine);
+      }, 120);
+      window.setTimeout(function () {
+        map.invalidateSize(false);
+      }, 450);
     });
   }
 
   function setMarkerActive(entry, stopIndex) {
     entry.markers.forEach(function (marker) {
-      if (!marker._isPath) return;
+      if (!marker._isPath) {
+        if (typeof marker.setStyle === "function") {
+          marker.setStyle({
+            radius: marker._stopIndex === stopIndex ? 9 : 7,
+            fillColor: marker._stopIndex === stopIndex ? "#1a7568" : "#ffffff",
+            color: "#14584f",
+          });
+        }
+        return;
+      }
       var el = typeof marker.getElement === "function" ? marker.getElement() : null;
       var active = marker._stopIndex === stopIndex;
       if (el) {
@@ -875,10 +1060,15 @@
     entry.markers.forEach(function (marker) {
       if (marker._stopIndex === stopIndex) {
         marker.openPopup();
-        entry.map.panTo(marker.getLatLng(), {
-          animate: !reduceMotion,
-          duration: 0.45,
-        });
+        var zoom = Math.max(entry.map.getZoom(), 9);
+        if (typeof entry.map.flyTo === "function" && !reduceMotion) {
+          entry.map.flyTo(marker.getLatLng(), Math.min(zoom, 12), { duration: 0.55 });
+        } else {
+          entry.map.panTo(marker.getLatLng(), {
+            animate: !reduceMotion,
+            duration: 0.45,
+          });
+        }
       }
     });
   }
@@ -898,10 +1088,11 @@
     var route = firstId ? routeById[firstId] : null;
     var m = route ? getMeta(route) : {};
     var img = m.image || "";
+    var sources = getCitySources(city);
     return (
-      '<button type="button" class="route-card city-card reveal" data-open-city="' +
+      '<article class="route-card city-card reveal" data-open-city="' +
       escapeHtml(city.id) +
-      '">' +
+      '" tabindex="0" role="button">' +
       renderMediaImage(img, "route-card__media", city.label) +
       '<div class="route-card__body">' +
       '<span class="route-card__eyebrow">' +
@@ -913,10 +1104,8 @@
       (route && route.about
         ? '<p class="route-card__about">' + escapeHtml(route.about) + "</p>"
         : "") +
-      (route && getRouteSources(route).length
-        ? '<p class="city-card__source-note">Есть заметка в Telegraph</p>'
-        : "") +
-      "</div></button>"
+      renderCardTelegraphLinks(sources) +
+      "</div></article>"
     );
   }
 
@@ -1139,6 +1328,8 @@
     routePages.innerHTML = routes.map(renderRoutePage).join("");
 
     document.body.addEventListener("click", function (event) {
+      if (event.target.closest("a[href]")) return;
+
       var regionBtn = event.target.closest("[data-set-region]");
       if (regionBtn) {
         activeFilters.region = regionBtn.getAttribute("data-set-region");
@@ -1203,6 +1394,22 @@
       if (navBtn) {
         if (navBtn.closest(".site-nav")) return;
         navigateTo(navBtn.getAttribute("data-nav"));
+      }
+    });
+
+    document.body.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      if (event.target.closest("a[href], button, input, textarea, select")) return;
+      var cityCard = event.target.closest("[data-open-city]");
+      if (cityCard) {
+        event.preventDefault();
+        openCity(cityCard.getAttribute("data-open-city"));
+        return;
+      }
+      var openRoute = event.target.closest("[data-open-route]");
+      if (openRoute) {
+        event.preventDefault();
+        showRoute(openRoute.getAttribute("data-open-route"));
       }
     });
 
