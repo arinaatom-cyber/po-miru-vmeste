@@ -18,7 +18,7 @@ window.ROUTE_META = {
   "turkey-istanbul": {
     transport: ["plane", "car"],
     transportLabel: "Самолёт + авто",
-    category: "asia",
+    category: "turkey",
     image:
       "images/turkey-istanbul.jpg",
     album: ["images/albums/turkey-istanbul/photo-3.jpg","images/albums/turkey-istanbul/photo-4.png"],
@@ -38,7 +38,7 @@ window.ROUTE_META = {
   "turkey-cappadocia": {
     transport: ["plane", "car"],
     transportLabel: "Самолёт + авто",
-    category: "asia",
+    category: "turkey",
     image:
       "images/turkey-cappadocia.jpg",
     album: ["images/albums/turkey-cappadocia/photo-1.jpg","images/albums/turkey-cappadocia/photo-3.jpg","images/albums/turkey-cappadocia/photo-4.jpg"],
@@ -77,7 +77,7 @@ window.ROUTE_META = {
   "hainan-china": {
     transport: ["plane", "car"],
     transportLabel: "Самолёт",
-    category: "asia",
+    category: "china",
     image:
       "images/hainan-china.jpg",
     album: ["images/albums/hainan-china/photo-1.jpg","images/albums/hainan-china/photo-2.jpg"],
@@ -94,7 +94,7 @@ window.ROUTE_META = {
   singapore: {
     transport: ["plane"],
     transportLabel: "Самолёт",
-    category: "asia",
+    category: "singapore",
     image:
       "images/singapore.jpg",
     mapCenter: [1.36, 103.82],
@@ -319,7 +319,9 @@ window.ROUTE_META = {
 window.FILTER_LABELS = {
   all: "Все",
   russia: "Россия",
-  asia: "Азия",
+  turkey: "Турция",
+  china: "Китай",
+  singapore: "Сингапур",
   car: "Авто",
   yacht: "Яхта",
   train: "Поезд",
@@ -327,7 +329,7 @@ window.FILTER_LABELS = {
   bike: "Велосипед",
 };
 
-/** Регион → города → маршруты */
+/** Страна → города → маршруты */
 window.PLACE_TREE = {
   russia: {
     label: "Россия",
@@ -369,8 +371,8 @@ window.PLACE_TREE = {
       },
     ],
   },
-  asia: {
-    label: "Азия",
+  turkey: {
+    label: "Турция",
     cities: [
       {
         id: "antalya-istanbul",
@@ -382,11 +384,21 @@ window.PLACE_TREE = {
         label: "Каппадокия",
         routes: ["turkey-cappadocia"],
       },
+    ],
+  },
+  china: {
+    label: "Китай",
+    cities: [
       {
         id: "sanya",
         label: "Санья",
         routes: ["hainan-china"],
       },
+    ],
+  },
+  singapore: {
+    label: "Сингапур",
+    cities: [
       {
         id: "singapore",
         label: "Сингапур",

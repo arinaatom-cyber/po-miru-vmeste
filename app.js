@@ -53,9 +53,12 @@
   var filterStep = "menu";
   var placeTree = window.PLACE_TREE || {};
 
+  function countryKeys() {
+    return Object.keys(placeTree);
+  }
+
   function regionLabel(key) {
     if (key === "all") return "Все";
-    if (key === "asia") return "Другие страны";
     if (placeTree[key] && placeTree[key].label) return placeTree[key].label;
     return key;
   }
@@ -67,7 +70,7 @@
   function getRegionCities(regionKey) {
     if (regionKey === "all") {
       var merged = [];
-      ["russia", "asia"].forEach(function (key) {
+      countryKeys().forEach(function (key) {
         var list = (placeTree[key] && placeTree[key].cities) || [];
         list.forEach(function (city) {
           merged.push({
@@ -217,9 +220,14 @@
   function placeLabel(m, route) {
     var found = route ? findCityForRoute(route.id) : null;
     if (found && found.city) return found.city.label;
+    if (placeTree[m.category] && placeTree[m.category].label) {
+      return placeTree[m.category].label;
+    }
     var map = {
       russia: "Россия",
-      asia: "Азия",
+      turkey: "Турция",
+      china: "Китай",
+      singapore: "Сингапур",
       north: "Россия",
       center: "Россия",
       velo: "Велопоездки",
@@ -1403,7 +1411,7 @@
   function buildFilters() {
     if (!filterBar) return;
     var keepOpen = isFilterPanelOpen();
-    var regionKeys = ["all", "russia", "asia"];
+    var regionKeys = ["all"].concat(countryKeys());
     var regionChips = regionKeys
       .map(function (key) {
         if (key !== "all" && !placeTree[key]) return "";
@@ -1491,9 +1499,9 @@
       "</div>" +
       '<button type="button" class="filter-panel__filters-entry" data-open-filters>Фильтры</button>' +
       '<div class="filter-panel__filters">' +
-      '<div class="filter-row filter-row--regions"><span class="filter-row__label">Страна</span><div class="filter-row__chips">' +
+      '<div class="filter-row filter-row--regions"><span class="filter-row__label">Страны</span><div class="filter-row__chips">' +
       regionChips +
-      '</div></div><div class="filter-row filter-row--cities"><span class="filter-row__label">Города</span><div class="filter-row__chips">' +
+      '</div></div><div class="filter-row filter-row--cities"><span class="filter-row__label">Что там</span><div class="filter-row__chips">' +
       cityChips +
       "</div></div>" +
       '<button type="button" class="btn btn--primary filter-panel__done" data-close-filters>Показать</button>' +
