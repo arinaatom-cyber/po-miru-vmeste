@@ -1452,7 +1452,7 @@
       '<a href="#trips" class="filter-panel__nav-link" data-nav="trips" data-close-filters>Маршруты</a>' +
       '<a href="#velo" class="filter-panel__nav-link" data-nav="velo" data-close-filters>Велопоездки</a>' +
       '<a href="#contact" class="filter-panel__nav-link" data-nav="contact" data-close-filters>Контакты</a>' +
-      '<a href="https://t.me/arion_96" class="filter-panel__nav-link" target="_blank" rel="noopener noreferrer">Написать нам</a>' +
+      '<a href="https://t.me/arion_96" class="filter-panel__nav-link" target="_blank" rel="noopener noreferrer" data-close-filters>Написать нам</a>' +
       "</div>" +
       '<div class="filter-panel__filters">' +
       '<p class="filter-row__label">Фильтры</p>' +
