@@ -1549,9 +1549,8 @@ button {
   background: var(--line-strong);
 }
 
-/* Info cards — сводные блоки reco/tips скрыты */
-.reco-block,
-.tips-block {
+/* Info cards */
+.reco-block {
   display: none !important;
 }
 
@@ -1661,19 +1660,16 @@ button {
 }
 
 .tips-block {
+  margin: 2rem 0 0.5rem;
   background: var(--sand);
   border: 1px solid var(--sand-line);
   border-radius: var(--radius);
   padding: 1.25rem 1.35rem;
 }
 
-.tips-block h4 {
-  margin-bottom: 0.65rem;
+.tips-block .detail-heading {
+  margin-bottom: 0.75rem;
   color: var(--ink);
-  font-size: 0.66rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  font-weight: 700;
 }
 
 .tips-block ul {

@@ -115,7 +115,21 @@
         stopCoords: {},
       };
     var passport = passports[route.id] || {};
-    return Object.assign({}, base, passport);
+    var merged = Object.assign({}, base);
+    [
+      "days",
+      "distance",
+      "mood",
+      "tags",
+      "pin",
+      "pinLabel",
+      "planned",
+      "transport",
+      "transportLabel",
+    ].forEach(function (key) {
+      if (passport[key] !== undefined) merged[key] = passport[key];
+    });
+    return merged;
   }
 
   function escapeHtml(value) {
@@ -198,7 +212,12 @@
 
   function extractUrl(text) {
     var match = String(text).match(/https?:\/\/[^\s<]+/i);
-    return match ? match[0].replace(/[),.;]+$/, "") : "";
+    if (match) return match[0].replace(/[),.;]+$/, "");
+    match = String(text).match(
+      /\b([a-z0-9][a-z0-9-]*\.(?:ru|com|net|org|rest)(?:\/[^\s<]*)?)/i
+    );
+    if (match) return "https://" + match[1].replace(/[),.;]+$/, "");
+    return "";
   }
 
   function stripUrl(text) {
@@ -457,9 +476,35 @@
     );
   }
 
+  function uniquePathPlaces(path) {
+    var seen = {};
+    var out = [];
+    (path || []).forEach(function (place) {
+      if (!place || seen[place]) return;
+      seen[place] = true;
+      out.push(place);
+    });
+    return out;
+  }
+
+  function pathNumberForStop(route, stopName) {
+    var places = uniquePathPlaces(route.path);
+    for (var i = 0; i < places.length; i++) {
+      if (places[i] === stopName) return i + 1;
+      if (
+        (stopName === "Петербург" && places[i] === "Санкт-Петербург") ||
+        (stopName === "Санкт-Петербург" && places[i] === "Петербург")
+      ) {
+        return i + 1;
+      }
+    }
+    return -1;
+  }
+
   function renderMapLegend(route, meta) {
-    if (!route.path || !route.path.length) return "";
-    var items = route.path
+    var places = uniquePathPlaces(route.path);
+    if (!places.length) return "";
+    var items = places
       .map(function (place, index) {
         var coords = getStopCoords(meta, place);
         if (!coords) return "";
@@ -802,22 +847,29 @@
     for (i = 0; i < items.length; i++) revealObserver.observe(items[i]);
   }
 
-  function renderRecommendations() {
-    return "";
-  }
-
-  function renderTips() {
-    return "";
+  function renderTips(route) {
+    if (!route.tips || !route.tips.length) return "";
+    return (
+      '<section class="tips-block" aria-label="Полезно знать">' +
+      '<h3 class="detail-heading">Полезно знать</h3>' +
+      "<ul>" +
+      route.tips
+        .map(function (tip) {
+          return "<li>" + formatText(tip) + "</li>";
+        })
+        .join("") +
+      "</ul></section>"
+    );
   }
 
   function renderStopButtons(route, activeIndex) {
     return route.stops
       .map(function (stop, index) {
         var active = index === activeIndex ? " is-active" : "";
-        var pathIndex = route.path ? route.path.indexOf(stop.name) : -1;
+        var pathIndex = pathNumberForStop(route, stop.name);
         var prefix =
-          pathIndex >= 0
-            ? '<span class="stop-btn__num">' + (pathIndex + 1) + "</span>"
+          pathIndex > 0
+            ? '<span class="stop-btn__num">' + pathIndex + "</span>"
             : "";
         return (
           '<button type="button" class="stop-btn' +
@@ -899,7 +951,8 @@
       '">' +
       renderStopPanel(route, 0) +
       "</div>" +
-      "</div></div>" +
+      '</div></div>' +
+      renderTips(route) +
       "</div></section>"
     );
   }
@@ -948,29 +1001,35 @@
       var pathLine = [];
       var allPoints = [];
       var path = route.path || [];
+      var marked = {};
+      var markerNum = 0;
 
-      path.forEach(function (placeName, pathIndex) {
+      path.forEach(function (placeName) {
         var coords = getStopCoords(m, placeName);
         if (!coords) return;
         pathLine.push(coords);
         allPoints.push(coords);
+        if (marked[placeName]) return;
+        marked[placeName] = true;
+        markerNum += 1;
         var stopIndex = getStopIndex(route, placeName);
+        var number = markerNum;
         var marker = L.marker(coords, {
-          icon: createNumberedIcon(pathIndex + 1),
-          zIndexOffset: 500 + pathIndex,
+          icon: createNumberedIcon(number),
+          zIndexOffset: 500 + number,
           keyboard: true,
           title: placeName,
         })
           .addTo(map)
           .bindPopup(
             "<strong>" +
-              (pathIndex + 1) +
+              number +
               ". " +
               escapeHtml(placeName) +
               "</strong>"
           );
-        marker._stopIndex = stopIndex >= 0 ? stopIndex : pathIndex;
-        marker._pathIndex = pathIndex;
+        marker._stopIndex = stopIndex >= 0 ? stopIndex : number - 1;
+        marker._pathIndex = number - 1;
         marker._isPath = true;
         marker.on("click", function () {
           if (marker._stopIndex >= 0) selectStop(route.id, marker._stopIndex);
@@ -979,7 +1038,7 @@
       });
 
       route.stops.forEach(function (stop, stopIndex) {
-        if (path.indexOf(stop.name) !== -1) return;
+        if (marked[stop.name] || path.indexOf(stop.name) !== -1) return;
         var coords = getStopCoords(m, stop.name);
         if (!coords) return;
         allPoints.push(coords);
