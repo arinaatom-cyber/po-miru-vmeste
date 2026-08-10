@@ -612,6 +612,10 @@ button {
   display: none;
 }
 
+.filter-panel__back {
+  display: none;
+}
+
 .filter-row {
   display: flex;
   flex-wrap: wrap;
@@ -2291,13 +2295,40 @@ button {
     gap: 0.3rem;
   }
 
+  .filter-panel__back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: var(--bg-soft);
+    width: 1.45rem;
+    height: 1.45rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    line-height: 1;
+    color: var(--ink);
+    flex: 0 0 auto;
+  }
+
   .filter-panel__title {
     margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted-light);
+  }
+
+  .filter-panel--step-region .filter-row--cities,
+  .filter-panel--step-region .filter-panel__done {
+    display: none;
+  }
+
+  .filter-panel--step-cities .filter-row--regions,
+  .filter-panel--step-cities .filter-panel__nav {
+    display: none;
   }
 
   .filter-panel__close {

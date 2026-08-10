@@ -50,7 +50,14 @@
   var navLinks = document.querySelectorAll("[data-nav]");
   var maps = {};
   var activeFilters = { region: "russia", city: "all", how: "all", mood: "all" };
+  var filterStep = "region";
   var placeTree = window.PLACE_TREE || {};
+
+  function regionLabel(key) {
+    if (key === "asia") return "Другие страны";
+    if (placeTree[key] && placeTree[key].label) return placeTree[key].label;
+    return key;
+  }
   var routeById = {};
   routes.forEach(function (r) {
     routeById[r.id] = r;
@@ -1334,9 +1341,7 @@
   }
 
   function filterSummary() {
-    var regionLabel =
-      (placeTree[activeFilters.region] && placeTree[activeFilters.region].label) ||
-      "Регион";
+    var region = regionLabel(activeFilters.region) || "Регион";
     var cityLabel = "Все города";
     if (activeFilters.city !== "all") {
       var cities = getRegionCities(activeFilters.region);
@@ -1347,7 +1352,7 @@
         }
       }
     }
-    return regionLabel + " · " + cityLabel;
+    return region + " · " + cityLabel;
   }
 
   function isFilterPanelOpen() {
@@ -1356,12 +1361,14 @@
 
   function setFilterPanelOpen(open) {
     if (!filterBar) return;
+    if (open) filterStep = "region";
     filterBar.classList.toggle("is-open", open);
     document.body.classList.toggle("filters-open", open);
     var btn = filterBar.querySelector("[data-toggle-filters]");
     if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
     var backdrop = filterBar.querySelector(".filter-backdrop");
     if (backdrop) backdrop.hidden = !open;
+    if (open) buildFilters();
   }
 
   function buildFilters() {
@@ -1372,14 +1379,13 @@
       .map(function (key) {
         if (!placeTree[key]) return "";
         var active = activeFilters.region === key ? " is-active" : "";
-        var label = placeTree[key].label || key;
         return (
           '<button type="button" class="filter-chip filter-chip--region' +
           active +
           '" data-set-region="' +
           key +
           '">' +
-          escapeHtml(label) +
+          escapeHtml(regionLabel(key)) +
           "</button>"
         );
       })
@@ -1405,8 +1411,21 @@
         })
         .join("");
 
+    var stepClass =
+      "filter-panel filter-panel--step-" + (filterStep === "cities" ? "cities" : "region");
+    var panelTitle =
+      filterStep === "cities"
+        ? regionLabel(activeFilters.region)
+        : "Куда смотрим";
+    var backBtn =
+      filterStep === "cities"
+        ? '<button type="button" class="filter-panel__back" data-filter-back aria-label="Назад к регионам">←</button>'
+        : "";
+
     filterBar.innerHTML =
-      '<button type="button" class="filter-menu-btn" data-toggle-filters aria-expanded="false" aria-controls="filter-panel">' +
+      '<button type="button" class="filter-menu-btn" data-toggle-filters aria-expanded="' +
+      (keepOpen ? "true" : "false") +
+      '" aria-controls="filter-panel">' +
       '<span class="filter-menu-btn__icon" aria-hidden="true">' +
       '<svg width="18" height="18" viewBox="0 0 24 24" fill="none">' +
       '<path d="M4 7h12M4 12h16M4 17h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>' +
@@ -1419,10 +1438,17 @@
       '<span class="filter-menu-btn__value">' +
       escapeHtml(filterSummary()) +
       "</span></span></button>" +
-      '<div class="filter-backdrop" data-close-filters hidden></div>' +
-      '<div class="filter-panel" id="filter-panel" data-filter-panel>' +
+      '<div class="filter-backdrop" data-close-filters' +
+      (keepOpen ? "" : " hidden") +
+      "></div>" +
+      '<div class="' +
+      stepClass +
+      '" id="filter-panel" data-filter-panel>' +
       '<div class="filter-panel__head">' +
-      '<p class="filter-panel__title">Куда смотрим</p>' +
+      backBtn +
+      '<p class="filter-panel__title">' +
+      escapeHtml(panelTitle) +
+      "</p>" +
       '<button type="button" class="filter-panel__close" data-close-filters aria-label="Закрыть">×</button>' +
       "</div>" +
       '<div class="filter-panel__nav" aria-label="Разделы">' +
@@ -1430,7 +1456,7 @@
       '<a href="#velo" class="filter-panel__nav-link" data-nav="velo" data-close-filters>Велопоездки</a>' +
       '<a href="#contact" class="filter-panel__nav-link" data-nav="contact" data-close-filters>Контакты</a>' +
       "</div>" +
-      '<div class="filter-row filter-row--regions"><span class="filter-row__label">Регион</span><div class="filter-row__chips">' +
+      '<div class="filter-row filter-row--regions"><span class="filter-row__label">Страна</span><div class="filter-row__chips">' +
       regionChips +
       '</div></div><div class="filter-row filter-row--cities"><span class="filter-row__label">Города</span><div class="filter-row__chips">' +
       cityChips +
@@ -1438,7 +1464,10 @@
       '<button type="button" class="btn btn--primary filter-panel__done" data-close-filters>Показать</button>' +
       "</div>";
 
-    if (keepOpen) setFilterPanelOpen(true);
+    if (keepOpen) {
+      filterBar.classList.add("is-open");
+      document.body.classList.add("filters-open");
+    }
   }
 
   function init() {
@@ -1451,6 +1480,13 @@
       var toggleFilters = event.target.closest("[data-toggle-filters]");
       if (toggleFilters) {
         setFilterPanelOpen(!isFilterPanelOpen());
+        return;
+      }
+
+      var filterBack = event.target.closest("[data-filter-back]");
+      if (filterBack) {
+        filterStep = "region";
+        buildFilters();
         return;
       }
 
@@ -1471,6 +1507,7 @@
       if (regionBtn) {
         activeFilters.region = regionBtn.getAttribute("data-set-region");
         activeFilters.city = "all";
+        filterStep = "cities";
         buildFilters();
         renderGrid();
         return;
